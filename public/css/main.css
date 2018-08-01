@@ -1,0 +1,54 @@
+@-ms-viewport {
+    width: device-width;
+}
+
+@-o-viewport {
+    width: device-width;
+}
+
+@viewport {
+    width: device-width;
+}
+
+.sideselection {
+    width: 12rem;
+    margin-bottom: 1em;
+}
+
+.property-card {
+    width: 9.3em !important;
+    max-height: 25em !important;
+    /*padding: 1em;*/
+    /*margin: 1em;*/
+
+}
+
+body {
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+
+}
+
+@media (max-width: 978px) {
+    .container {
+        min-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        padding: 0;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+
+    }
+
+    .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,175 @@
+<div class="col-0  col-sm-2 col-md-3 col-lg-3 col-xl-2">
+
+
+    <div class="card sideselection">
+        <ul class="list-group list-group-flush">
+            <% if(categorytypelist) { %>
+            <% categorytypelist.forEach(function(categorytype){ %>
+            <a href="/login" class="list-group-item d-flex justify-content-between align-items-center">
+                <%= categorytype.Name %>
+                <span class="badge badge-primary badge-pill">14</span>
+            </a>
+            <% }) %>
+            <% } %>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategorytypemodal">
+                Property type
+            </button>
+        </ul>
+
+    </div>
+
+
+    <div class="card sideselection">
+        <ul class="list-group list-group-flush">
+            <% if(categorytypelist) { %>
+            <% categorytypelist.forEach(function(categorytype){ %>
+            <a href="/login" class="list-group-item d-flex justify-content-between align-items-center">
+                <%= categorytype.Name %>
+                <span class="badge badge-primary badge-pill">14</span>
+            </a>
+            <% }) %>
+            <% } %>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategorymodal">
+                Property Category
+            </button>
+        </ul>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addcategorytypemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add property type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/propertytype">
+                    <div class="form-group">
+                        <label for="categorytype" class="col-form-label">Property type:</label>
+                        <input type="text" name="Name" class="form-control" id="categorytype">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addcategorymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Property Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body ">
+
+                <form method="post" action="/propertycategory" class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="select_categorytype" class="col-form-label">Category type:</label>
+                            <select class="form-control" id="select_categorytype" name="CategoryType">
+                                <% if(categorytypelist) { %>
+                                <% categorytypelist.forEach(function(categorytype){ %>
+                                <option value="<%= categorytype._id %>"><%= categorytype.Name %></option>
+                                <% }) %>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_bedroom" class="col-form-label">No of bedroom:</label>
+                            <select class="form-control" id="select_bedroom" name="Bedroom">
+                                <option>Bedsitter</option>
+                                <option>one</option>
+                                <option>two</option>
+                                <option>three</option>
+                                <option>four</option>
+                                <option>five</option>
+                                <option>six</option>
+                                <option>seven</option>
+                                <option>eight</option>
+                                <option>nine</option>
+                                <option>ten</option>
+                                <option>eleven</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_bathroom">No of Bathroom:</label>
+                            <select class="form-control" id="select_bathroom" name="Bathroom">
+                                <option>one</option>
+                                <option>two</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="select_master_and_suite">Is Master And Suite:</label>
+                            <select class="form-control" id="select_master_and_suite" name="IsMasterAndSuite">
+                                <option>No</option>
+                                <option>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_furnished">Is furnished:</label>
+                            <select class="form-control" id="select_furnished" name="Furnished">
+                                <option>No</option>
+                                <option>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_parking">Parking available:</label>
+                            <select class="form-control" id="select_parking" name="Parking">
+                                <option>No</option>
+                                <option>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_noofbeds">No of beds:</label>
+                            <select class="form-control" id="select_noofbeds" name="NoOfBeds">
+                                <option>one</option>
+                                <option>two</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_bed_size">Bed size:</label>
+                            <select class="form-control" id="select_bed_size" name="Bedsize">
+                                <option>Single</option>
+                                <option>Double</option>
+                                <option>King Size</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_breakfast">Breakfast provided:</label>
+                            <select class="form-control" id="select_breakfast" name="BreakfastProvided">
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="select_hot_shower">Hot shower:</label>
+                            <select class="form-control" id="select_hot_shower" name="HotShower">
+                                <option>No</option>
+                                <option>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+<% include includes/header%>
+
+<div><%= user.Fname +" "+user.Lname %>&nbsp;click the link below to confirm <a class="btn btn-primary" href="<%= hostname %>/emailconfirmation/<%= user._id%>"> your email</a></div>
+<% include includes/footer %>

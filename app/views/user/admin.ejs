@@ -1,0 +1,43 @@
+<%- include ../includes/header %>
+<%- include ../includes/headercsslinks %>
+<link rel="stylesheet" href="css/login.css"/>
+<%- include ../includes/closingheader %>
+<%- include ../includes/navheader %>
+<%- include ./partials/propertysearch %>
+
+<div class="row h-100" style="margin-top:0.1em;">
+    <%- include ./partials/adminsideselection %>
+    <div class="col-12 col-sm-10 col-md-9 col-lg-9 col-xl-10">
+        <div class="container-fluid">
+            <% if(propertylist) { %>
+            <% propertylist.forEach(function(chunk){ %>
+            <div class="row">
+                <% chunk.forEach(function (property) { %>
+
+                <div class="col-6 col-xs-6 col-sm-4 col-lg-3 col-md-4 col-xl-2" style="margin-bottom: 1rem;">
+                    <div class="card property-card">
+                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap">
+                        <div class="card-footer">
+                           <span>
+                                <small class="float-left">Monthly Rental Apartment</small>
+                                <small class="float-right">Ksh:20000</small>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <% }); %>
+
+            </div>
+
+            <% }); %>
+            <% } %>
+
+        </div>
+
+    </div>
+
+</div>
+<%- include ../includes/navbottom %>
+<%- include ../includes/footerjavascript %>
+<%- include ../includes/footer %>
