@@ -83,8 +83,8 @@ app.use(function (err, req, res, next) {
 });
 
 if (cluster.isMaster) {
-    // const WORKERS = process.env.WEB_CONCURRENCY || 1;
-    const WORKERS = require("os").cpus().length;
+    const WORKERS = process.env.WEB_CONCURRENCY || 1;
+    // const WORKERS = require("os").cpus().length;
     for (let i = 0; i < WORKERS; i++) {
         cluster.fork();
     }
