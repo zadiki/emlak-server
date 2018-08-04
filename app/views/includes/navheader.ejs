@@ -21,17 +21,33 @@
                     </li>
 
                 </ul>
-                <div class="nav-item dropdown">
+                <div class="nav-item">
+                    <% if(session.user){ %>
+                    <a class="btn btn-secondary mr-2" href="/postanAdvert">Post an ad for free</a>
+                    <% }else { %>
+                    <a class="btn btn-secondary mr-2" href="/login">Post an ad for free</a>
+                    <% } %>
+                </div>
+
+                <% if(session.user){ %>
+                <div class="nav-item dropdown ml-2">
                     <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Action
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" tabindex="-1" style="border-top: none;border-radius: 0em;">
-                        <a class="dropdown-item" href="/login">Login</a>
-                        <a class="dropdown-item" href="/signup">Signup</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" tabindex="-1"
+                         style="border-top: none;border-radius: 0em;">
 
+                        <a class="dropdown-item" href="/login">Profile</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
                 </div>
+                <% }else { %>
+                <div class="nav-item">
+                    <i class="fas fa-user ml-1"></i><a class="nav-item ml-1" href="/login">login / Signup </a>
+                </div>
+                <% } %>
+
             </div>
         </div>
     </nav>

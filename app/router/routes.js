@@ -2,6 +2,7 @@ import passport from "passport";
 import {upload} from "../utils/ImageUpload";
 import * as userController from "../controllers/UserControlller";
 import * as categoryController from "../controllers/CategoryController";
+import  * as propertyController from "../controllers/PropertyController";
 
 export default (app) => {
 
@@ -22,6 +23,8 @@ export default (app) => {
     app.route("/signup")
         .get(userController.signupPage)
         .post(userController.signupUser);
+    app.route("/logout")
+        .get(userController.logout);
 
     app.route("/emailconfirmation/:id")
         .get(userController.confirmEmail);
@@ -33,6 +36,8 @@ export default (app) => {
         .post(categoryController.addCategoryType);
     app.route("/propertycategory")
         .post(categoryController.addCategory);
+    app.route("/postanAdvert")
+        .get(propertyController.getAddProperty);
 
     app.route("/file")
         .get(function (req, res, next) {

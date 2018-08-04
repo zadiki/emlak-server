@@ -7,6 +7,10 @@ import  * as Constants  from "../utils/Constants";
 export const login = (req, res, next) => {
     res.render("user/login");
 }
+export const logout =(req,res,next)=>{
+    req.session.destroy();
+    res.redirect("/");
+}
 export const home = async (req, res, next) => {
     if (req.session.user && req.session.user.UserLevel == Constants.USER_LEVEL_ADMIN) {
         res.redirect("/admin");
