@@ -1,6 +1,6 @@
 
-export const MONGODB_URL ="mongodb://localhost:27017/emlak";
-// export const MONGODB_URL = process.env.MONGODB_URI;
+// export const MONGODB_URL ="mongodb://localhost:27017/emlak";
+export const MONGODB_URL = process.env.MONGODB_URI;
 
 export const USER_STATUS_PENDING = 0;
 export const USER_STATUS_ACTIVE = 1;
