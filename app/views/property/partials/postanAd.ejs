@@ -137,8 +137,74 @@
             '                        </textarea>\n' +
             '                    </div>\n' +
             '                </div>';
+        var workspacehtml = '<div class="form-row">\n' +
+            '                    <div class="form-group col-md-4">\n' +
+            '                        <label for="input_workspace">Work space type</label>\n' +
+            '                        <select class="form-control" id="input_workspace">\n' +
+            '                            <option value="0">Shop</option>\n' +
+            '                            <option>Office</option>\n' +
+            '                            <option>Go down</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-4">\n' +
+            '                        <label for="input_workspace_floor">Work space floor</label>\n' +
+            '                        <select class="form-control" id="input_workspace_floor">\n' +
+            '                            <option selected>Ground</option>\n' +
+            '                            <option>First</option>\n' +
+            '                            <option>Second</option>\n' +
+            '                            <option>Third</option>\n' +
+            '                            <option>Fourth</option>\n' +
+            '                            <option>Fifth</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-4">\n' +
+            '                        <label for="input_workspace_size">Work space size</label>\n' +
+            '                        <input type="text" class="form-control" id="input_workspace_size" placeholder="enter size in square metres">\n' +
+            '                        </input>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-8">\n' +
+            '                        <label for="input_description">Description</label>\n' +
+            '                        <textarea class="form-control" id="input_description" maxlength="49"></textarea>\n' +
+            '                    </div>\n' +
+            '                </div>';
 
-//        setoptions(househtml);
+        switchoptions($("#property :selected").val());
+        $("#property").change(function () {
+            switchoptions($("#property :selected").val());
+        });
+
+        function switchoptions(swichcase) {
+            switch (swichcase) {
+                case "Apartment":
+                    setoptions(apartmenthtml);
+                    break;
+                case "Hotel":
+                    setoptions(hotelhtml);
+                    break;
+                case "Land":
+                    setoptions(landhtml);
+                    break;
+                case "House":
+                    setoptions(househtml);
+                    break;
+                case "Work place":
+                    setoptions(workspacehtml);
+                    break;
+                default:
+                    setoptions("");
+            }
+        }
+
+        $("#sale_radio").click(function () {
+            if ($(this).is(':checked')) {
+                $("#paymentmode").css("visibility","hidden");
+            }
+        });
+        $("#rent_radio").click(function () {
+            if ($(this).is(':checked')) {
+                $("#paymentmode").css("visibility","visible");
+            }
+        });
 
         function setoptions(html) {
             $("#options-holder").html(html);
