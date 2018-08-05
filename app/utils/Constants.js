@@ -1,6 +1,13 @@
-
+// for development
 // export const MONGODB_URL ="mongodb://localhost:27017/emlak";
+// export const WORKERS = require("os").cpus().length;
+
+//for live
+
 export const MONGODB_URL = process.env.MONGODB_URI;
+export const WORKERS = process.env.WEB_CONCURRENCY || 1;
+
+
 
 export const USER_STATUS_PENDING = 0;
 export const USER_STATUS_ACTIVE = 1;
