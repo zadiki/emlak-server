@@ -23,7 +23,7 @@
                 </ul>
                 <div class="nav-item">
                     <% if(session.user){ %>
-                    <a class="btn btn-secondary mr-2" href="/postanAdvert">Post an ad for free</a>
+                    <a href="/messages"><i class="fas fa-envelope"></i></a>
                     <% }else { %>
                     <a class="btn btn-secondary mr-2" href="/login">Post an ad for free</a>
                     <% } %>
@@ -33,11 +33,11 @@
                 <div class="nav-item dropdown ml-2">
                     <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Action
+                        <%= session.user.Fname + " " + session.user.Lname %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" tabindex="-1"
                          style="border-top: none;border-radius: 0em;">
-
+                        <a class="dropdown-item" href="/postanAdvert">Post an ad for free</a>
                         <a class="dropdown-item" href="/login">Profile</a>
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>

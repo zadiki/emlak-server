@@ -56,6 +56,14 @@ body {
 .rating-style-empty{
     color: #000000;
 }
+
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
+
 @media (max-width: 978px) {
     .container {
         min-width: 100%;
