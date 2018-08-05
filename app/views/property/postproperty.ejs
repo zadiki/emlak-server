@@ -95,54 +95,7 @@
                 </div>
             </div>
             <div id="options-holder" class="m-1">
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label for="inputbedroom">Bedroom+1</label>
-                        <select class="form-control" id="inputbedroom">
-                            <option value="0">Bedsiter</option>
-                            <option value="1" selected>one</option>
-                            <option value="1">two</option>
-                            <option value="1">three</option>
-                            <option value="1">four</option>
-                            <option value="1">five</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputbathroom">Bathroom</label>
-                        <select class="form-control" id="inputbathroom">
-                            <option value="0">0</option>
-                            <option value="1" selected>one</option>
-                            <option value="1">two</option>
-                            <option value="1">three</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputfurnished">Furnished</label>
-                        <select class="form-control" id="inputbathroom">
-                            <option value="0">No</option>
-                            <option value="1">Yes</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputparking">Parking</label>
-                        <select class="form-control" id="inputparking">
-                            <option value="0">Not Vailable</option>
-                            <option value="1">Available</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputwater">Water</label>
-                        <select class="form-control" id="inputwater">
-                            <option value="0">Not Vailable</option>
-                            <option value="1">Borehole</option>
-                            <option value="1">City council</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-9">
-                        <label for="inputdescription">Description</label>
-                        <textarea class="form-control" id="inputdescription"></textarea>
-                    </div>
-                </div>
+
             </div>
 
             <button type="submit" class="btn btn-primary float-right">Post</button>
@@ -224,8 +177,86 @@
 <%- include ../includes/footerjavascript %>
 <script>
     $(document).ready(function () {
-        var html= '';
-        $("#options-holder").html(html)
+        var landhtml = '<div class="form-row">\n' +
+            '                    <div class="form-group col-md-2">\n' +
+            '                        <label for="inputplotsize">size(acres)</label>\n' +
+            '                        <input type="text" class="form-control" placeholder="plot size" id="inputplotsize"/>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-4">\n' +
+            '                        <label for="inputdistance">Distance tarmak</label>\n' +
+            '                        <input type="text" class="form-control" placeholder="plot distance from tarmak road" id="inputdistance"/>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-6">\n' +
+            '                        <label for="inputdescription" >Description</label>\n' +
+            '                        <textarea class="form-control" maxlength="49" id="inputdescription" placeholder="describe in 49 characters"></textarea>\n' +
+            '                    </div>\n' +
+            '                </div>';
+
+        var househtml = ' <div class="form-row">\n' +
+            '                    <div class="form-group col-md-3">\n' +
+            '                        <label for="inputbedroom">Bedroom+1</label>\n' +
+            '                        <select class="form-control" id="inputbedroom">\n' +
+            '                            <option value="0">Bedsiter</option>\n' +
+            '                            <option value="1" selected>one</option>\n' +
+            '                            <option value="1">two</option>\n' +
+            '                            <option value="1">three</option>\n' +
+            '                            <option value="1">four</option>\n' +
+            '                            <option value="1">five</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-3">\n' +
+            '                        <label for="inputbathroom">Bathroom</label>\n' +
+            '                        <select class="form-control" id="inputbathroom">\n' +
+            '                            <option value="0">0</option>\n' +
+            '                            <option value="1" selected>one</option>\n' +
+            '                            <option value="1">two</option>\n' +
+            '                            <option value="1">three</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-3">\n' +
+            '                        <label for="inputfurnished">Furnished</label>\n' +
+            '                        <select class="form-control" id="inputbathroom">\n' +
+            '                            <option value="0">No</option>\n' +
+            '                            <option value="1">Yes</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-3">\n' +
+            '                        <label for="inputparking">Parking</label>\n' +
+            '                        <select class="form-control" id="inputparking">\n' +
+            '                            <option value="0">Not Vailable</option>\n' +
+            '                            <option value="1">Available</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-3">\n' +
+            '                        <label for="inputwater">Water</label>\n' +
+            '                        <select class="form-control" id="inputwater">\n' +
+            '                            <option value="0">Not Vailable</option>\n' +
+            '                            <option value="1">Borehole</option>\n' +
+            '                            <option value="1">City council</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                   <div class="form-group col-md-2">\n' +
+            '                        <label for="inputfloor">Floor</label>\n' +
+            '                        <select class="form-control" id="inputfloor">\n' +
+            '                            <option value="0">ground</option>\n' +
+            '                            <option value="1">First</option>\n' +
+            '                            <option value="1">Second</option>\n' +
+            '                            <option value="1">Third</option>\n' +
+            '                            <option value="1">Fourth</option>\n' +
+            '                            <option value="1">Fifth</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
+            '                    <div class="form-group col-md-7">\n' +
+            '                        <label for="inputdescription">Description</label>\n' +
+            '                        <textarea class="form-control" id="inputdescription"></textarea>\n' +
+            '                    </div>\n' +
+            '                </div>';
+
+        setoptions(househtml);
+
+        function setoptions(html) {
+            $("#options-holder").html(html);
+        }
     });
 </script>
 <%- include ../includes/footer %>
