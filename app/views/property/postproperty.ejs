@@ -68,40 +68,84 @@
                         <option>Lavington</option>
                     </select>
                 </div>
-
-                <div class="col-md-6 align-content-end" id="mymap" style="min-width: 20em;min-height: 20em;"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="inputimages">Insert Image</label>
+                        <input type="file" name="proprtyimage" class="form-control" id="inputimages"
+                               placeholder="Property image">
+                    </div>
+                    <div id="imagecanvas">
+                        <img class="card-img-top  mb-1" src="images/company/logo.jpg" alt="Card image cap"
+                             style="max-height: 3em;max-width: 3em;">
+                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap"
+                             style="max-height: 3em;max-width: 3em;">
+                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap"
+                             style="max-height: 3em;max-width: 3em;">
+                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap"
+                             style="max-height: 3em;max-width: 3em;">
+                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap"
+                             style="max-height: 3em;max-width: 3em;">
+                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap"
+                             style="max-height: 3em;max-width: 3em;">
+                    </div>
+                </div>
+                <div class="col-md-6 align-content-end">
+                    <label for="mymap">Select location</label>
+                    <div id="mymap" style="min-width: 15em;min-height: 15em;"></div>
+                </div>
+            </div>
+            <div id="options-holder" class="m-1">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="inputbedroom">Bedroom+1</label>
+                        <select class="form-control" id="inputbedroom">
+                            <option value="0">Bedsiter</option>
+                            <option value="1" selected>one</option>
+                            <option value="1">two</option>
+                            <option value="1">three</option>
+                            <option value="1">four</option>
+                            <option value="1">five</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputbathroom">Bathroom</label>
+                        <select class="form-control" id="inputbathroom">
+                            <option value="0">0</option>
+                            <option value="1" selected>one</option>
+                            <option value="1">two</option>
+                            <option value="1">three</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputfurnished">Furnished</label>
+                        <select class="form-control" id="inputbathroom">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputparking">Parking</label>
+                        <select class="form-control" id="inputparking">
+                            <option value="0">Not Vailable</option>
+                            <option value="1">Available</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputwater">Water</label>
+                        <select class="form-control" id="inputwater">
+                            <option value="0">Not Vailable</option>
+                            <option value="1">Borehole</option>
+                            <option value="1">City council</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-9">
+                        <label for="inputdescription">Description</label>
+                        <textarea class="form-control" id="inputdescription"></textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="inputAddress2">Address 2</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="text" class="form-control" id="inputZip">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck">
-                    <label class="form-check-label" for="gridCheck">
-                        Check me out
-                    </label>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="submit" class="btn btn-primary float-right">Post</button>
         </form>
 
 
@@ -148,12 +192,13 @@
 
 <script>
     var map;
+
     function initMap() {
-        var latlng = new google.maps.LatLng(1.2921, 36.8219);
+        var center = new google.maps.LatLng(-1.2822722, 36.752365199999986);
         var mapcanvas = document.getElementById('mymap');
-        var mapoptions ={
-            center: latlng,
-            zoom: 8,
+        var mapoptions = {
+            center: center,
+            zoom: 13,
             panControl: true,
             zoomControl: true,
             mapTypeControl: true,
@@ -167,6 +212,9 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(mapcanvas, mapoptions);
+        var marker = new google.maps.Marker({position: center});
+
+        marker.setMap(map);
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"
@@ -174,4 +222,10 @@
 
 
 <%- include ../includes/footerjavascript %>
+<script>
+    $(document).ready(function () {
+        var html= '';
+        $("#options-holder").html(html)
+    });
+</script>
 <%- include ../includes/footer %>
