@@ -14,11 +14,13 @@
                 <div class="form-group col-md-6">
                     <label for="property">Property</label>
                     <select class="form-control" id="property">
-                        <option>Apartment</option>
-                        <option>House</option>
-                        <option>land</option>
-                        <option>Office</option>
-                        <option>Shop</option>
+                        <% if(categorytypelist) { %>
+                        <% categorytypelist.forEach(function(categorytype){%>
+                        <option>
+                            <%= categorytype.Name%>
+                        </option>
+                        <%})%>
+                        <%}%>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
@@ -96,6 +98,7 @@
             </div>
             <div id="options-holder" class="m-1">
 
+
             </div>
 
             <button type="submit" class="btn btn-primary float-right">Post</button>
@@ -151,7 +154,7 @@
         var mapcanvas = document.getElementById('mymap');
         var mapoptions = {
             center: center,
-            zoom: 13,
+            zoom: 15,
             panControl: true,
             zoomControl: true,
             mapTypeControl: true,
@@ -173,90 +176,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"
         async defer></script>
 
-
 <%- include ../includes/footerjavascript %>
-<script>
-    $(document).ready(function () {
-        var landhtml = '<div class="form-row">\n' +
-            '                    <div class="form-group col-md-2">\n' +
-            '                        <label for="inputplotsize">size(acres)</label>\n' +
-            '                        <input type="text" class="form-control" placeholder="plot size" id="inputplotsize"/>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-4">\n' +
-            '                        <label for="inputdistance">Distance tarmak</label>\n' +
-            '                        <input type="text" class="form-control" placeholder="plot distance from tarmak road" id="inputdistance"/>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-6">\n' +
-            '                        <label for="inputdescription" >Description</label>\n' +
-            '                        <textarea class="form-control" maxlength="49" id="inputdescription" placeholder="describe in 49 characters"></textarea>\n' +
-            '                    </div>\n' +
-            '                </div>';
-
-        var househtml = ' <div class="form-row">\n' +
-            '                    <div class="form-group col-md-3">\n' +
-            '                        <label for="inputbedroom">Bedroom+1</label>\n' +
-            '                        <select class="form-control" id="inputbedroom">\n' +
-            '                            <option value="0">Bedsiter</option>\n' +
-            '                            <option value="1" selected>one</option>\n' +
-            '                            <option value="1">two</option>\n' +
-            '                            <option value="1">three</option>\n' +
-            '                            <option value="1">four</option>\n' +
-            '                            <option value="1">five</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-3">\n' +
-            '                        <label for="inputbathroom">Bathroom</label>\n' +
-            '                        <select class="form-control" id="inputbathroom">\n' +
-            '                            <option value="0">0</option>\n' +
-            '                            <option value="1" selected>one</option>\n' +
-            '                            <option value="1">two</option>\n' +
-            '                            <option value="1">three</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-3">\n' +
-            '                        <label for="inputfurnished">Furnished</label>\n' +
-            '                        <select class="form-control" id="inputbathroom">\n' +
-            '                            <option value="0">No</option>\n' +
-            '                            <option value="1">Yes</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-3">\n' +
-            '                        <label for="inputparking">Parking</label>\n' +
-            '                        <select class="form-control" id="inputparking">\n' +
-            '                            <option value="0">Not Vailable</option>\n' +
-            '                            <option value="1">Available</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-3">\n' +
-            '                        <label for="inputwater">Water</label>\n' +
-            '                        <select class="form-control" id="inputwater">\n' +
-            '                            <option value="0">Not Vailable</option>\n' +
-            '                            <option value="1">Borehole</option>\n' +
-            '                            <option value="1">City council</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                   <div class="form-group col-md-2">\n' +
-            '                        <label for="inputfloor">Floor</label>\n' +
-            '                        <select class="form-control" id="inputfloor">\n' +
-            '                            <option value="0">ground</option>\n' +
-            '                            <option value="1">First</option>\n' +
-            '                            <option value="1">Second</option>\n' +
-            '                            <option value="1">Third</option>\n' +
-            '                            <option value="1">Fourth</option>\n' +
-            '                            <option value="1">Fifth</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                    <div class="form-group col-md-7">\n' +
-            '                        <label for="inputdescription">Description</label>\n' +
-            '                        <textarea class="form-control" id="inputdescription"></textarea>\n' +
-            '                    </div>\n' +
-            '                </div>';
-
-        setoptions(househtml);
-
-        function setoptions(html) {
-            $("#options-holder").html(html);
-        }
-    });
-</script>
+<%- include ./partials/postanAd %>
 <%- include ../includes/footer %>
