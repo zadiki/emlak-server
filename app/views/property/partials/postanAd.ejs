@@ -197,17 +197,55 @@
 
         $("#sale_radio").click(function () {
             if ($(this).is(':checked')) {
-                $("#paymentmode").css("visibility","hidden");
+                $("#paymentmode").css("visibility", "hidden");
             }
         });
         $("#rent_radio").click(function () {
             if ($(this).is(':checked')) {
-                $("#paymentmode").css("visibility","visible");
+                $("#paymentmode").css("visibility", "visible");
             }
         });
 
         function setoptions(html) {
             $("#options-holder").html(html);
         }
+        $("#inputimages").on("click",function () {
+            $(this).value="";
+            $("#imagecanvas").html("");
+        });
+        imageupload();
     });
+
+    function imageupload() {
+        if (window.File && window.FileList && window.FileReader) {
+            var filesInput = document.getElementById('inputimages');
+            filesInput.addEventListener('change', function (event) {
+                var files = event.target.files; //FileList object
+                var output = document.getElementById('imagecanvas');
+                for (var i = 0; i < files.length; i++) {
+                    if (i <2) {
+                        var file = files[i];
+                        if (file.type.match('image')) {
+                            var picReader = new FileReader();
+                            picReader.addEventListener('load', function (event) {
+                                var picFile = event.target;
+                                var img = document.createElement('img');
+                                img.src = picFile.result;
+                                img.classList.add("card-img-top");
+                                img.classList.add("small-uploaded-img");
+
+                                output.insertBefore(img, null);
+                            });
+                            picReader.readAsDataURL(file);
+                        }
+                    }
+                    else {
+                        alert("wow");
+                    }
+                }
+            });
+        }
+    }
+
+
 </script>

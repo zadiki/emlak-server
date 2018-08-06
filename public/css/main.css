@@ -56,7 +56,17 @@ body {
 .rating-style-empty{
     color: #000000;
 }
-
+.small-rounded-img{
+    max-height: 2em;
+    max-width:2em;
+}
+.small-uploaded-img{
+    height: 3em;
+    width: 3em;
+    margin-bottom: 1px!important;
+    margin-right: 2px!important;
+    border-radius: 0px!important;
+}
 a{
     text-decoration: none;
 }
