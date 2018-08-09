@@ -37,7 +37,9 @@ export default (app) => {
     app.route("/propertycategory")
         .post(categoryController.addCategory);
     app.route("/postanAdvert")
-        .get(propertyController.getAddProperty);
+        .get(propertyController.getAddPropertypage);
+    app.route("/property/:id")
+        .get(propertyController.getPropertypage);
 
     app.route("/file")
         .get(function (req, res, next) {

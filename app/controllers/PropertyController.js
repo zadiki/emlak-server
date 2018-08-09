@@ -1,5 +1,5 @@
 import {findAllCategoryTypeService} from "../services/CategoryService";
-export const getAddProperty=async (req,res,next)=>{
+export const getAddPropertypage=async (req,res,next)=>{
 
     let categorytypelist = await findAllCategoryTypeService();
     var propertylist = [];
@@ -12,4 +12,8 @@ export const getAddProperty=async (req,res,next)=>{
         categorytypelist: categorytypelist,
         propertylist: propertylist
     });
+}
+export const  getPropertypage=(req,res)=>{
+    // res.send(req.params.id);
+    res.render("property/property",{});
 }

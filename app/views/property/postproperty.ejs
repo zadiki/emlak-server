@@ -113,7 +113,9 @@
 
                 <div class="col-0 col-xs-0 col-sm-12 col-lg-12 col-md-12 col-xl-6" style="margin-bottom: 1rem;">
                     <div class="card property-card">
+                        <a href="property/1234567">
                         <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap">
+                        </a>
                         <div class="bottom-wrap m-0 bg-transparent">
                             <span class="float-left ml-1 h9">Nai/kawangware</span>
                             <div class="clearfix">
@@ -143,7 +145,7 @@
 
 </div>
 <%- include ../includes/navbottom %>
-
+<%- include ../includes/footerjavascript %>
 <script>
     var map;
 
@@ -169,16 +171,16 @@
         var marker = new google.maps.Marker({
             position: center,
             map: map,
-            draggable:true
+            draggable: true
         });
 
 
-        google.maps.event.addListener(marker,'click', function(event) {
+        google.maps.event.addListener(marker, 'click', function (event) {
             var latitude = parseFloat(event.latLng.lat());
-            var longitude= parseFloat(event.latLng.lng());
-            console.log( latitude + ', ' + longitude );
+            var longitude = parseFloat(event.latLng.lng());
+            console.log(latitude + ', ' + longitude);
             map.setZoom(15);
-            map.setCenter({lat:latitude,lng:longitude});
+            map.setCenter({lat: latitude, lng: longitude});
         });
     }
 
@@ -186,6 +188,17 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"
         async defer></script>
 
-<%- include ../includes/footerjavascript %>
+
+<script>
+    var requrl = "https://maps.googleapis.com/maps/api/geocode/json?address=kondele&key=AIzaSyBwhrpQUNvleCxLuHiF1MGJ9Xo_801P2zk";
+    var coordinate = $.getJSON(requrl,function (data) {
+       return data.results[0].formatted_address;
+    }).done(function (data) {
+        console.log(data);
+        }
+    );
+
+
+</script>
 <%- include ./partials/postanAd %>
 <%- include ../includes/footer %>
