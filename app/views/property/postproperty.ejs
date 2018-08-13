@@ -1,15 +1,15 @@
 <%- include ../includes/header %>
 <%- include ../includes/headercsslinks %>
 <link rel="stylesheet" href="css/login.css"/>
+<link rel="stylesheet" href="js/chosen/chosen.css">
 <%- include ../includes/closingheader %>
 <%- include ../includes/navheader %>
 <%- include ./partials/propertysearch %>
-
 <div class="row h-100" style="margin-top:0.1em;">
     <%- include ./partials/sideselection %>
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-6">
 
-        <form class="ml-3">
+        <form class="ml-3" id="postpropertyform">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="property">Property</label>
@@ -41,7 +41,7 @@
                                     </label>
                                 </div>
                             </label>
-                            <select id="paymentmode" class="form-control">
+                            <select id="paymentmode" name="paymentmode" class="form-control">
                                 <option>Monthly</option>
                                 <option>Daily</option>
                             </select>
@@ -52,29 +52,32 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="price">Amount</label>
-                    <input type="text" class="form-control" id="price" placeholder="Amount in Ksh">
+                    <input type="text" class="form-control" id="price" name="price" placeholder="Amount in Ksh">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputCountry">Location</label>
-                    <select type="text" class="form-control" id="inputCountry">
-                        <option selected>Kenya</option>
-                        <option>Tanzania</option>
-                        <option>Uganda</option>
+                    <select data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2"
+                            id="inputCountry">
+                    </select>
+                </div>
+                <input hidden name="latitude">
+                <input hidden name="longitude">
+                <input hidden name="address">
+                <div class="form-group col-md-4">
+                    <label for="inputCounty">County</label>
+                    <select data-placeholder="Choose a Country..." class="form-control chosen-select" tabindex="2"
+                            id="inputCounty">
+                        <option value="Nairobi">Nairobi</option>
+                        <option value="Mombasa">Mombasa</option>
+                        <option value="Kisumu">Kisumu</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="inputCountry">County</label>
-                    <select type="text" class="form-control" id="inputCountry">
-                        <option selected>Nairobi</option>
-                        <option>Mombasa</option>
-                        <option>Kisumu</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputCountry">Region</label>
-                    <select type="text" class="form-control" id="inputCountry">
+                    <label for="inputregion">Region</label>
+                    <select data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2"
+                            id="inputregion">
                         <option selected>CBD</option>
                         <option>Kawangware</option>
                         <option>Lavington</option>
@@ -93,112 +96,32 @@
                 <div class="col-md-6 align-content-end">
                     <label for="mymap">Select location</label>
                     <div id="mymap" style="min-width: 15em;min-height: 15em;"></div>
+                    <span id="maplocationtext"></span>
                 </div>
             </div>
             <div id="options-holder" class="m-1">
 
             </div>
 
-            <button type="submit" class="btn btn-primary float-right">Post</button>
+            <button type="button" class="btn btn-primary float-right" id="submitform">Post</button>
         </form>
 
 
     </div>
-    <div class="col-0 col-sm-0 col-md-3 col-lg-4 col-xl-4">
-        <div class="container-fluid">
-            <% if(propertylist) { %>
-            <% propertylist.forEach(function(chunk){ %>
-            <div class="row">
-                <% chunk.forEach(function (property) { %>
-
-                <div class="col-0 col-xs-0 col-sm-12 col-lg-12 col-md-12 col-xl-6" style="margin-bottom: 1rem;">
-                    <div class="card property-card">
-                        <a href="property/1234567">
-                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap">
-                        </a>
-                        <div class="bottom-wrap m-0 bg-transparent">
-                            <span class="float-left ml-1 h9">Nai/kawangware</span>
-                            <div class="clearfix">
-                                <span class="float-left">
-                                <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
-                                <i class="fas fa-star rating-style rating-style-half"></i>
-                                <i class="fas fa-star rating-style rating-style-half"></i>
-                                <i class="fas fa-star-half-alt rating-style rating-style-half"></i>
-                                <i class="far fa-star  rating-style rating-style-empty"></i>
-                                </span>
-                                <span class="float-right mt-1 pr-1" style="font-size: 12px;">Ksh:1280/mon</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <% }); %>
-
-            </div>
-
-            <% }); %>
-            <% } %>
-
-        </div>
-
-    </div>
+<%- include ./partials/postpropertysidecards %>
 
 </div>
 <%- include ../includes/navbottom %>
 <%- include ../includes/footerjavascript %>
-<script>
-    var map;
-
-    function initMap() {
-        var center = new google.maps.LatLng(-1.2822722, 36.752365199999986);
-        var mapcanvas = document.getElementById('mymap');
-        var mapoptions = {
-            center: center,
-            zoom: 15,
-            panControl: true,
-            zoomControl: true,
-            mapTypeControl: true,
-            scaleControl: true,
-            streetViewControl: true,
-            overviewMapControl: true,
-            rotateControl: true,
-            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
-            navigationControl: true,
-            navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(mapcanvas, mapoptions);
-        var marker = new google.maps.Marker({
-            position: center,
-            map: map,
-            draggable: true
-        });
-
-
-        google.maps.event.addListener(marker, 'click', function (event) {
-            var latitude = parseFloat(event.latLng.lat());
-            var longitude = parseFloat(event.latLng.lng());
-            console.log(latitude + ', ' + longitude);
-            map.setZoom(15);
-            map.setCenter({lat: latitude, lng: longitude});
-        });
-    }
-
-</script>
+<script src="js/property.main.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"
         async defer></script>
-
-
 <script>
-    var requrl = "https://maps.googleapis.com/maps/api/geocode/json?address=kondele&key=AIzaSyBwhrpQUNvleCxLuHiF1MGJ9Xo_801P2zk";
-    var coordinate = $.getJSON(requrl,function (data) {
-       return data.results[0].formatted_address;
-    }).done(function (data) {
-        console.log(data);
-        }
-    );
-
+    $("#submitform").on("click",function () {
+        var formdata= $("#postpropertyform").serializeArray();
+        console.log(formdata);
+    });
 
 </script>
-<%- include ./partials/postanAd %>
+<script src="js/postad.js"></script>
 <%- include ../includes/footer %>
