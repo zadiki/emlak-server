@@ -25,29 +25,25 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="container-fluid">
-                        <div class="">
-                            <label for="paymentmode">
-                                <div class="form-check-inline ">
-                                    <label class="form-check-label" for="rent_radio">
-                                        <input type="radio" class="form-check-input" id="rent_radio" name="sale_or_rent"
-                                               value="rent"
-                                               checked>Rent
-                                    </label>
-                                </div>
-                                <div class="form-check-inline">
-                                    <label class="form-check-label" for="sale_radio">
-                                        <input type="radio" class="form-check-input" id="sale_radio" name="sale_or_rent"
-                                               value="sale">Sale
-                                    </label>
-                                </div>
-                            </label>
-                            <select id="paymentmode" name="paymentmode" class="form-control">
-                                <option>Monthly</option>
-                                <option>Daily</option>
-                            </select>
-                        </div>
-
-
+                        <label for="paymentmode">
+                            <div class="form-check-inline ">
+                                <label class="form-check-label" for="rent_radio">
+                                    <input type="radio" class="form-check-input" id="rent_radio" name="sale_or_rent"
+                                           value="rent"
+                                           checked>Rent
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="sale_radio">
+                                    <input type="radio" class="form-check-input" id="sale_radio" name="sale_or_rent"
+                                           value="sale">Sale
+                                </label>
+                            </div>
+                        </label>
+                        <select id="paymentmode" name="paymentmode" class="form-control">
+                            <option>Monthly</option>
+                            <option>Daily</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -58,7 +54,8 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputCountry">Location</label>
-                    <select name="country" data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2"
+                    <select name="country" data-placeholder="Choose a Country..." class="chosen-select form-control"
+                            tabindex="2"
                             id="inputCountry">
                     </select>
                 </div>
@@ -108,7 +105,7 @@
 
 
     </div>
-<%- include ./partials/postpropertysidecards %>
+    <%- include ./partials/postpropertysidecards %>
 
 </div>
 <%- include ../includes/navbottom %>
@@ -117,8 +114,8 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"
         async defer></script>
 <script>
-    $("#submitform").on("click",function () {
-        var formdata= $("#postpropertyform").serializeArray();
+    $("#submitform").on("click", function () {
+        var formdata = $("#postpropertyform").serializeArray();
         console.log(formdata)
         $("#postpropertyform").submit();
     });
