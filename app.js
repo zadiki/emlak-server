@@ -16,7 +16,8 @@ import routes from "./app/router/routes";
 import passportauth from "./app/config/passport";
 import  * as Constants  from "./app/utils/Constants";
 
-
+// let multer = require('multer');
+// let upload = multer();
 
 
 var MongoStore = mongostore(session);
@@ -27,6 +28,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+// app.use(upload.fields([]));
 
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {

@@ -9,11 +9,11 @@
     <%- include ./partials/sideselection %>
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-6">
 
-        <form class="ml-3" id="postpropertyform">
+        <form class="ml-3" id="postpropertyform" action="/postanAdvert" method="post" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="property">Property</label>
-                    <select class="form-control" id="property">
+                    <select name="property" class="form-control" id="property">
                         <% if(categorytypelist) { %>
                         <% categorytypelist.forEach(function(categorytype){ %>
                         <option value="<%= categorytype.Name %>">
@@ -29,15 +29,15 @@
                             <label for="paymentmode">
                                 <div class="form-check-inline ">
                                     <label class="form-check-label" for="rent_radio">
-                                        <input type="radio" class="form-check-input" id="rent_radio" name="optradio"
-                                               value="option1"
+                                        <input type="radio" class="form-check-input" id="rent_radio" name="sale_or_rent"
+                                               value="rent"
                                                checked>Rent
                                     </label>
                                 </div>
                                 <div class="form-check-inline">
                                     <label class="form-check-label" for="sale_radio">
-                                        <input type="radio" class="form-check-input" id="sale_radio" name="optradio"
-                                               value="option2">Sale
+                                        <input type="radio" class="form-check-input" id="sale_radio" name="sale_or_rent"
+                                               value="sale">Sale
                                     </label>
                                 </div>
                             </label>
@@ -58,13 +58,13 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputCountry">Location</label>
-                    <select data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2"
+                    <select name="country" data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2"
                             id="inputCountry">
                     </select>
                 </div>
-                <input hidden name="latitude">
-                <input hidden name="longitude">
-                <input hidden name="address">
+                <input id="hidden_latitude" hidden name="latitude">
+                <input id="hidden_longitude" hidden name="longitude">
+                <input id="hidden_address" hidden name="address">
                 <div class="form-group col-md-4">
                     <label for="inputCounty">County</label>
                     <select data-placeholder="Choose a Country..." class="form-control chosen-select" tabindex="2"
@@ -86,7 +86,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="inputimages">Insert Image</label>
-                        <input type="file" name="proprtyimage[]" class="form-control" multiple id="inputimages"
+                        <input type="file" name="propertyimage" multiple max="3" class="form-control" id="inputimages"
                                placeholder="Property image">
                     </div>
                     <div id="imagecanvas">
@@ -103,7 +103,7 @@
 
             </div>
 
-            <button type="button" class="btn btn-primary float-right" id="submitform">Post</button>
+            <button type="submit" class="btn btn-primary float-right" id="submitform">Post</button>
         </form>
 
 

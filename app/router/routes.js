@@ -1,5 +1,4 @@
 import passport from "passport";
-import {upload} from "../utils/ImageUpload";
 import * as userController from "../controllers/UserControlller";
 import * as categoryController from "../controllers/CategoryController";
 import  * as propertyController from "../controllers/PropertyController";
@@ -37,25 +36,10 @@ export default (app) => {
     app.route("/propertycategory")
         .post(categoryController.addCategory);
     app.route("/postanAdvert")
-        .get(propertyController.getAddPropertypage);
+        .get(propertyController.getAddPropertypage)
+        .post(propertyController.addproperty);
     app.route("/property/:id")
         .get(propertyController.getPropertypage);
-
-    app.route("/file")
-        .get(function (req, res, next) {
-            res.render("imageupload");
-        })
-        .post(function (req, res) {
-        upload(req, res, function (err) {
-            if (err) {
-                console.log(err);
-                res.send("success");
-            } else {
-                console.log(req.file);
-                res.send("wow");
-            }
-        });
-    });
 
 
 }
