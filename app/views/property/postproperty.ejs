@@ -103,7 +103,7 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary float-right" id="submitform">Post</button>
+            <button type="button" class="btn btn-primary float-right" id="submitform">Post</button>
         </form>
 
 
@@ -119,7 +119,8 @@
 <script>
     $("#submitform").on("click",function () {
         var formdata= $("#postpropertyform").serializeArray();
-        console.log(formdata);
+        console.log(formdata)
+        $("#postpropertyform").submit();
     });
 
 </script>

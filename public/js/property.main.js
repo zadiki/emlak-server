@@ -50,6 +50,8 @@ function setMapevent(lat, lng) {
     marker.setPosition(new google.maps.LatLng(lat, lng));
     map.setZoom(15);
     map.setCenter({lat: lat, lng: lng});
+    $("#hidden_latitude").val(lat);
+    $("#hidden_longitude").val(lng);
 }
 
 function bodyLoaded() {
@@ -159,5 +161,6 @@ function setCountry() {
         var lat = parseFloat(loc[0]);
         var lng = parseFloat(loc[1]);
         setMapevent(lat, lng);
+        setMaplocationtext(response.country+response.city);
     }, "jsonp");
 }
