@@ -1,4 +1,4 @@
-import {addCategoryTypeService, addCategoryService} from "../services/CategoryService";
+import {addCategoryService} from "../services/CategoryService";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import {toUpperCase} from "../utils/StringManupulation";
 
@@ -22,7 +22,7 @@ export const addCategoryType = (req, res, next) => {
     let categorytype = {
         Name: toUpperCase(req.body.Name)
     };
-    addCategoryTypeService(categorytype)
+    addCategoryService(categorytype)
         .then((categorytype) => {
             res.redirect('back');
         }).catch((errors) => {

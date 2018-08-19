@@ -1,29 +1,19 @@
-import Category from "../models/Category";
-import CategoryType from "../models/CategoryType";
+
+import CategoryType from "../models/Category";
 
 //categorytypes
-export  const findAllCategoryTypeService=()=>{
+export  const findAllCategoryService=()=>{
     return CategoryType.find().exec();
 }
-export  const findCategoryTypeByIdService=()=>{
+export  const findCategoryByIdService=()=>{
 
 }
-export const addCategoryTypeService = (categorytypeInfo)=>{
+export const addCategoryService = (categorytypeInfo)=>{
     let categorytype = new CategoryType(categorytypeInfo)
     console.log(categorytype);
     return categorytype.save();
 }
 
-//category
-export  const findAllCategoryService=()=>{
-    return Category.find().exec();
-}
-export  const findCategoryByIdService=()=>{
 
-}
-export const addCategoryService = (categoryInfo)=>{
-    let category = new Category(categoryInfo)
-    return category.save();
-}
 
 

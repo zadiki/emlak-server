@@ -37,7 +37,7 @@ export default (app) => {
         .post(categoryController.addCategory);
     app.route("/postanAdvert")
         .get(propertyController.getAddPropertypage)
-        .post(propertyController.addproperty);
+        .post(propertyController.addpropertymiddleware,propertyController.addproperty);
     app.route("/property/:id")
         .get(propertyController.getPropertypage);
 

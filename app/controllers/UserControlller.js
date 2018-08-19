@@ -1,5 +1,5 @@
 import {registerUserService, updateUserStatusService} from "../services/UserService";
-import {findAllCategoryTypeService} from "../services/CategoryService";
+import {findAllCategoryService} from "../services/CategoryService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import  * as Constants  from "../utils/Constants";
@@ -90,7 +90,7 @@ export const adminPage = async (req, res, next) => {
 }
 
 export const findAllCategoryTypes = async () => {
-    let categorytypes = await findAllCategoryTypeService();
+    let categorytypes = await findAllCategoryService();
     return categorytypes;
 }
 

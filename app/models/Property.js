@@ -4,17 +4,30 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 var PropertySchema = new Schema({
+    Category:{type:String},
     Description: String,
-    Category:{type: Schema.Types.ObjectId, ref: 'Category'},
-    SaleOrNot:{type:Number,default:1},
+    SaleOrNot:{type:String},
     Price:{type:String,default:"Not Available"},
-    PaymentMode:{type:Number,default:2},
+    PaymentMode:{type:String},
     PostedBy:{type: Schema.Types.ObjectId, ref: 'User'},
-    Road:String,
-    Location:{type: Schema.Types.ObjectId, ref: 'Location'},
-    Longitude:String,
-    Latitude:String,
-    ImageUrl:{type:String,trim:true,default:"images/company/logo.jpg"}
-}, { timestamps: true });
+    Location: {
+        type: { type: String },
+        coordinates: []
+    },
+    Adrress:{type:String},
+    ImageUrl:{type:Array,trim:true,default:["images/company/logo.jpg"]},
+    workspace:{type:String},
+    Bedroom:{type:String,default:"Not stated"},
+    Bathroom:{type:String,default:"Not stated"},
+    IsMasterAndSuite:{type:Boolean,default:false},
+    Furnished:{type:String,default:"Not stated"},
+    Parking:{type:String,default:"Not stated"},
+    Bedsize:{type:String,default:"Not stated"},
+    NoOfBeds:{type:String,default:"Not stated"},
+    HotShower:{type:String,default:"Not stated"},
+    BreakfastProvided:{type:String,default:"Not stated"},
+    points:{type:Number,default:500}
 
+}, { timestamps: true });
+PropertySchema.index({ "loc": "2dsphere" });
 export default mongoose.model('Property', PropertySchema);
