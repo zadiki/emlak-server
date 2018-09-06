@@ -107,6 +107,10 @@
     </div>
     <%- include ./partials/postpropertysidecards %>
 
+    <div id="loadingspinner">
+
+    </div>
+
 </div>
 <%- include ../includes/navbottom %>
 <%- include ../includes/footerjavascript %>
@@ -116,9 +120,13 @@
 <script>
     $("#submitform").on("click", function () {
         var formdata = $("#postpropertyform").serializeArray();
+        var loading = "<div class=\"overlay\">loading</div>"
+
         console.log(formdata)
         $("#postpropertyform").submit();
+        $("#loadingspinner").html(loading);
     });
+
 
 </script>
 <script src="js/postproperty.js"></script>

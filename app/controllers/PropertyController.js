@@ -1,4 +1,6 @@
+import Property from "../models/Property";
 import {findAllCategoryService} from "../services/CategoryService";
+import {postPropertyService,findAllPropertyService}from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 
 export const getAddPropertypage = async (req, res, next) => {
@@ -27,7 +29,7 @@ export const addpropertymiddleware = (req, res, next) => {
         } else {
             let imageurls = [];
             req.files.forEach((image) => {
-                imageurls.push("upload/" + image.filename);
+                imageurls.push("property/" + image.filename);
             });
             req.imageurls = imageurls;
             next();
@@ -36,26 +38,32 @@ export const addpropertymiddleware = (req, res, next) => {
 }
 
 export const addproperty = async (req, res) => {
-
-    req.checkBody('Category', 'Property category must be entered e.g a house').notEmpty();
-    req.checkBody('Description', 'Please provide description for your property').notEmpty();
-    req.checkBody('SaleOrNot', 'Please state if it for sale or rental').notEmpty();
-    req.checkBody('Price', 'pleace give the price').notEmpty();
-    req.checkBody('PaymentMode', 'Please select a payment mode').notEmpty();
-
-    req.checkBody('Address', 'please ensure you give the right address').notEmpty().len(4, 15);
-    req.checkBody('bathroom', 'Password must be 4-15 characters').notEmpty();
-    req.checkBody('furnished', 'Password must be 4-15 characters').notEmpty();
-    req.checkBody('parking', 'Password must be 4-15 characters').notEmpty();
-    req.checkBody('water', 'Password must be 4-15 characters').notEmpty();
-    req.checkBody('floor', 'Password must be 4-15 characters').notEmpty();
-    req.checkBody('description', 'Password must be 4-15 characters').notEmpty();
+    var property= new Property();
+    property.PostedBy=req.session.user._id;
+    property.ImageUrl=req.imageurls;
+    req.checkBody('property', 'Property category must be entered e.g a house').notEmpty();
+    req.checkBody('description', 'Please provide description for your property').notEmpty();
+    req.checkBody('sale_or_rent', 'Please state if it for sale or rental').notEmpty();
+    req.checkBody('price', 'pleace give the price').notEmpty();
+    req.checkBody('paymentmode', 'Please select a payment mode').notEmpty();
+    req.checkBody('address', 'please ensure you give the right address');
+    req.checkBody('latitude', 'please ensure you give the right address').notEmpty().len(4, 15);
+    req.checkBody('longitude', 'please ensure you give the right address').notEmpty().len(4, 15);
 
     var errors = req.validationErrors();
     if (errors) {
         res.send(errors);
     } else {
-        res.send("wow");
+        property.Category=req.body.property;
+        property.SaleOrNot=req.body.sale_or_not;
+        property.PaymentMode=req.body.paymentmode;
+        property.Address=req.body.address;
+        property.Price=req.body.price;
+        property.Description=req.body.description;
+        property.Location.coordinates=[req.body.latitude,req.body.longitude];
+        await postPropertyService(property);
+        let propertylist= await findAllPropertyService();
+        res.send("wow"+JSON.stringify(propertylist));
     }
 
 }

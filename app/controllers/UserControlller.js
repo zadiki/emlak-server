@@ -1,5 +1,6 @@
 import {registerUserService, updateUserStatusService} from "../services/UserService";
 import {findAllCategoryService} from "../services/CategoryService";
+import {findAllPropertyService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import  * as Constants  from "../utils/Constants";
@@ -16,15 +17,17 @@ export const home = async (req, res, next) => {
         res.redirect("/admin");
     } else {
         let categorytypelist = await findAllCategoryTypes();
-        var propertylist = [];
-        var propertys = ["zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan"];
-        propertylist.push(propertys);
-        propertylist.push(propertys);
-        propertylist.push(propertys);
-        // console.log(propertylist);
+        var propertylist = await findAllPropertyService();
+        var chunkedpropertylist=[];
+        var chunksize=12;
+        for(var i=0;i<propertylist.length; i=+chunksize){
+            chunkedpropertylist.push(propertylist.slice(i,i+chunksize));
+        }
+
+        console.log(propertylist);
         res.render("user/guest", {
             categorytypelist: categorytypelist,
-            propertylist: propertylist
+            propertylist: chunkedpropertylist
         });
     }
 }

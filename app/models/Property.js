@@ -14,7 +14,7 @@ var PropertySchema = new Schema({
         type: { type: String },
         coordinates: []
     },
-    Adrress:{type:String},
+    Address:{type:String},
     ImageUrl:{type:Array,trim:true,default:["images/company/logo.jpg"]},
     workspace:{type:String},
     Bedroom:{type:String,default:"Not stated"},
