@@ -38,7 +38,7 @@ export default (app) => {
     app.route("/postanAdvert")
         .get(propertyController.getAddPropertypage)
         .post(propertyController.addpropertymiddleware,propertyController.addproperty);
-    app.route("/property/:id")
+    app.route("/propertydetails/:id")
         .get(propertyController.getPropertypage);
 
 

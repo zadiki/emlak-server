@@ -16,11 +16,11 @@
 
                 <div class="col-6 col-xs-6 col-sm-4 col-lg-3 col-md-4 col-xl-2" style="margin-bottom: 1rem;">
                     <div class="card rounded-0 property-card">
-                        <a href="property/1234567">
+                        <a href="propertydetails/1234567">
                             <img class="card-img-top rounded-0" style="height:10em;" src="<%= property.ImageUrl.length>0 ? property.ImageUrl[0] : 'images/company/logo.jpg'%>" alt="Card image cap">
                         </a>
                         <div class="bottom-wrap m-0 bg-transparent">
-                            <span class="float-left h9">Nai/kawangware</span>
+                            <span class="float-left h9"><%=property.Address.length>0 ? property.Address:"Not stated"%></span>
                             <div class="clearfix">
                                 <span class="float-left">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
