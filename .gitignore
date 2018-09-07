@@ -6,12 +6,12 @@
 ## Directory-based project format:
 .idea/
 package-lock.json
-./public/images/property
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 dist
+public/images/property
 
 # Code coverage
 coverage
