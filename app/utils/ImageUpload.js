@@ -18,6 +18,6 @@ export const upload = multer({
         callback(null, true)
     },
     limits:{
-        fileSize: 50*1000*8
+        fileSize: 50*1000*8*2
     }
 }).array("propertyimage",3);
