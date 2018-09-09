@@ -1,11 +1,11 @@
 // for development
-// export const MONGODB_URL ="mongodb://localhost:27017/emlak";
-// export const WORKERS = require("os").cpus().length;
+export const MONGODB_URL ="mongodb://localhost:27017/emlak";
+export const WORKERS = require("os").cpus().length;
 
 //for live heroku
 //
-export const MONGODB_URL = process.env.MONGODB_URI;
-export const WORKERS = process.env.WEB_CONCURRENCY || 1;
+// export const MONGODB_URL = process.env.MONGODB_URI;
+// export const WORKERS = process.env.WEB_CONCURRENCY || 1;
 
 
 
