@@ -4,6 +4,8 @@ import {findAllPropertyService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import  * as Constants  from "../utils/Constants";
+import {toUpperCase} from "../utils/StringManupulation";
+
 
 export const login = (req, res, next) => {
     res.render("user/login");
@@ -18,16 +20,12 @@ export const home = async (req, res, next) => {
     } else {
         let categorytypelist = await findAllCategoryTypes();
         var propertylist = await findAllPropertyService();
-        var chunkedpropertylist=[];
-        var chunksize=12;
-        for(var i=0;i<propertylist.length; i=+chunksize){
-            chunkedpropertylist.push(propertylist.slice(i,i+chunksize));
-        }
+
 
         console.log(propertylist);
         res.render("user/guest", {
             categorytypelist: categorytypelist,
-            propertylist: chunkedpropertylist
+            propertylist: propertylist
         });
     }
 }
@@ -55,8 +53,8 @@ export const signupUser = (req, res, next) => {
             Password: "",
             Phone: ""
         };
-        user.Fname = req.body.Fname;
-        user.Lname = req.body.Lname;
+        user.Fname = toUpperCase(req.body.Fname);
+        user.Lname = toUpperCase(req.body.Lname);
         user.Email = req.body.Email;
         user.Phone = req.body.Phone;
         user.Password = req.body.Password;

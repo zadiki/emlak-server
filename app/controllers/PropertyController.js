@@ -1,26 +1,24 @@
 import Property from "../models/Property";
 import {findAllCategoryService} from "../services/CategoryService";
-import {postPropertyService, findAllPropertyService} from "../services/PropertyService"
+import {postPropertyService, findAllPropertyService,findPropertyByIdService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import fs from "fs";
 
 export const getAddPropertypage = async (req, res, next) => {
 
     let categorytypelist = await findAllCategoryService();
-    var propertylist = [];
-    var propertys = ["zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan"];
-    propertylist.push(propertys);
-    propertylist.push(propertys);
-    propertylist.push(propertys);
-    // console.log(propertylist);
+    var propertylist = await findAllPropertyService();
     res.render("property/postproperty", {
         categorytypelist: categorytypelist,
         propertylist: propertylist
     });
 }
-export const getPropertypage = (req, res) => {
-    // res.send(req.params.id);
-    res.render("property/property", {});
+export const getPropertypage = async(req, res) => {
+    let property = await findPropertyByIdService(req.params.id);
+    console.log(property);
+    res.render("property/property", {
+        property:property
+    });
 }
 
 export const addpropertymiddleware = (req, res, next) => {
@@ -79,11 +77,9 @@ export const addproperty = async (req, res) => {
         property.Price = req.body.price;
         property.Description = req.body.description;
         property.Location.coordinates = [req.body.latitude, req.body.longitude];
-        await
-            postPropertyService(property);
-        let propertylist = await
-            findAllPropertyService();
-        res.send("wow" + JSON.stringify(propertylist));
+        await postPropertyService(property);
+
+        res.redirect("back");
     }
 
 }
