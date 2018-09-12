@@ -153,6 +153,7 @@ const selectSetState = async () => {
     $("#inputCounty").html(option);
 }
 function setCountry() {
+    
     $.get("https://ipinfo.io", function (response) {
         $('#inputCountry').val(response.country);
         $('#inputCounty').val(response.city);

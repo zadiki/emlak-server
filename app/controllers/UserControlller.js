@@ -77,12 +77,7 @@ export const adminPage = async (req, res, next) => {
         res.redirect("/");
     } else {
         let categorytypelist = await findAllCategoryTypes();
-        var propertylist = [];
-        var propertys = ["zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan", "zadiki", "hassan"];
-        propertylist.push(propertys);
-        propertylist.push(propertys);
-        propertylist.push(propertys);
-        // console.log(propertylist);
+        var propertylist = await findAllPropertyService();
         res.render("user/admin", {
             propertylist: propertylist,
             categorytypelist: categorytypelist
