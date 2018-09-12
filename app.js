@@ -16,8 +16,7 @@ import routes from "./app/router/routes";
 import passportauth from "./app/config/passport";
 import  * as Constants  from "./app/utils/Constants";
 
-// let multer = require('multer');
-// let upload = multer();
+
 
 
 var MongoStore = mongostore(session);
@@ -28,7 +27,6 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(upload.fields([]));
 
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -45,7 +43,14 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/app/views'));
 app.set('view engine', 'ejs');
 
-mongoose.connect(Constants.MONGODB_URL, {useNewUrlParser: true,connectTimeoutMS:3000});
+mongoose.connect(Constants.MONGODB_URL,function (err,db) {
+    if(err){
+        console.log("failed to connect to mongo db");
+    }else{
+        console.log("db connection successfull")
+    }
+});
+
 app.use(session({
     secret: 'iProcureSecretCode',
     cookie: {maxAge: 60000 * 60 * 60 * 60},
