@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/app/views'));
 app.set('view engine', 'ejs');
 
-mongoose.connect(Constants.MONGODB_URL, {useNewUrlParser: true});
+mongoose.connect(Constants.MONGODB_URL, {useNewUrlParser: true,connectTimeoutMS:3000});
 app.use(session({
     secret: 'iProcureSecretCode',
     cookie: {maxAge: 60000 * 60 * 60 * 60},
