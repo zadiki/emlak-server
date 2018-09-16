@@ -1,14 +1,25 @@
+import nconf from "nconf";
+
 // for development
 // export const MONGODB_URL ="mongodb://localhost:27017/emlak";
 export const WORKERS = require("os").cpus().length;
-
 //for live heroku
 //git
-export const MONGODB_URL = process.env.MONGODB_URI;
+// export const MONGODB_URL = process.env.MONGODB_URI;
 // export const WORKERS = process.env.WEB_CONCURRENCY || 1;
 
 
+nconf.argv().env().file('keys.json');
 
+const user = nconf.get('mongoUser');
+const pass = nconf.get('mongoPassword');
+const host = nconf.get('mongoHost');
+const port = nconf.get('mongoPort');
+const db_name=nconf.get('mongoDatabase');
+
+
+export const MONGODB_URL=  `mongodb://${user}:${pass}@${host}:${port}/${db_name}`;
+export const
 export const USER_STATUS_PENDING = 0;
 export const USER_STATUS_ACTIVE = 1;
 export const USER_STATUS_VOIDED = 2;

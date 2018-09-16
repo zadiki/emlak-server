@@ -42,8 +42,7 @@ app.use(methodOverride(function (req, res) {
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/app/views'));
 app.set('view engine', 'ejs');
-app.set('trust proxy', true);
-app.enable('trust proxy');
+
 
 const options = {
     useNewUrlParser: true,

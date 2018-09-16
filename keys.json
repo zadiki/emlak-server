@@ -1,0 +1,7 @@
+{
+  "mongoHost":"ds111422.mlab.com",
+  "mongoPort":11422,
+  "mongoDatabase":"emlak_db",
+  "mongoUser":"zadiki",
+  "mongoPassword":"zadiki1"
+}
