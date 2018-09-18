@@ -9,10 +9,12 @@
     "node": "8.x.x"
   },
   "scripts": {
-    "start": "nodemon dist/app.js",
+    "start": "node dist/app.js",
     "build": "babel src -d dist --copy-files"
   },
   "cloud-repo-tools": {
+    "requiresKeyFile": true,
+    "requiresProjectId": true,
     "test": {
       "app": {
         "requiredEnvVars": [

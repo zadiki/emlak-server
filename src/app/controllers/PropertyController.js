@@ -2,6 +2,7 @@ import Property from "../models/Property";
 import {findAllCategoryService} from "../services/CategoryService";
 import {postPropertyService, findAllPropertyService,findPropertyByIdService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
+import  {multer,sendUploadToGCS}from "../utils/GcloudImageStorage";
 import fs from "fs";
 
 export const getAddPropertypage = async (req, res, next) => {
@@ -22,24 +23,33 @@ export const getPropertypage = async(req, res) => {
 }
 
 export const addpropertymiddleware = (req, res, next) => {
-    upload(req, res, function (err) {
-        if (err) {
-            res.send("cannot upload the files ,please ensure you upload images,of max size 50kb");
-        } else {
-            let imageurls = [];
-            req.files.forEach((image) => {
-                imageurls.push("property/" + image.filename);
-            });
-            req.imageurls = imageurls;
-            next();
+    // upload(req, res, function (err) {
+    //     if (err) {
+    //         res.send("cannot upload the files ,please ensure you upload images,of max size 50kb");
+    //     } else {
+    //         let imageurls = [];
+    //         req.files.forEach((image) => {
+    //             imageurls.push("property/" + image.filename);
+    //         });
+    //         req.imageurls = imageurls;
+    //         next();
+    //     }
+    // });
+    multer(req,res,function (err) {
+        if(err){
+            console.log(err)
+        }else{
+            sendUploadToGCS(req,res,next);
         }
-    });
+
+    })
 }
+
 
 export const addproperty = async (req, res) => {
     var property = new Property();
     property.PostedBy = req.session.user._id;
-    property.ImageUrl = req.imageurls;
+    property.ImageUrl = req.image_urls;
     req.checkBody('property', 'Property category must be entered e.g a house').notEmpty();
     req.checkBody('description', 'Please provide description for your property').notEmpty();
     req.checkBody('sale_or_rent', 'Please state if it for sale or rental').notEmpty();

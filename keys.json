@@ -3,5 +3,8 @@
   "mongoPort":11422,
   "mongoDatabase":"emlak_db",
   "mongoUser":"zadiki",
-  "mongoPassword":"zadiki1"
+  "mongoPassword":"zadiki1",
+  "GCLOUD_PROJECT":"emlak",
+  "GCLOUD_BUCKET":"1533406597315",
+  "DATA_BACKEND": "datastore"
 }

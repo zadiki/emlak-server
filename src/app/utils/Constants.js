@@ -19,7 +19,11 @@ const db_name=nconf.get('mongoDatabase');
 
 
 export const MONGODB_URL=  `mongodb://${user}:${pass}@${host}:${port}/${db_name}`;
-export const
+export const DATA_BACKEND  = nconf.get('DATA_BACKEND');
+export const GCLOUD_BUCKET = nconf.get('GCLOUD_BUCKET');
+export const GCLOUD_PROJECT= nconf.get('GCLOUD_PROJECT');
+
+
 export const USER_STATUS_PENDING = 0;
 export const USER_STATUS_ACTIVE = 1;
 export const USER_STATUS_VOIDED = 2;

@@ -40,6 +40,12 @@ export default (app) => {
         .post(propertyController.addpropertymiddleware,propertyController.addproperty);
     app.route("/propertydetails/:id")
         .get(propertyController.getPropertypage);
+    app.route("/imageuploadtest")
+        .get((req,res)=>{res.render("imageupload")})
+        .post(propertyController.addpropertymiddleware,function (req,res) {
+            var image_urls= req.image_urls;
+            res.send(image_urls)
+        });
 
 
 }
