@@ -1,4 +1,18 @@
-<% include includes/header%>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div style="max-height:15em;max-width:15em;">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmRQ-JeI41ryX2XNMNl8QbF0gP7J9L_57ewOeTJQ8ry-_Q0J8U" alt="" style="max-height:10em;max-width:10em;">
+      <p><%= user.Fname +" "+user.Lname %>&nbsp;click the link below to confirm your</p>
+      <a href="<%= hostname %>/emailconfirmation/<%= user._id%>">
+        <button type="button" name="button" style="background-color:DodgerBlue;border-radius:0.5em;padding:1em;">
+     email</button>
+      </a>
+    </div>
 
-<div><%= user.Fname +" "+user.Lname %>&nbsp;click the link below to confirm <a class="btn btn-primary" href="<%= hostname %>/emailconfirmation/<%= user._id%>"> your email</a></div>
-<% include includes/footer %>
+  </body>
+</html>
