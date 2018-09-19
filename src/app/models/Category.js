@@ -3,8 +3,8 @@ import uniqueValidator from "mongoose-unique-validator";
 
 const Schema = mongoose.Schema;
 
-var CategoryTypeSchema = new Schema({
+var CategorySchema = new Schema({
     Name: {type: String, unique: true,required:true},
 }, {timestamps: true});
-CategoryTypeSchema.plugin(uniqueValidator, {message: '{VALUE} is already taken.'});
-export default mongoose.model('CategoryType', CategoryTypeSchema);
+CategorySchema.plugin(uniqueValidator, {message: '{VALUE} is already taken.'});
+export default mongoose.model('Category', CategorySchema);

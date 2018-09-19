@@ -20,9 +20,6 @@ export const home = async (req, res, next) => {
     } else {
         let categorytypelist = await findAllCategoryTypes();
         var propertylist = await findAllPropertyService();
-
-
-        console.log(propertylist);
         res.render("user/guest", {
             categorytypelist: categorytypelist,
             propertylist: propertylist

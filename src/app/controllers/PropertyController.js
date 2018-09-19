@@ -16,7 +16,6 @@ export const getAddPropertypage = async (req, res, next) => {
 }
 export const getPropertypage = async(req, res) => {
     let property = await findPropertyByIdService(req.params.id);
-    console.log(property);
     res.render("property/property", {
         property:property
     });
@@ -40,7 +39,7 @@ export const addpropertymiddleware = (req, res, next) => {
             console.log(err)
         }else{
             let image = await sendUploadToGCS(req,res,next);
-            image.isArray ? req.image_urls=image:req.image_urls="";
+            image.length>0 ? req.image_urls=image:req.image_urls="";
         }
         next();
     })
@@ -86,4 +85,3 @@ export const addproperty = async (req, res) => {
     }
 
 }
-

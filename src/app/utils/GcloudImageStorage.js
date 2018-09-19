@@ -37,8 +37,11 @@ async function sendUploadToGCS (req, res, next){
                     })
                     .end(image.buffer)});
             });
-        Promise.all(promises).then((images)=>{console.log("promises finished",images)});
-        console.log(image_public_urls);
+        await Promise.all(promises)
+        .then((images)=>{
+          // console.log("promises finished",images);
+        });
+        console.log("imageurl",image_public_urls);
         return image_public_urls;
 }
 
@@ -74,5 +77,3 @@ module.exports = {
     sendUploadToGCS,
     multer
 };
-
-
