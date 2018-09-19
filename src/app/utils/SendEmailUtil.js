@@ -17,16 +17,14 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = (user,req) => {
 
     var hostname = req.protocol +"://"+req.get('host');
-    
-    ejs.renderFile( "app/views/email.ejs", { user:user,hostname:hostname }, function (err, data) {
-        if (err) {
-            console.log("from mail controller",err);
-        } else {
+
+    var html= ejs.render( "email", { user:user,hostname:hostname });
+
             var mainOptions = {
                 from: '"IPROCURE  HUMAN RESOURCE" zadikiochola@gmail.com',
                 to: user.Email,
                 subject: 'Registration Confirmation',
-                html: data
+                html: html
             };
             transporter.sendMail(mainOptions, function (err, info) {
                 if (err) {
@@ -35,8 +33,5 @@ export const sendEmail = (user,req) => {
                     console.log('Message sent: ' + info.response);
                 }
             });
-        }
-
-    });
 
 }

@@ -10,41 +10,40 @@ const bucket = storage.bucket(GCLOUD_BUCKET);
 
 
 async function sendUploadToGCS (req, res, next){
-    var image_public_urls=[];
-      req.files.forEach(async(image)=>{
-        const gcsname = Date.now() + image.originalname;
-          image.cloudStoragePublicUrl = getPublicUrl(gcsname);
-          image_public_urls.push(image.cloudStoragePublicUrl);
-        const file = bucket.file(gcsname);
-        const stream = await file.createWriteStream({
-            metadata: {
-                contentType: image.mimetype
-            },
-            resumable: true
-        });
-
-        stream.on('error', (err) => {
-            // next(err);
-        });
-
-         stream.on('finish', () => {
-            image.cloudStorageObject = gcsname;
-            file.makePublic().then(() => {
-                // image.cloudStoragePublicUrl = getPublicUrl(gcsname);
-                // image_public_urls.push(image.cloudStoragePublicUrl);
-                // next();
+        var image_public_urls=[];
+        var promises = req.files.map((image)=>{
+            const image_name = Date.now()+ image.originalname;
+            const file = bucket.file(image_name);
+            console.log("awesome")
+            return new Promise((resolve,reject)=>{file
+                .createWriteStream({
+                        metadata: {
+                            contentType: image.mimetype
+                        },
+                        resumable: false
+                    })
+                    .on('error', (e) => {
+                        reject(e);
+                        console.log("error 1")
+                    })
+                    .on("finish", () => {
+                        file.makePublic().then(() => {
+                            let image = getPublicUrl(image_name);
+                            console.log("uploaded to", image);
+                            image_public_urls.push(image)
+                            resolve(image_public_urls)
+                            console.log("success");
+                        })
+                    })
+                    .end(image.buffer)});
             });
-        });
-        stream.end(image.buffer);
-    });
-    req.image_urls=image_public_urls;
-    console.log("logged after")
-    next();
+        Promise.all(promises).then((images)=>{console.log("promises finished",images)});
+        console.log(image_public_urls);
+        return image_public_urls;
 }
 
 const getPublicUrl =(filename)=> {
     let public_url=`https://storage.googleapis.com/${GCLOUD_BUCKET}/${filename}`;
-    console.log("public url",public_url);
     return public_url;
 }
 const  multer = Multer({
@@ -54,7 +53,24 @@ const  multer = Multer({
     }
 }).array("propertyimage",3);
 
+const deleteFilefromGcp=(image_file)=>{
+
+    return new Promise((resolve,reject)=>{
+        var imageurl= image_file.split("/");
+        imageurl=imageurl.slice(4,imageurl.length+1)[0];
+        storage
+            .bucket(GCLOUD_BUCKET)
+            .file(imageurl)
+            .delete()
+            .then((image)=>{resolve(image)})
+            .catch((e)=>{reject(e)});
+
+    });
+    console.log(imageurl)
+}
+
 module.exports = {
+    deleteFilefromGcp,
     sendUploadToGCS,
     multer
 };

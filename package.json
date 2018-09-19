@@ -9,7 +9,7 @@
     "node": "8.x.x"
   },
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "nodemon dist/app.js",
     "build": "babel src -d dist --copy-files"
   },
   "cloud-repo-tools": {

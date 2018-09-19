@@ -87,7 +87,10 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
+app.get("/test",function (req,res) {
+  res.send("Success");
 
+})
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500).render("404", {

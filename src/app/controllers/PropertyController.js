@@ -2,7 +2,7 @@ import Property from "../models/Property";
 import {findAllCategoryService} from "../services/CategoryService";
 import {postPropertyService, findAllPropertyService,findPropertyByIdService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
-import  {multer,sendUploadToGCS}from "../utils/GcloudImageStorage";
+import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
 import fs from "fs";
 
 export const getAddPropertypage = async (req, res, next) => {
@@ -35,13 +35,14 @@ export const addpropertymiddleware = (req, res, next) => {
     //         next();
     //     }
     // });
-    multer(req,res,function (err) {
+    multer(req,res,async function (err) {
         if(err){
             console.log(err)
         }else{
-            sendUploadToGCS(req,res,next);
+            let image = await sendUploadToGCS(req,res,next);
+            image.isArray ? req.image_urls=image:req.image_urls="";
         }
-
+        next();
     })
 }
 
@@ -62,17 +63,9 @@ export const addproperty = async (req, res) => {
     var errors = req.validationErrors();
     if (errors) {
         for (var i = 0; i < property.ImageUrl.length; i++) {
-            var imagepath = "public/" + property.ImageUrl[i];
-            console.log("my image path " + imagepath);
+            var imagepath = property.ImageUrl[i];
             try {
-                fs.unlink(imagepath, (err) => {
-                    if (err) {
-                        console.log("failed to delete images" + err)
-                    }
-                    else {
-                        console.log("image deleted successfully", imagepath)
-                    }
-                });
+                deleteFilefromGcp(imagepath);
             } catch (errors) {
                 console.log(errors)
             }
