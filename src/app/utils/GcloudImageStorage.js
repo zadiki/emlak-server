@@ -1,6 +1,7 @@
 import {GCLOUD_BUCKET,DATA_BACKEND,GCLOUD_PROJECT}from "./Constants";
 import {Storage} from "@google-cloud/storage";
 import Multer from "multer";
+import path from "path";
 
 const storage = new Storage({
     projectId: GCLOUD_PROJECT,
@@ -51,6 +52,13 @@ const getPublicUrl =(filename)=> {
 }
 const  multer = Multer({
     storage: Multer.MemoryStorage,
+    fileFilter: function (req, file, callback) {
+      var ext = path.extname(file.originalname);
+      if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+          return callback(new Error('Only images are allowed'))
+        }
+      callback(null, true)
+      },
     limits: {
         fileSize: 5 * 1024 * 1024 // no larger than 5mb
     }

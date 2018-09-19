@@ -1,7 +1,7 @@
 import nconf from "nconf";
 
 // for development
-export const MONGODB_URL ="mongodb://localhost:27017/emlak";
+// export const MONGODB_URL ="mongodb://localhost:27017/emlak";
 export const WORKERS = require("os").cpus().length;
 //for live heroku
 //git
@@ -18,7 +18,7 @@ const port = nconf.get('mongoPort');
 const db_name=nconf.get('mongoDatabase');
 
 
-// export const MONGODB_URL=  `mongodb://${user}:${pass}@${host}:${port}/${db_name}`;
+export const MONGODB_URL=  `mongodb://${user}:${pass}@${host}:${port}/${db_name}`;
 export const DATA_BACKEND  = nconf.get('DATA_BACKEND');
 export const GCLOUD_BUCKET = nconf.get('GCLOUD_BUCKET');
 export const GCLOUD_PROJECT= nconf.get('GCLOUD_PROJECT');
