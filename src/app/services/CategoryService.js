@@ -8,8 +8,15 @@ export  const findAllCategoryService=()=>{
 export  const findCategoryByIdService=()=>{
 
 }
+export const findCategoryByNameService=()=>{
+
+}
 export const addCategoryService = (categoryInfo)=>{
     let category = new Category(categoryInfo)
     console.log(category);
     return category.save();
+}
+export const updateCategoryService=(categoryname)=>{
+    var update = { $inc: { Count: 1 }};
+    return Category.update({Name:categoryname},update).exec();
 }

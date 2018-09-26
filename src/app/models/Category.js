@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 var CategorySchema = new Schema({
     Name: {type: String, unique: true,required:true},
+    Count:{type:Number,default:0}
 }, {timestamps: true});
 CategorySchema.plugin(uniqueValidator, {message: '{VALUE} is already taken.'});
 export default mongoose.model('Category', CategorySchema);

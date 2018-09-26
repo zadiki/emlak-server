@@ -1,22 +1,18 @@
 import Property from "../models/Property";
-import {findAllCategoryService} from "../services/CategoryService";
+import {findAllCategoryService,updateCategoryService} from "../services/CategoryService";
 import {postPropertyService, findAllPropertyService,findPropertyByIdService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
-import {getPropertyTypeCounts} from "../utils/PropertyCountUtils";
-import fs from "fs";
 
 export const getAddPropertypage = async (req, res, next) => {
 
-    let categorytypelist = await findAllCategoryService();
-    var propertylistObject = await findAllPropertyService();
-    var propertylist = propertylistObject.chunkedpropertylist
-    var propertycount = getPropertyTypeCounts(propertylistObject.propertylist);
-    console.log("Property count:=>",propertycount);
+    let categorylist = await findAllCategoryService();
+    console.log(categorylist);
+    var propertylist = await findAllPropertyService();
+
     res.render("property/postproperty", {
-        categorytypelist: categorytypelist,
-        propertylist: propertylist,
-        propertycount:propertycount
+        categorytypelist: categorylist,
+        propertylist: propertylist
     });
 }
 export const getPropertypage = async(req, res) => {
@@ -61,8 +57,8 @@ export const addproperty = async (req, res) => {
     req.checkBody('price', 'pleace give the price').notEmpty();
     req.checkBody('paymentmode', 'Please select a payment mode').notEmpty();
     req.checkBody('address', 'please ensure you give the right address');
-    req.checkBody('latitude', 'please ensure you give the right address').notEmpty().len(4, 15);
-    req.checkBody('longitude', 'please ensure you give the right address').notEmpty().len(4, 15);
+    req.checkBody('latitude', 'please ensure you give the right address').notEmpty().len(4, 30);
+    req.checkBody('longitude', 'please ensure you give the right address').notEmpty().len(4, 30);
 
     var errors = req.validationErrors();
     if (errors) {
@@ -78,6 +74,7 @@ export const addproperty = async (req, res) => {
     }
     else {
         property.Category = req.body.property;
+        updateCategoryService(property.Category);
         property.SaleOrNot = req.body.sale_or_not;
         property.PaymentMode = req.body.paymentmode;
         property.Address = req.body.address;

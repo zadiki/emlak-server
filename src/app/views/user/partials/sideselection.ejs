@@ -7,13 +7,7 @@
             <% categorytypelist.forEach(function(categorytype){%>
             <a href="/login" class="list-group-item d-flex justify-content-between align-items-center">
                 <%= categorytype.Name%>
-                <% var name%>
-                <% if(categorytype.Name.split(" ").length>0){%>
-                <% name = categorytype.Name.split(" ").join("_")%>
-                <%}else{%>
-                <% name = categorytype.Name %>
-                <%}%>
-                <span class="badge badge-primary badge-pill"><%= propertycount[name]%></span>
+                <span class="badge badge-primary badge-pill"><%= categorytype.Count%></span>
             </a>
             <%})%>
             <%}%>
