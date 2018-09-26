@@ -5,6 +5,7 @@ import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import  * as Constants  from "../utils/Constants";
 import {toUpperCase} from "../utils/StringManupulation";
+import {getPropertyTypeCounts} from "../utils/PropertyCountUtils";
 
 
 export const login = (req, res, next) => {
@@ -19,10 +20,13 @@ export const home = async (req, res, next) => {
         res.redirect("/admin");
     } else {
         let categorytypelist = await findAllCategoryTypes();
-        var propertylist = await findAllPropertyService();
+        var propertylistObject = await findAllPropertyService();
+        var propertylist = propertylistObject.chunkedpropertylist;
+        var propertycount = getPropertyTypeCounts(propertylistObject.propertylist);
         res.render("user/guest", {
             categorytypelist: categorytypelist,
-            propertylist: propertylist
+            propertylist: propertylist,
+            propertycount:propertycount
         });
     }
 }
@@ -74,10 +78,13 @@ export const adminPage = async (req, res, next) => {
         res.redirect("/");
     } else {
         let categorytypelist = await findAllCategoryTypes();
-        var propertylist = await findAllPropertyService();
+        var propertylistObject = await findAllPropertyService();
+        var propertylist = propertylistObject.chunkedpropertylist;
+        var propertycount = getPropertyTypeCounts(propertylistObject.propertylist);
         res.render("user/admin", {
             propertylist: propertylist,
-            categorytypelist: categorytypelist
+            categorytypelist: categorytypelist,
+            propertycount:propertycount
         });
     }
 }

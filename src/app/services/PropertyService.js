@@ -6,7 +6,7 @@ export  const findAllPropertyService= async()=>{
     for(var i=0;i<propertylist.length; i=+chunksize){
         chunkedpropertylist.push(propertylist.slice(i,i+chunksize));
     }
-    return chunkedpropertylist;
+    return {"chunkedpropertylist":chunkedpropertylist,"propertylist":propertylist};
 }
 export const findPropertyByIdService= (id)=>{
     return Property.findById(id).populate('PostedBy').exec();

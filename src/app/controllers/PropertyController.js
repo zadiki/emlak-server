@@ -3,15 +3,20 @@ import {findAllCategoryService} from "../services/CategoryService";
 import {postPropertyService, findAllPropertyService,findPropertyByIdService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
+import {getPropertyTypeCounts} from "../utils/PropertyCountUtils";
 import fs from "fs";
 
 export const getAddPropertypage = async (req, res, next) => {
 
     let categorytypelist = await findAllCategoryService();
-    var propertylist = await findAllPropertyService();
+    var propertylistObject = await findAllPropertyService();
+    var propertylist = propertylistObject.chunkedpropertylist
+    var propertycount = getPropertyTypeCounts(propertylistObject.propertylist);
+    console.log("Property count:=>",propertycount);
     res.render("property/postproperty", {
         categorytypelist: categorytypelist,
-        propertylist: propertylist
+        propertylist: propertylist,
+        propertycount:propertycount
     });
 }
 export const getPropertypage = async(req, res) => {
