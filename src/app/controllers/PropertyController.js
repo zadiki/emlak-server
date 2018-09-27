@@ -75,9 +75,15 @@ export const addproperty = async (req, res) => {
     else {
         property.Category = req.body.property;
         updateCategoryService(property.Category);
-        property.SaleOrNot = req.body.sale_or_not;
+        property.SaleOrNot = req.body.sale_or_rent;
         property.PaymentMode = req.body.paymentmode;
-        property.Address = req.body.address;
+        let addr_array= req.body.address.split(" ");
+        let add_subst_arr=[];
+        addr_array.forEach((address)=>{
+            add_subst_arr.push(address.substring(0,5));
+        });
+
+        property.Address = add_subst_arr.join(" ");
         property.Price = req.body.price;
         property.Description = req.body.description;
         property.Location.coordinates = [req.body.latitude, req.body.longitude];
