@@ -77,13 +77,19 @@ export const addproperty = async (req, res) => {
         updateCategoryService(property.Category);
         property.SaleOrNot = req.body.sale_or_rent;
         property.PaymentMode = req.body.paymentmode;
-        let addr_array= req.body.address.split(" ");
-        let add_subst_arr=[];
-        addr_array.forEach((address)=>{
-            add_subst_arr.push(address.substring(0,5));
-        });
+        if(req.body.address.length>15){
+            let addr_array= req.body.address.split(" ");
+            let add_subst_arr=[];
+            addr_array.forEach((address)=>{
+                if(!(address == "Kenya"|| address == "KE")){
+                    add_subst_arr.push(address.substring(0, 5));
+                }
+            });
 
-        property.Address = add_subst_arr.join(" ");
+            property.Address = add_subst_arr.join(" ");
+        }else{
+            property.Address =req.body.address;
+        }
         property.Price = req.body.price;
         property.Description = req.body.description;
         property.Location.coordinates = [req.body.latitude, req.body.longitude];
