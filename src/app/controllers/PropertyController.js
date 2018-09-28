@@ -11,7 +11,7 @@ export const getAddPropertypage = async (req, res, next) => {
     var propertylist = await findAllPropertyService();
 
     res.render("property/postproperty", {
-        categorytypelist: categorylist,
+        categorylist: categorylist,
         propertylist: propertylist
     });
 }
@@ -38,8 +38,8 @@ export const addpropertymiddleware = (req, res, next) => {
     multer(req,res,async function (err) {
         if(err){
             console.log(err)
-        }else{
             let image = await sendUploadToGCS(req,res,next);
+        }else{
             image.length>0 ? req.image_urls=image:req.image_urls="";
         }
         next();

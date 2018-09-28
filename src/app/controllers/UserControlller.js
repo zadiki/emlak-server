@@ -17,10 +17,10 @@ export const home = async (req, res, next) => {
     if (req.session.user && req.session.user.UserLevel == Constants.USER_LEVEL_ADMIN) {
         res.redirect("/admin");
     } else {
-        let categorytypelist = await findAllCategoryTypes();
+        let categorylist = await findAllCategory();
         var propertylist = await findAllPropertyService();
         res.render("user/guest", {
-            categorytypelist: categorytypelist,
+            categorylist: categorylist,
             propertylist: propertylist
         });
     }
@@ -72,18 +72,18 @@ export const adminPage = async (req, res, next) => {
     if (!req.session.user || req.session.user.UserLevel != 5) {
         res.redirect("/");
     } else {
-        let categorytypelist = await findAllCategoryTypes();
+        let categorylist = await findAllCategory();
         var propertylist = await findAllPropertyService();
         res.render("user/admin", {
             propertylist: propertylist,
-            categorytypelist: categorytypelist
+            categorylist: categorylist
         });
     }
 }
 
-export const findAllCategoryTypes = async () => {
-    let categorytypes = await findAllCategoryService();
-    return categorytypes;
+export const findAllCategory = async () => {
+    let categorylist = await findAllCategoryService();
+    return categorylist;
 }
 
 export const confirmEmail = (req, res, next) => {

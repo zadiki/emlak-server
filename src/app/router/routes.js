@@ -46,6 +46,9 @@ export default (app) => {
             var image_urls= req.image_urls;
             res.send(image_urls)
         });
-
+    app.route("/propertycategory/:category")
+        .get(function (req,res) {
+            res.send(req.params.category);
+        });
 
 }

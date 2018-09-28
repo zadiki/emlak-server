@@ -14,10 +14,10 @@
                 <div class="form-group col-md-6">
                     <label for="property">Property</label>
                     <select name="property" class="form-control" id="property">
-                        <% if(categorytypelist) { %>
-                        <% categorytypelist.forEach(function(categorytype){ %>
-                        <option value="<%= categorytype.Name %>">
-                            <%= categorytype.Name %>
+                        <% if(categorylist) { %>
+                        <% categorylist.forEach(function(category){ %>
+                        <option value="<%= category.Name %>">
+                            <%= category.Name %>
                         </option>
                         <% }) %>
                         <% } %>
