@@ -20,7 +20,23 @@
                             <img class="card-img-top rounded-0" style="height:10em;" src="<%= property.ImageUrl.length>0 ? property.ImageUrl[0] : 'images/company/logo.jpg'%>" alt="Card image cap">
                         </a>
                         <div class="bottom-wrap m-0 bg-transparent">
-                            <span class="float-left h9"><%=property.Address.length>0 ? property.Address:"Not stated"%></span>
+                            <% var addr=property.Address%>
+                            <% if(addr.length>0){%>
+                            <%if(addr.length>15){%>
+                            <% var addr_array =[]%>
+                            <% addr.split(" ").forEach(function (address_string) {%>
+                            <%if(address_string.length>6){%>
+                            <% addr_array.push(address_string.substring(0,5))%>
+                            <%}else{%>
+                            <% addr_array.push(address_string)%>
+                            <%}%>
+                            <% })%>
+                            <%}%>
+                            <% addr=addr_array.join(" ")%>
+                            <%}else{%>
+                            <% addr = "Address not stated"%>
+                            <%}%>
+                            <span class="float-left h9"><%=addr%></span>
                             <br/>
                             <div class="clearfix">
                                 <span class="float-left">
