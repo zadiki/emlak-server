@@ -38,10 +38,12 @@
                             <%}else{%>
                             <% addr = "Address not stated"%>
                             <%}%>
-                            <span class="float-left h9"><%=addr%></span>
+                            <span class="m-1 text-primary"><%=property.Category%><%= property.SaleOrNot !=" "?" for "+property.SaleOrNot:""%></span>
+                            <span class="float-left h9 ml-1 text-nowrap text-primary"><%=addr%></span>
                             <br/>
-                            <div class="clearfix">
-                                <span class="float-left">
+                            <div class="container ml-1">
+                                <span class="row mt-1  pr-1" style="font-size: 12px;">Ksh:<%= property.Price%> <%= property.SaleOrNot=="rent"? "/"+property.PaymentMode.substring(0,3):""%></span>
+                                <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
