@@ -65,8 +65,7 @@
     <div class="col-md-3">
         <div class="clearfix rounded-0 ">
             <div class="list-group rounded-0">
-                <button type="button" class="list-group-item rounded-0 bg-success justify-content-center">KSH: <%=property.Price%> per
-                    month
+                <button type="button" class="list-group-item rounded-0 bg-success justify-content-center">KSH: <%=property.Price%><%= property.SaleOrNot=="rent"? "  per "+property.PaymentMode:""%>
                 </button>
                 <button type="button" class="list-group-item rounded-0 justify-content-center"><%=property.Address.length>0 ?property.Address:"Not Stated"%>
                 </button>
