@@ -48,7 +48,7 @@
                                 <i class="fas fa-star-half-alt rating-style rating-style-half"></i>
                                 <i class="far fa-star  rating-style rating-style-empty"></i>
                                 </span>
-                                <span class="float-right mt-1 pr-1" style="font-size: 12px;">Ksh:<%= property.Price%>/mon</span>
+                                <span class="float-right mt-1 pr-1" style="font-size: 12px;">Ksh:<%= property.Price%> <%= property.SaleOrNot=="rent"? "/"+property.PaymentMode.substring(0,3):""%></span>
                             </div>
                         </div>
                     </div>
