@@ -28,7 +28,14 @@
     padding: 15px;
     border-top: 1px solid #eee;
 }
-
+.footer-card-display a{
+    background-color: #0B2239;
+    color: #ebebeb;
+}
+.footer-card-display a:hover{
+    background-color: #0B2239;
+    color: #ebebeb;
+}
 .label-rating { margin-right:10px;
     color: #333;
     display: inline-block;
@@ -59,6 +66,8 @@ body {
 .small-rounded-img{
     max-height: 2em;
     max-width:2em;
+    border:none;
+    padding: -1em;
 }
 .small-uploaded-img{
     height: 3em;
