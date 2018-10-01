@@ -1,0 +1,21 @@
+<%
+formatAddress=function (address) {
+    var address_array=address.split(" ");
+    if(address.length>15){
+        address_array= address_array.filter(function (e) {
+            return e !==("Kenya"||"KE");
+        })
+        if(address_array.join(" ").leghth>15){
+            address_array=address_array.slice(0,3);
+            if(address_array.join(" ").lenth>15){
+                var empty_addr_arr=[];
+                formatAddress(address_array.join(" "));
+            }
+        }
+        address=address_array.join(" ")
+    }else{
+        address= address.length == null?"Not stated":address;
+    }
+    return address;
+}
+%>

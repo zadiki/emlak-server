@@ -24,8 +24,9 @@ async function sendUploadToGCS (req, res, next){
                         resumable: false
                     })
                     .on('error', (e) => {
+                        console.log(e);
                         reject(e);
-                        console.log("error 1")
+
                     })
                     .on("finish", () => {
                         file.makePublic().then(() => {
