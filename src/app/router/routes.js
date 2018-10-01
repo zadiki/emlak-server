@@ -47,8 +47,6 @@ export default (app) => {
             res.send(image_urls)
         });
     app.route("/propertycategory/:category")
-        .get(function (req,res) {
-            res.send(req.params.category);
-        });
+        .get(userController.propertyBycategoryPage);
 
 }

@@ -1,6 +1,6 @@
 import {registerUserService, updateUserStatusService} from "../services/UserService";
 import {findAllCategoryService} from "../services/CategoryService";
-import {findAllPropertyService} from "../services/PropertyService";
+import {findAllPropertyService,findAllByCategoryService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import  * as Constants  from "../utils/Constants";
@@ -25,6 +25,29 @@ export const home = async (req, res, next) => {
         });
     }
 }
+
+export const adminPage = async (req, res, next) => {
+    if (!req.session.user || req.session.user.UserLevel != 5) {
+        res.redirect("/");
+    } else {
+        let categorylist = await findAllCategory();
+        var propertylist = await findAllPropertyService();
+        res.render("user/admin", {
+            propertylist: propertylist,
+            categorylist: categorylist
+        });
+    }
+}
+export const propertyBycategoryPage = async (req, res, next) => {
+        let categorylist = await findAllCategory();
+        var propertylist = await findAllByCategoryService(req.params.category);
+        res.render("user/guest", {
+            categorylist: categorylist,
+            propertylist: propertylist
+        });
+}
+
+
 export const signupPage = (req, res, next) => {
     res.render("user/signup");
 }
@@ -65,19 +88,6 @@ export const signupUser = (req, res, next) => {
                 req.flash("errors", errors_array);
                 res.redirect("/signup");
             });
-    }
-}
-
-export const adminPage = async (req, res, next) => {
-    if (!req.session.user || req.session.user.UserLevel != 5) {
-        res.redirect("/");
-    } else {
-        let categorylist = await findAllCategory();
-        var propertylist = await findAllPropertyService();
-        res.render("user/admin", {
-            propertylist: propertylist,
-            categorylist: categorylist
-        });
     }
 }
 
