@@ -38,14 +38,7 @@ export const adminPage = async (req, res, next) => {
         });
     }
 }
-export const propertyBycategoryPage = async (req, res, next) => {
-        let categorylist = await findAllCategory();
-        var propertylist = await findAllByCategoryService(req.params.category);
-        res.render("user/guest", {
-            categorylist: categorylist,
-            propertylist: propertylist
-        });
-}
+
 
 
 export const signupPage = (req, res, next) => {

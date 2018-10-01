@@ -12,7 +12,7 @@ export const postPropertyService=(property)=>{
 }
 
 export const findAllByCategoryService=async(category)=>{
-    let propertylist= await Property.find({"Category":category});
+    let propertylist= await Property.find({"Category":{ $regex: '.*' + category + '.*' } });
     return chunckedPropertyList(propertylist);
 }
 

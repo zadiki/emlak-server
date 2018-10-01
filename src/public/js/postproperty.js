@@ -10,7 +10,7 @@ $(document).ready(function () {
         '                    </div>\n' +
         '                    <div class="form-group col-md-6">\n' +
         '                        <label for="inputdescription" >Description</label>\n' +
-        '                        <textarea name="description" class="form-control" maxlength="49" id="inputdescription" placeholder="describe in 49 characters"></textarea>\n' +
+        '                        <textarea name="description" class="form-control" maxlength="150" id="inputdescription" placeholder="describe in 150 characters"></textarea>\n' +
         '                    </div>\n' +
         '                </div>';
 
@@ -43,7 +43,7 @@ $(document).ready(function () {
         '                    </div>\n' +
         '                    <div class="form-group col-md-8">\n' +
         '                        <label for="inputdescription">Description</label>\n' +
-        '                        <textarea name="description" class="form-control" id="inputdescription" maxlength="49">\n' +
+        '                        <textarea name="description" class="form-control" id="inputdescription" maxlength="150">\n' +
         '                        </textarea>\n' +
         '                    </div>\n' +
         '                </div>';
@@ -107,6 +107,30 @@ $(document).ready(function () {
         '                        <textarea name="description" class="form-control" id="inputdescription"></textarea>\n' +
         '                    </div>\n' +
         '                </div>';
+    var cottagehtml =' <div class="form-row">\n' +
+        '                    <div class="form-group col-md-3">\n' +
+        '                        <label for="inputbedroom">Bedrooms</label>\n' +
+        '                        <select class="form-control" id="inputbedroom" name="bedroom">\n' +
+        '                            <option value="1" selected>one</option>\n' +
+        '                            <option value="1">two</option>\n' +
+        '                            <option value="1">three</option>\n' +
+        '                            <option value="1">four</option>\n' +
+        '                            <option value="1">five</option>\n' +
+        '                        </select>\n' +
+        '                    </div>\n' +
+        '                   <div class="form-group col-md-2">\n' +
+        '                        <label for="swimming_pool">Swimming pool available</label>\n' +
+        '                        <select name="swimming_pool" class="form-control" id="swimming_pool">\n' +
+        '                            <option value="Yes">Yes</option>\n' +
+        '                            <option value="No">No</option>\n' +
+        '                        </select>\n' +
+        '                    </div>\n' +
+        '                    <div class="form-group col-md-7">\n' +
+        '                        <label for="inputdescription">Description</label>\n' +
+        '                        <textarea name="description" maxlength="150" class="form-control" id="inputdescription"></textarea>\n' +
+        '                    </div>\n' +
+        '                </div>';
+
     var househtml = ' <div class="form-row">\n' +
         '                    <div class="form-group col-md-4">\n' +
         '                        <label for="inputbedroom">Bedroom+1</label>\n' +
@@ -132,8 +156,7 @@ $(document).ready(function () {
         '                    </div>\n' +
         '                    <div class="form-group col-md-8">\n' +
         '                        <label for="input_description">Description</label>\n' +
-        '                        <textarea name="description" class="form-control" id="input_description" maxlength="49">\n' +
-        '                        </textarea>\n' +
+        '                        <textarea name="description" class="form-control" id="input_description" maxlength="150"></textarea>\n' +
         '                    </div>\n' +
         '                </div>';
     var workspacehtml = '<div class="form-row">\n' +
@@ -163,7 +186,7 @@ $(document).ready(function () {
         '                    </div>\n' +
         '                    <div class="form-group col-md-8">\n' +
         '                        <label for="input_description">Description</label>\n' +
-        '                        <textarea name="description"  class="form-control" id="input_description" maxlength="49"></textarea>\n' +
+        '                        <textarea name="description"  class="form-control" id="input_description" maxlength="150"></textarea>\n' +
         '                    </div>\n' +
         '                </div>';
 
@@ -188,6 +211,10 @@ $(document).ready(function () {
                 break;
             case "Work place":
                 setoptions(workspacehtml);
+                break;
+            case "Cottage":
+                console.log("am selected");
+                setoptions(cottagehtml);
                 break;
             default:
                 setoptions("");
