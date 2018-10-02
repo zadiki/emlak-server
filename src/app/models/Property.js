@@ -26,7 +26,8 @@ var PropertySchema = new Schema({
     NoOfBeds:{type:String,default:"Not stated"},
     HotShower:{type:String,default:"Not stated"},
     BreakfastProvided:{type:String,default:"Not stated"},
-    points:{type:Number,default:500}
+    points:{type:Number,default:500},
+    views:{type:Number,default:0}
 
 }, { timestamps: true });
 PropertySchema.index({ "loc": "2dsphere" });

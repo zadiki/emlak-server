@@ -38,9 +38,6 @@ export const adminPage = async (req, res, next) => {
         });
     }
 }
-
-
-
 export const signupPage = (req, res, next) => {
     res.render("user/signup");
 }
@@ -83,13 +80,14 @@ export const signupUser = (req, res, next) => {
             });
     }
 }
-
 export const findAllCategory = async () => {
     let categorylist = await findAllCategoryService();
     return categorylist;
 }
-
 export const confirmEmail = (req, res, next) => {
     updateUserStatusService(req.params.id);
     res.redirect("/home");
+}
+export const userprofilePage=async (req,res,next)=>{
+    res.render("user/userprofile",{categorylist: await findAllCategory()});
 }

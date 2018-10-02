@@ -1,0 +1,74 @@
+<%- include ../includes/header %>
+<%- include ../includes/headercsslinks %>
+<link rel="stylesheet" href="css/login.css"/>
+<%- include ../includes/closingheader %>
+<%- include ../includes/navheader %>
+<%- include ./partials/propertysearch %>
+<%- include ../includes/functions%>
+<div class="row h-100" style="margin-top:0.1em;">
+    <div class="col-0  col-sm-2 col-md-3 col-lg-3 col-xl-2">
+    <div class="card sideselection d-none d-md-block">
+        <ul class="list-group accordion list-group-flush border rounded-top border-primary" id="profile-accordion-title">
+            <a class="list-group-item d-flex bg-light  justify-content-between align-items-center" id="profile-accordion-1"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"type="button" data-toggle="collapse" >
+                My Posts
+                <span class="float-right"><i class="fas fa-paste"></i></span>
+            </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="profile-accordion-1" data-parent="#profile-accordion-title">
+                    <ul class="list-group list-group-flush">
+                        <% if(categorylist) { %>
+                        <% categorylist.forEach(function(category){%>
+                        <a href="/propertycategory/<%= category.Name%>" class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= category.Name%>
+                            <span class="badge badge-primary badge-pill"><%= category.Count%></span>
+                        </a>
+                        <%})%>
+                        <%}%>
+                    </ul>
+                </div>
+            <a class="list-group-item d-flex bg-light  justify-content-between align-items-center" id="profile-accordion-2"  data-target="#collapsetwo" aria-expanded="true" aria-controls="collapseOne"type="button" data-toggle="collapse" >
+                My Profile<span class="float-right"><i class="fas fa-user"></i></span>
+            </a>
+                <div id="collapsetwo" class="collapse" aria-labelledby="profile-accordion-2" data-parent="#profile-accordion-title">
+                    <ul class="list-group list-group-flush">
+                        <a href="" class="list-group-item d-flex justify-content-between align-items-center">
+                            View my profile
+                        </a>
+                        <a href="" class="list-group-item d-flex justify-content-between align-items-center">
+                            Update my profile
+                        </a>
+
+                    </ul>
+                </div>
+        </ul>
+    </div>
+    </div>
+
+    <div class="col-12 col-sm-10 col-md-9 col-lg-9 col-xl-10">
+        <div class="container-fluid">
+            <% if(categorylist) { %>
+            <% categorylist.forEach(function(category){%>
+            <div class="d-flex flex-row bd-highlight mb-1 justify-content-star">
+                <div class="flex-fill bd-highlight">
+                    <div class="rounded-0  property-card float-left ">
+                        <div class="float-left">
+                             <a href="#">
+                            <img class="" style="height:10em;"
+                             src="images/company/logo.jpg"
+                             alt="Card image cap">
+                             </a>
+                        </div>
+                     </div>
+                </div>
+                <div class="flex-grow-1 bd-highlight">Flex item 1</div>
+                <div class="flex-fill bd-highlight">Flex item 1</div>
+                <div class="flex-fill bd-highlight">Flex item 1</div>
+                <div class="flex-fill bd-highlight">Flex item 1</div>
+            </div>
+            <%})%>
+            <%}%>
+        </div>
+    </div>
+</div>
+<%- include ../includes/navbottom %>
+<%- include ../includes/footerjavascript %>
+<%- include ../includes/footer %>
