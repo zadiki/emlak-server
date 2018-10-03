@@ -1,6 +1,6 @@
 import {registerUserService, updateUserStatusService} from "../services/UserService";
 import {findAllCategoryService} from "../services/CategoryService";
-import {findAllPropertyService,findAllByCategoryService} from "../services/PropertyService";
+import {findAllPropertyService,findPropertyByUserIdService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import  * as Constants  from "../utils/Constants";
@@ -25,7 +25,6 @@ export const home = async (req, res, next) => {
         });
     }
 }
-
 export const adminPage = async (req, res, next) => {
     if (!req.session.user || req.session.user.UserLevel != 5) {
         res.redirect("/");
@@ -89,5 +88,9 @@ export const confirmEmail = (req, res, next) => {
     res.redirect("/home");
 }
 export const userprofilePage=async (req,res,next)=>{
-    res.render("user/userprofile",{categorylist: await findAllCategory()});
+    let propertylist =await findPropertyByUserIdService(req.session.user._id)
+    res.render("user/userprofile",{
+        categorylist: await findAllCategory(),
+        propertylist:propertylist
+        });
 }
