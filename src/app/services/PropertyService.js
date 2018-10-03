@@ -1,6 +1,6 @@
 import Property from "../models/Property";
 export  const findAllPropertyService= async()=>{
-    let propertylist= await Property.find();
+    let propertylist= await Property.find().sort({points: -1}).exec();
     return chunckedPropertyList(propertylist);
 }
 export const findPropertyByIdService= async(id)=>{
