@@ -47,7 +47,7 @@
         <div class="container-fluid">
             <% if(categorylist) { %>
             <% categorylist.forEach(function(category){%>
-            <div class="d-flex flex-row bd-highlight mb-1 justify-content-star">
+            <div class="d-flex flex-row bd-highlight mb-1">
                 <div class="flex-fill bd-highlight">
                     <div class="rounded-0  property-card float-left ">
                         <div class="float-left">
@@ -59,10 +59,26 @@
                         </div>
                      </div>
                 </div>
-                <div class="flex-grow-1 bd-highlight">Flex item 1</div>
-                <div class="flex-fill bd-highlight">Flex item 1</div>
-                <div class="flex-fill bd-highlight">Flex item 1</div>
-                <div class="flex-fill bd-highlight">Flex item 1</div>
+                <div class="flex-grow-1 flex-fill align-items-start bd-highlight">
+                    <div class="d-flex flex-column align-items-start">
+                        <div class="align-content-start d-flex flex-row bd-highlight">
+                            <span class="float-left ml-2"><i class="fas fa-bed"></i>:1</span>
+                            <span class="float-left ml-2"><i class="fas fa-bath"></i>:1</span>
+                            <span class="float-left ml-2"><i class="fas fa-parking"></i></span>
+                            <span class="float-left ml-2"><i class="fas fa-swimmer"></i></span>
+                        </div>
+                    </div>
+                    <div class="flex-fill  bd-highlight">Flex item 2</div>
+                </div>
+                <div class="flex-fill bd-highlight">
+                    <div class="d-flex flex-column align-items-end">
+                        <div class="flex-fill align-self-end bd-highlight">
+                            <a href="/"><i class="far fa-eye-slash"></i></a>
+                            <a href="#"><i class="fas fa-edit"></i></a>
+                            <a href="#"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <%})%>
             <%}%>
