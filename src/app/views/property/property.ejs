@@ -7,12 +7,16 @@
     <div class="col-md-12 mt-2">
         <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                   aria-selected="true">Details</a>
+                <a class="nav-link active" id="images-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                   aria-selected="true">Images</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                    aria-controls="profile" aria-selected="false">Area map</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="streetview-tab" data-toggle="tab" href="#streetview-image" role="tab"
+                   aria-controls="streetview-image" aria-selected="false">Street view</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
@@ -25,7 +29,7 @@
 <div class="row h-100 mb-2 mt-2" style="margin-top:0.1em;">
     <div class="col-md-5">
         <div class="tab-content " id="myTabContent" style="max-width: 100%;">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="images-tab">
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" >
                     <div class="carousel-inner">
                         <% for(var i = 0;i < property.ImageUrl.length;i++){ %>
@@ -54,6 +58,10 @@
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div id="mymap" class="col-md-12" style="min-width: 25em;min-height: 25em;"></div>
+            </div>
+            <div class="tab-pane fade" id="streetview-image" role="tabpanel" aria-labelledby="streetview-tab">
+                <div id="streetview" class="col-md-12" style="min-width: 28em;min-height: 28em;">
+                </div>
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
@@ -173,11 +181,11 @@
 </div>
 <%- include ../includes/navbottom %>
 <%- include ../includes/footerjavascript %>
-<script src="js/postproperty.js"></script>
 <script>
     var map;
 
     function initMap() {
+
         var center = new google.maps.LatLng(<%=property.Location.coordinates[0]+","+property.Location.coordinates[1]%>);
         var mapcanvas = document.getElementById('mymap');
         var mapoptions = {
@@ -202,7 +210,14 @@
             draggable: true
         });
 
-
+        var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('streetview'), {
+                position: center,
+                pov: {
+                    heading: 34,
+                    pitch: 10
+                }
+            });
         google.maps.event.addListener(marker, 'click', function (event) {
             var latitude = parseFloat(event.latLng.lat());
             var longitude = parseFloat(event.latLng.lng());

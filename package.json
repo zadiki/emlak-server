@@ -9,8 +9,8 @@
     "node": "8.x.x"
   },
   "scripts": {
-    "start": "forever start -l forever.log -o out.log -e err.log  dist/app.js",
-    "dev":"nodemon src/entry.js",
+    "start": "node dist/app.js",
+    "dev": "nodemon src/entry.js",
     "build": "babel src -d dist --copy-files"
   },
   "cloud-repo-tools": {
