@@ -1,6 +1,6 @@
 import Property from "../models/Property";
 import {findAllCategoryService,updateCategoryService} from "../services/CategoryService";
-import {postPropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService} from "../services/PropertyService"
+import {postPropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService,propertySearchService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
 
@@ -101,6 +101,15 @@ export const addproperty = async (req, res) => {
 export const propertyBycategoryPage = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     var propertylist = await findAllByCategoryService(req.params.category);
+    res.render("user/guest", {
+        categorylist: categorylist,
+        propertylist: propertylist
+    });
+}
+export const propertySearch = async (req, res, next) => {
+    let categorylist = await findAllCategoryService();
+    let search_array=req.body.search_text.split(" ");
+    var propertylist = await propertySearchService(search_array);
     res.render("user/guest", {
         categorylist: categorylist,
         propertylist: propertylist

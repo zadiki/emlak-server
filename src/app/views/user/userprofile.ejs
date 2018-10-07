@@ -58,10 +58,18 @@
                 <div class="col-6">
                     <div class="d-flex flex-column">
                         <div class="float-left mb-2">
-                            <span class="float-left mr-1"><i class="fas fa-bed fa-lg"></i>:1</span>
-                            <span class="float-left mr-1"><i class="fas fa-bath fa-lg"></i>:1</span>
+                            <%if(property.Bedroom !=="Not stated"){%>
+                            <span class="float-left mr-1"><i class="fas fa-bed fa-lg"></i>:<%=property.Bedroom%></span>
+                            <%}%>
+                            <%if(property.Bathroom !=="Not stated"){%>
+                            <span class="float-left mr-1"><i class="fas fa-bath fa-lg"></i>:<%=property.Bathroom%></span>
+                            <%}%>
+                            <%if(property.Parking !=="Not stated"){%>
                             <span class="float-left mr-1"><i class="fas fa-parking fa-lg"></i></span>
+                            <%}%>
+                            <%if(property.SwimmingPool !=="Not stated"){%>
                             <span class="float-left mr-1"><i class="fas fa-swimmer fa-lg"></i></span>
+                            <%}%>
                         </div>
                         <div class="float-left" >
                             <div>Address: <%=property.Address%></div>
@@ -81,20 +89,23 @@
                     </div>
                 </div>
             <div class="col-3">
-                    <div class="d-flex flex-column-reverse align-items-end " style="height: 100%;">
-                        <div class="bd-highlight">
+                    <div class="d-flex float-right flex-column-reverse align-items-start " style="height: 100%;">
+                        <div class="bd-highlight align-self-end">
                             <a href="/"><i class="far fa-eye-slash fa-lg"></i></a>
                             <a href="#"><i class="fas fa-edit fa-lg"></i></a>
                             <a href="#"><i class="fas fa-trash fa-lg"></i></a>
                         </div>
                         <div class="mb-auto">
-                            <div>Points<%=property.points%></div>
+                            <div class="float-left">Price: <%=property.Price%><%=property.SaleOrNot=="rent"?"/"+property.PaymentMode.substring(0,3):""%></div>
                         </div>
                         <div class="">
-                            <div>Viewed:<%=property.views%> times</div>
+                            <div class="float-left">Points: <%=property.points%></div>
                         </div>
                         <div class="">
-                            <div>Category: <%=property.Category%></div>
+                            <div class="float-right">Viewed: <%=property.views%> times</div>
+                        </div>
+                        <div class="">
+                            <div class="float-left">Category: <%=property.Category%></div>
                         </div>
                     </div>
             </div>

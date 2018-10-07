@@ -54,6 +54,8 @@ export default (app) => {
         .get(propertyController.propertyBycategoryPage);
     app.route("/userprofile")
         .get(userController.userprofilePage);
+    app.route("/property-search")
+        .post(propertyController.propertySearch);
     app.route("/test")
         .get(function (req,res) {
           res.render("test");

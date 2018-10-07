@@ -14,7 +14,11 @@ export const updatePropertyViewservice=(id)=>{
 export const findPropertyByUserIdService= (id)=>{
     return Property.find({"PostedBy":id}).sort({createdAt: -1}).exec();
 }
-
+export const propertySearchService= async(search)=>{
+    console.log("property search array ",search);
+    let property_list= await Property.find().exec();
+    return chunckedPropertyList(property_list);
+}
 
 export const postPropertyService=(property)=>{
     return property.save();

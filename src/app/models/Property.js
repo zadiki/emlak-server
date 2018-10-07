@@ -25,6 +25,7 @@ var PropertySchema = new Schema({
     Bedsize:{type:String,default:"Not stated"},
     NoOfBeds:{type:String,default:"Not stated"},
     HotShower:{type:String,default:"Not stated"},
+    SwimmingPool:{type:String,default:"Not stated"},
     BreakfastProvided:{type:String,default:"Not stated"},
     points:{type:Number,default:500},
     views:{type:Number,default:0}

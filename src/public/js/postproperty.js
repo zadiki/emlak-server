@@ -119,7 +119,7 @@ $(document).ready(function () {
         '                        </select>\n' +
         '                    </div>\n' +
         '                   <div class="form-group col-md-2">\n' +
-        '                        <label for="swimming_pool">Swimming pool available</label>\n' +
+        '                        <label for="swimming_pool">Pool</label>\n' +
         '                        <select name="swimming_pool" class="form-control" id="swimming_pool">\n' +
         '                            <option value="Yes">Yes</option>\n' +
         '                            <option value="No">No</option>\n' +
