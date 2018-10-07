@@ -16,7 +16,24 @@ export const findPropertyByUserIdService= (id)=>{
 }
 export const propertySearchService= async(search)=>{
     console.log("property search array ",search);
-    let property_list= await Property.find().exec();
+    let regex = search.join("|");
+    let property_list= await Property.find({$or:[
+        {"Address": {
+                        "$regex": regex,
+                        "$options": "i"
+                        }
+        },
+        {"Description": {
+            "$regex": regex,
+            "$options": "i"
+        }
+        },
+        {"Category": {
+            "$regex": regex,
+            "$options": "i"
+        }
+        }
+    ]}).exec();
     return chunckedPropertyList(property_list);
 }
 
