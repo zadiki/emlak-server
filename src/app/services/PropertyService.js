@@ -33,7 +33,7 @@ export const propertySearchService= async(search)=>{
             "$options": "i"
         }
         }
-    ]}).exec();
+    ]}).sort({"points":-1}).exec();
     return chunckedPropertyList(property_list);
 }
 
@@ -42,7 +42,7 @@ export const postPropertyService=(property)=>{
 }
 
 export const findAllByCategoryService=async(category)=>{
-    let propertylist= await Property.find({"Category":{ $regex: '.*' + category + '.*' } });
+    let propertylist= await Property.find({"Category":{ $regex: '.*' + category + '.*' } }).sort({"points":-1});
     return chunckedPropertyList(propertylist);
 }
 
