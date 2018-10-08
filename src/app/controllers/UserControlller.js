@@ -88,9 +88,22 @@ export const confirmEmail = (req, res, next) => {
     res.redirect("/home");
 }
 export const userprofilePage=async (req,res,next)=>{
-    let propertylist =await findPropertyByUserIdService(req.session.user._id)
+    let categorylist=await findAllCategory();
+    let propertylist =await findPropertyByUserIdService(req.session.user._id);
+    let category_list= [];
+    categorylist.forEach((category)=>{
+      let categoryObject = new Object();
+        categoryObject["Name"]=category.Name;
+        categoryObject["Count"]=0;
+        category_list.push(categoryObject);
+    });
+    propertylist.forEach((property)=>{
+        let index = category_list.findIndex(x=>x.Name==property.Category);
+        category_list[index].Count++;
+    });
+    console.log(category_list);
     res.render("user/userprofile",{
-        categorylist: await findAllCategory(),
+        categorylist: category_list,
         propertylist:propertylist
         });
 }
