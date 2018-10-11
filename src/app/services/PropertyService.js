@@ -19,9 +19,9 @@ export const propertySearchService= async(search)=>{
     let regex = search.join("|");
     let property_list= await Property.find({$or:[
         {"Address": {
-                        "$regex": regex,
-                        "$options": "i"
-                        }
+            "$regex": regex,
+            "$options": "i"
+        }
         },
         {"Description": {
             "$regex": regex,
@@ -36,15 +36,51 @@ export const propertySearchService= async(search)=>{
     ]}).sort({"points":-1}).exec();
     return chunckedPropertyList(property_list);
 }
+export const findByqueryService=async (queryObj)=>{
+    let location_regex = queryObj.location.join("|");
+    console.log(location_regex)
+    let category = queryObj.Category;
+    let propertytype = queryObj.propertytype;
+    let renttype = queryObj.renttype;
+    let propert_list= await Property.find({$and:[
+        {"Address": {
+            "$regex": location_regex,
+            "$options": "i"
+        }
+        },
+        {"Category":{
+            $regex: '.*' + category+ '.*',
+            "$options": "i"
+        }
+        },
+        {"SaleOrNot":{
+            $regex: '.*' + propertytype+ '.*',
+            "$options": "i"
+        }
+        },
+        {"PaymentMode":{
+            $regex: '.*' + renttype+ '.*'
+        }
+        }
 
+    ]}).sort({"points":-1}).exec();
+    return chunckedPropertyList(propert_list);
+}
 export const postPropertyService=(property)=>{
     return property.save();
 }
 
 export const findAllByCategoryService=async(category)=>{
-    let propertylist= await Property.find({"Category":{ $regex: '.*' + category + '.*' } }).sort({"points":-1});
+    let propertylist= await Property.find({
+        "Category":{
+            $regex: '.*' + category + '.*',
+            "$options": "i"
+        }
+    }).sort({"points":-1});
     return chunckedPropertyList(propertylist);
 }
+
+
 
 const chunckedPropertyList=(propertylist)=>{
     var chunkedpropertylist=[];

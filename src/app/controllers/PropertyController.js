@@ -1,6 +1,6 @@
 import Property from "../models/Property";
 import {findAllCategoryService,updateCategoryService} from "../services/CategoryService";
-import {postPropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService,propertySearchService} from "../services/PropertyService"
+import {postPropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService,propertySearchService,findByqueryService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
 
@@ -106,10 +106,25 @@ export const propertyBycategoryPage = async (req, res, next) => {
         propertylist: propertylist
     });
 }
+
 export const propertySearch = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     let search_array=req.body.search_text.split(" ");
     var propertylist = await propertySearchService(search_array);
+    res.render("user/guest", {
+        categorylist: categorylist,
+        propertylist: propertylist
+    });
+}
+export const propertyByQueryPage = async (req, res, next) => {
+    let queryObj = new Object();
+    queryObj["Category"]=req.query.category;
+    queryObj["location"]=Array.isArray(req.query.location)?req.query.location:new Array(req.query.location);
+    queryObj["propertytype"]=req.query.propertytype;
+    queryObj["renttype"]=req.query.renttype;
+
+    let propertylist= await findByqueryService(queryObj);
+    let categorylist = await findAllCategoryService();
     res.render("user/guest", {
         categorylist: categorylist,
         propertylist: propertylist

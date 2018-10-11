@@ -6,6 +6,7 @@
         min-width: 28em;
         min-height: 28em;
     }
+   .gmnoprint img { max-width: none; }
     .visibility-hidden{
         visibility:hidden;
     }
@@ -222,7 +223,7 @@
             });
         panorama.setVisible(true);
         map.setStreetView(panorama);
-        google.maps.event.trigger(panorama, 'resize');
+//        google.maps.event.trigger(panorama, 'resize');
         google.maps.event.addListener(marker, 'click', function (event) {
             var latitude = parseFloat(event.latLng.lat());
             var longitude = parseFloat(event.latLng.lng());
