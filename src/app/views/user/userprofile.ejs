@@ -91,9 +91,9 @@
             <div class="col-3">
                     <div class="d-flex float-right flex-column-reverse align-items-start " style="height: 100%;">
                         <div class="bd-highlight align-self-end">
-                            <a href="/"><i class="far fa-eye-slash fa-lg"></i></a>
-                            <a href="#"><i class="fas fa-edit fa-lg"></i></a>
-                            <a href="#"><i class="fas fa-trash fa-lg"></i></a>
+                            <span><i class="far fa-eye-slash fa-lg"></i></span>
+                            <span onClick="setModalWithData(<%= JSON.stringify(property)%>)"><i class="fas fa-edit fa-lg"></i></span>
+                            <span><i class="fas fa-trash fa-lg"></i></span>
                         </div>
                         <div class="mb-auto">
                             <div class="float-left">Price: <%=property.Price%><%=property.SaleOrNot=="rent"?"/"+property.PaymentMode.substring(0,3):""%></div>
@@ -115,6 +115,66 @@
         </div>
     </div>
 </div>
+<%- include ./partials/updatepropertydialog %>
 <%- include ../includes/navbottom %>
 <%- include ../includes/footerjavascript %>
+<script type="text/javascript">
+ function setModalWithData(property) {
+     console.log(property);
+     setMap(property.Location.coordinates);
+     var modal=$('#update_property_modal');
+     modal.find('#modal_property_type').val(property.Category);
+     modal.find('#modal_property_address-1').val(property.Address);
+     modal.find('#modal_property_price').val(property.Price);
+     modal.find('#modal_property_points').val(property.points);
+     modal.find('#modal_description').val(property.Description);
+     modal.modal('show');
+ }
+ function setMap(cordinates) {
+     var center = new google.maps.LatLng(cordinates[0],cordinates[1]);
+     var mapcanvas = document.getElementById('address_map');
+     var mapoptions = {
+         center: center,
+         zoom: 15,
+         panControl: true,
+         zoomControl: true,
+         mapTypeControl: true,
+         scaleControl: true,
+         streetViewControl: true,
+         overviewMapControl: true,
+         rotateControl: true,
+         mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+         navigationControl: true,
+         navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+     };
+     map = new google.maps.Map(mapcanvas, mapoptions);
+     var marker = new google.maps.Marker({
+         position: center,
+         map: map,
+         draggable: true
+     });
+     google.maps.event.addListener(marker, 'click', function (event) {
+         var latitude = parseFloat(event.latLng.lat());
+         var longitude = parseFloat(event.latLng.lng());
+         console.log(latitude + ', ' + longitude);
+         map.setZoom(15);
+         map.setCenter({lat: latitude, lng: longitude});
+         var geocoder = new google.maps.Geocoder();
+         geocoder.geocode({
+             'latLng': event.latLng
+         }, function(results, status) {
+             if (status == google.maps.GeocoderStatus.OK) {
+                 if (results[0]) {
+//
+                     var address=results[0].formatted_address.split(" ").filter(e=>e!='unnamed').join(" ");
+                     $('#modal_property_address-1').val(address);
+                 }
+             }
+         });
+     });
+
+ }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0"></script>
 <%- include ../includes/footer %>
