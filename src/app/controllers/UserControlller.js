@@ -101,7 +101,6 @@ export const userprofilePage=async (req,res,next)=>{
         let index = category_list.findIndex(x=>x.Name==property.Category);
         category_list[index].Count++;
     });
-    console.log(category_list);
     res.render("user/userprofile",{
         categorylist: category_list,
         propertylist:propertylist

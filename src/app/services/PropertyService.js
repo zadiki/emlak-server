@@ -79,6 +79,16 @@ export const findAllByCategoryService=async(category)=>{
     }).sort({"points":-1});
     return chunckedPropertyList(propertylist);
 }
+export const updatePropertyService = (id,newObj)=>{
+    return Property.findOneAndUpdate({_id:id},{
+            $set:newObj
+        },
+        { upsert: false },function(err, property) {
+            if (err)
+                console.log(err);
+            return true;
+        });
+}
 
 
 

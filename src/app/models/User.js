@@ -13,7 +13,8 @@ var UserSchema = new Schema({
     Phone: { type: String, required: true, unique: true },
     image: String,
     AccountStatus: { type: Number, default: 0 },
-    UserLevel: { type: Number, default: 1}
+    UserLevel: { type: Number, default: 1},
+    Points:{type:Number,default:10}
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });

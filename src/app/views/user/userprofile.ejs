@@ -120,12 +120,15 @@
 <%- include ../includes/footerjavascript %>
 <script type="text/javascript">
  function setModalWithData(property) {
+     var max=<%- session.user.Points %>;
      console.log(property);
      setMap(property.Location.coordinates);
      var modal=$('#update_property_modal');
+     modal.find('#modal_property_id').val(property._id);
      modal.find('#modal_property_type').val(property.Category);
      modal.find('#modal_property_address-1').val(property.Address);
      modal.find('#modal_property_price').val(property.Price);
+     modal.find('#modal_property_points').attr("max",property.points+max);
      modal.find('#modal_property_points').val(property.points);
      modal.find('#modal_description').val(property.Description);
      modal.modal('show');

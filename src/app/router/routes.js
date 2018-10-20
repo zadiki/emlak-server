@@ -61,5 +61,6 @@ export default (app) => {
         .get(function (req,res) {
           res.render("test");
         });
-
+     app.route("/propertyupdate")
+         .post(propertyController.updateproperty);
 }

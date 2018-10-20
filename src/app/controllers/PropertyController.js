@@ -1,13 +1,12 @@
 import Property from "../models/Property";
 import {findAllCategoryService,updateCategoryService} from "../services/CategoryService";
-import {postPropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService,propertySearchService,findByqueryService} from "../services/PropertyService"
+import {postPropertyService,updatePropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService,propertySearchService,findByqueryService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
 
 export const getAddPropertypage = async (req, res, next) => {
 
     let categorylist = await findAllCategoryService();
-    console.log(categorylist);
     var propertylist = await findAllPropertyService();
 
     res.render("property/postproperty", {
@@ -23,18 +22,6 @@ export const getPropertypage = async(req, res) => {
 }
 
 export const addpropertymiddleware = (req, res, next) => {
-    // upload(req, res, function (err) {
-    //     if (err) {
-    //         res.send("cannot upload the files ,please ensure you upload images,of max size 50kb");
-    //     } else {
-    //         let imageurls = [];
-    //         req.files.forEach((image) => {
-    //             imageurls.push("property/" + image.filename);
-    //         });
-    //         req.imageurls = imageurls;
-    //         next();
-    //     }
-    // });
     multer(req,res,async function (err) {
         if(err){
             console.log(err)
@@ -75,7 +62,7 @@ export const addproperty = async (req, res) => {
     }
     else {
         property.Category = req.body.property;
-        updateCategoryService(property.Category);
+        updateCategoryService(property.Category.trim());
         property.SaleOrNot = req.body.sale_or_rent;
         property.PaymentMode = req.body.paymentmode;
         let addr_arr=req.body.address.split(" ");
@@ -88,8 +75,8 @@ export const addproperty = async (req, res) => {
            }
         });
         property.Address =add_subst_arr.join(" ");
-        property.Price = req.body.price;
-        property.Description = req.body.description;
+        property.Price = req.body.price.trim();
+        property.Description = req.body.description.trim();
         property.Location.coordinates = [req.body.latitude, req.body.longitude];
         await postPropertyService(property);
 
@@ -97,7 +84,26 @@ export const addproperty = async (req, res) => {
     }
 
 }
+export const updateproperty=async(req,res)=>{
+    let id = req.body.property_id
+    let propertyobj= new Object();
+    propertyobj["Category"]   =req.body.property_type.trim();
+    propertyobj["Price"]      =req.body.property_price.trim();
+    propertyobj["points"]     =req.body.property_points.trim();
+    propertyobj["Address"]    =req.body.property_address.trim();
+    propertyobj["Description"]=req.body.description.trim();
+    if(req.body.property_paymentmode=="sale"){
+        propertyobj["PaymentMode"]="";
+        propertyobj["SaleOrNot"]="sale";
+    }else{
+        propertyobj["PaymentMode"]=req.body.property_paymentmode.trim();
+        propertyobj["SaleOrNot"]="rent";
+    }
 
+    await updatePropertyService(id,propertyobj);
+    console.log(req.body);
+    res.redirect('back');
+}
 export const propertyBycategoryPage = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     var propertylist = await findAllByCategoryService(req.params.category);
@@ -118,7 +124,7 @@ export const propertySearch = async (req, res, next) => {
 }
 export const propertyByQueryPage = async (req, res, next) => {
     let queryObj = new Object();
-    queryObj["Category"]=req.query.category;
+    queryObj["Category"]=req.query.category.trim();
     queryObj["location"]=Array.isArray(req.query.location)?req.query.location:new Array(req.query.location);
     queryObj["propertytype"]=req.query.propertytype;
     queryObj["renttype"]=req.query.renttype;
