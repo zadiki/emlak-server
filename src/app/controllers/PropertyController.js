@@ -2,7 +2,7 @@ import Property from "../models/Property";
 import {findAllCategoryService,updateCategoryService} from "../services/CategoryService";
 import {postPropertyService,updatePropertyService, findAllPropertyService,findPropertyByIdService,findAllByCategoryService,propertySearchService,findByqueryService} from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
-import  {multer,sendUploadToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
+import  {sendMultipleImagesToGCS,multipleUploadMulter,deleteFilefromGcp}from "../utils/GcloudImageStorage";
 
 export const getAddPropertypage = async (req, res, next) => {
 
@@ -27,7 +27,7 @@ export const addpropertymiddleware = (req, res, next) => {
             console.log(err)
 
         }else{
-            let image = await sendUploadToGCS(req,res,next);
+            let image = await multipleUploadMulter(req,res,next);
             image.length>0 ? req.image_urls=image:req.image_urls="";
         }
         next();

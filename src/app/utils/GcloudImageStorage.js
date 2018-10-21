@@ -10,7 +10,7 @@ const storage = new Storage({
 const bucket = storage.bucket(GCLOUD_BUCKET);
 
 
-async function sendUploadToGCS (req, res, next){
+async function sendMultipleImagesToGCS(req, res, next){
         var image_public_urls=[];
         var promises = req.files.map((image)=>{
             const image_name = Date.now()+ image.originalname;
@@ -51,11 +51,11 @@ const getPublicUrl =(filename)=> {
     let public_url=`https://storage.googleapis.com/${GCLOUD_BUCKET}/${filename}`;
     return public_url;
 }
-const  multer = Multer({
+const  multipleUploadMulter = Multer({
     storage: Multer.MemoryStorage,
     fileFilter: function (req, file, callback) {
       var ext = path.extname(file.originalname);
-      if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+      if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg' && ext !== '.ico') {
           return callback(new Error('Only images are allowed'))
         }
       callback(null, true)
@@ -64,6 +64,21 @@ const  multer = Multer({
         fileSize: 5 * 1024 * 1024 // no larger than 5mb
     }
 }).array("propertyimage",3);
+
+const  singleUploadMulter = Multer({
+    storage: Multer.MemoryStorage,
+    fileFilter: function (req, file, callback) {
+        var ext = path.extname(file.originalname);
+        if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            return callback(new Error('Only images are allowed'))
+        }
+        callback(null, true)
+    },
+    limits: {
+        fileSize: 5 * 1024 * 1024 // no larger than 5mb
+    }
+}).single("profile_photo");
+
 
 const deleteFilefromGcp=(image_file)=>{
 
@@ -83,6 +98,7 @@ const deleteFilefromGcp=(image_file)=>{
 
 module.exports = {
     deleteFilefromGcp,
-    sendUploadToGCS,
-    multer
+    sendMultipleImagesToGCS,
+    singleUploadMulter,
+    multipleUploadMulter
 };

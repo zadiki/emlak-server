@@ -3,8 +3,8 @@ import User from "../models/User";
 export  const findAllUserService=()=>{
     return User.find().exec();
 }
-export  const findUserByIdService=()=>{
-
+export  const findUserByIdService=(id)=>{
+    return User.find({_id:id}).select('-Password  -_id').exec();
 }
 export const registerUserService = (userInfo)=>{
     let user = new User(userInfo)
@@ -12,7 +12,6 @@ export const registerUserService = (userInfo)=>{
     return user.save();
 }
 export const updateUserStatusService = (id)=>{
-    console.log(id);
     return User.findOneAndUpdate({_id:id},{
             $set:{AccountStatus:1}
         },

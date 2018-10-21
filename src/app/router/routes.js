@@ -54,6 +54,13 @@ export default (app) => {
         .get(propertyController.propertyBycategoryPage);
     app.route("/userprofile")
         .get(userController.userprofilePage);
+    app.route("/userprofile/userinfo")
+        .get(userController.userprofileinfoPage)
+        .post(userController.updateUsermiddleware,function (req,res) {
+            console.log(req.body);
+            res.send(req.body)
+        });
+
     app.route("/property-search")
         .get(propertyController.propertyByQueryPage)
         .post(propertyController.propertySearch);

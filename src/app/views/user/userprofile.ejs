@@ -2,8 +2,13 @@
 <%- include ../includes/headercsslinks %>
 <link rel="stylesheet" href="css/login.css"/>
 <%- include ../includes/closingheader %>
+<style>
+    #upload{
+        display:none
+    }
+</style>
 <%- include ../includes/navheader %>
-<%- include ./partials/propertysearch %>
+<!--<%- include ./partials/propertysearch %>-->
 <%- include ../includes/functions%>
 <div class="row h-100" style="margin-top:0.1em;">
     <div class="col-0  col-sm-2 col-md-3 col-lg-3 col-xl-2">
@@ -30,7 +35,7 @@
             </a>
                 <div id="collapsetwo" class="collapse" aria-labelledby="profile-accordion-2" data-parent="#profile-accordion-title">
                     <ul class="list-group list-group-flush">
-                        <a href="" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/userprofile/userinfo" class="list-group-item d-flex justify-content-between align-items-center">
                             View my profile
                         </a>
                         <a href="" class="list-group-item d-flex justify-content-between align-items-center">
@@ -45,7 +50,7 @@
 
     <div class="col-12 col-sm-10 col-md-9 col-lg-9 col-xl-10">
         <div class="container-fluid">
-            <% if(propertylist) { %>
+            <% if(typeof propertylist != 'undefined' ) { %>
             <% propertylist.forEach(function(property){%>
             <div class="row mb-2 ml-1 border border-info">
                 <div class="col-3 nopadding ">
@@ -112,13 +117,92 @@
             </div>
             <%})%>
             <%}%>
+            <%if(typeof userprofile != 'undefined'){%>
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="/userprofile/userinfo" method="post" enctype="multipart/form-data" >
+                                <div class="row justify-content-center">
+                                    <div class="col-2">
+                                        <img src="<%=userprofile.Avatar%>" class="rounded float-left" alt="..." style="max-width: 100%;height: auto;">
+                                        <input id="upload" type="file" name="profile_photo"/>
+                                        <a href="" id="upload_link">Edit Photo</a>​
+                                    </div>
+                                    <div class="col-md-10 ">
+                                        <h4>Your Profile</h4>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                            <div class="form-group row">
+                                                <label for="username" class="col-4 col-form-label">Profile Name</label>
+                                                <div class="col-8">
+                                                    <input id="username" name="profile_name" placeholder="Username" class="form-control here" required="required" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="name" class="col-4 col-form-label">First Name</label>
+                                                <div class="col-8">
+                                                    <input id="name" name="first_name" placeholder="First Name" class="form-control here" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                                <div class="col-8">
+                                                    <input id="lastname" name="last_name" placeholder="Last Name" class="form-control here" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="email" class="col-4 col-form-label">Email*</label>
+                                                <div class="col-8">
+                                                    <input id="email" disabled name="email" class="form-control here" placeholder="<%=userprofile.Email%>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="website" class="col-4 col-form-label">Website</label>
+                                                <div class="col-8">
+                                                    <input id="website" name="website" placeholder="website" class="form-control here" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="publicinfo" class="col-4 col-form-label">Public Info</label>
+                                                <div class="col-8">
+                                                    <textarea id="publicinfo" name="public_info" cols="40" rows="4" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="offset-4 col-8">
+                                                    <button type="submit" class="btn btn-primary">Update My Profile</button>
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+            <%}%>
         </div>
     </div>
 </div>
 <%- include ./partials/updatepropertydialog %>
 <%- include ../includes/navbottom %>
 <%- include ../includes/footerjavascript %>
+<script>
+    $(function(){
+        $("#upload_link").on('click', function(e){
+            e.preventDefault();
+            $("#upload:hidden").trigger('click');
+        });
+    });
+</script>
 <script type="text/javascript">
+
  function setModalWithData(property) {
      var max=<%- session.user.Points %>;
      console.log(property);
