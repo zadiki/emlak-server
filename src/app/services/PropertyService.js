@@ -95,7 +95,7 @@ export const updatePropertyService = (id,newObj)=>{
 const chunckedPropertyList=(propertylist)=>{
     var chunkedpropertylist=[];
     var chunksize=12;
-    for(var i=0;i<propertylist.length; i=+chunksize){
+    for(var i=0;i<propertylist.length; i+=chunksize){
         chunkedpropertylist.push(propertylist.slice(i,i+chunksize));
     }
     return chunkedpropertylist;
