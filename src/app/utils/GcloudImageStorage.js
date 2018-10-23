@@ -13,19 +13,20 @@ const bucket = storage.bucket(GCLOUD_BUCKET);
 
 async function sendMultipleImagesToGCS(req, res, next){
         var image_public_urls=[];
-        var promises = req.files.map(async (image)=>{
-            const image_name = Date.now()+ image.originalname;
+        let user_id=req.session.user._id;
+        var promises = req.files.map((image)=>{
+            const image_name = user_id+"/"+Date.now()+ image.originalname;
 
             const file = bucket.file(image_name);
-            await sharp(image.buffer)
-                .resize(5,5)
+            return sharp(image.buffer)
+                .resize(225,180)
                 .toFormat(image.originalname.split(".").reverse()[0])
-                .toBuffer(function (err,data,info) {
-                    console.log('My data',data);
+                .toBuffer()
+                .then((data)=>{
                 image.buffer=data;
-            });
-            console.log("my image",image);
-            return new Promise((resolve,reject)=>{file
+                console.log("data 2",data);
+                console.log("my image",image);
+                 return new Promise((resolve,reject)=>{file
                 .createWriteStream({
                         metadata: {
                             contentType: image.mimetype
@@ -48,6 +49,7 @@ async function sendMultipleImagesToGCS(req, res, next){
                     })
                     .end(image.buffer)});
             });
+        });
         await Promise.all(promises)
         .then((images)=>{
           // console.log("promises finished",images);
