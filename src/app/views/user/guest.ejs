@@ -20,11 +20,14 @@
                             <img class="card-img-top rounded-0" style="height:10em;" src="<%= property.ImageUrl.length>0 ? property.ImageUrl[0] : 'images/company/logo.jpg'%>" alt="Card image cap">
                         </a>
                         <div class="bottom-wrap m-0 bg-transparent">
+
                             <% var addr=formatAddress(property.Address)%>
-                            <span class="m-1 text-primary"><%=property.Category%><%= property.SaleOrNot !=" "?" for "+property.SaleOrNot:""%></span>
+                            <span class="ml-1 text-primary"><%=property.Category%><%= property.SaleOrNot !=" "?" for "+property.SaleOrNot:""%></span>
 
                             <div class="container ml-1">
-                                <span class="row mt-1 h9 text-primary"><%=addr%></span>
+                                <div style="min-height: 3em;margin-top: 0.3px;">
+                                <span class="row  h9 text-primary"><%=addr%></span>
+                                </div>
                                 <span class="row mt-1  pr-1" style="font-size: 12px;">Ksh:<%= property.Price%> <%= property.SaleOrNot=="rent"? "/"+property.PaymentMode.substring(0,3):""%></span>
                                 <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
