@@ -2,6 +2,7 @@ import {GCLOUD_BUCKET,DATA_BACKEND,GCLOUD_PROJECT}from "./Constants";
 import {Storage} from "@google-cloud/storage";
 import Multer from "multer";
 import path from "path";
+import sharp from "sharp";
 
 const storage = new Storage({
     projectId: GCLOUD_PROJECT,
@@ -12,10 +13,18 @@ const bucket = storage.bucket(GCLOUD_BUCKET);
 
 async function sendMultipleImagesToGCS(req, res, next){
         var image_public_urls=[];
-        var promises = req.files.map((image)=>{
+        var promises = req.files.map(async (image)=>{
             const image_name = Date.now()+ image.originalname;
+
             const file = bucket.file(image_name);
-            console.log("awesome")
+            await sharp(image.buffer)
+                .resize(5,5)
+                .toFormat(image.originalname.split(".").reverse()[0])
+                .toBuffer(function (err,data,info) {
+                    console.log('My data',data);
+                image.buffer=data;
+            });
+            console.log("my image",image);
             return new Promise((resolve,reject)=>{file
                 .createWriteStream({
                         metadata: {
@@ -75,7 +84,7 @@ const  singleUploadMulter = Multer({
         callback(null, true)
     },
     limits: {
-        fileSize: 5 * 1024 * 1024 // no larger than 5mb
+        fileSize: 1 * 1024 * 1024 // no larger than 1mb
     }
 }).single("profile_photo");
 

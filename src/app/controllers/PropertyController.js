@@ -22,12 +22,12 @@ export const getPropertypage = async(req, res) => {
 }
 
 export const addpropertymiddleware = (req, res, next) => {
-    multer(req,res,async function (err) {
+    multipleUploadMulter(req,res,async function (err) {
         if(err){
             console.log(err)
 
         }else{
-            let image = await multipleUploadMulter(req,res,next);
+            let image = await sendMultipleImagesToGCS(req,res,next);
             image.length>0 ? req.image_urls=image:req.image_urls="";
         }
         next();
