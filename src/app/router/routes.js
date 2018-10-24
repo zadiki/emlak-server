@@ -1,7 +1,7 @@
 import passport from "passport";
 import * as userController from "../controllers/UserControlller";
 import * as categoryController from "../controllers/CategoryController";
-import  * as propertyController from "../controllers/PropertyController";
+import * as propertyController from "../controllers/PropertyController";
 
 export default (app) => {
     app.route("/")
@@ -38,15 +38,17 @@ export default (app) => {
 
     app.route("/postanAdvert")
         .get(propertyController.getAddPropertypage)
-        .post(propertyController.addpropertymiddleware,propertyController.addproperty);
+        .post(propertyController.addpropertymiddleware, propertyController.addproperty);
 
     app.route("/propertydetails/:id")
         .get(propertyController.getPropertypage);
 
     app.route("/imageuploadtest")
-        .get((req,res)=>{res.render("imageupload")})
-        .post(propertyController.addpropertymiddleware,function (req,res) {
-            var image_urls= req.image_urls;
+        .get((req, res) => {
+            res.render("imageupload")
+        })
+        .post(propertyController.addpropertymiddleware, function (req, res) {
+            var image_urls = req.image_urls;
             res.send(image_urls)
         });
 
@@ -56,7 +58,7 @@ export default (app) => {
         .get(userController.userprofilePage);
     app.route("/userprofile/userinfo")
         .get(userController.userprofileinfoPage)
-        .post(userController.updateUsermiddleware,function (req,res) {
+        .post(userController.updateUsermiddleware, function (req, res) {
             console.log(req.body);
             res.send(req.body)
         });
@@ -65,9 +67,9 @@ export default (app) => {
         .get(propertyController.propertyByQueryPage)
         .post(propertyController.propertySearch);
     app.route("/test")
-        .get(function (req,res) {
-          res.render("test");
+        .get(function (req, res) {
+            res.render("test");
         });
-     app.route("/propertyupdate")
-         .post(propertyController.updateproperty);
+    app.route("/propertyupdate")
+        .post(propertyController.updateproperty);
 }

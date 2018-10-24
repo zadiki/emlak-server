@@ -1,10 +1,9 @@
 import passport from "passport";
 import localStrategy from "passport-local";
 import User from '../models/User';
-import  * as Constants  from "../utils/Constants";
+import * as Constants from "../utils/Constants";
 
 const LocalStrategy = localStrategy.Strategy;
-
 
 export default () => {
     passport.serializeUser(function (user, done) {
@@ -28,22 +27,22 @@ export default () => {
         if (errors) {
             return done(null, false, req.flash('errors', errors));
         }
-        User.findOne({ 'Email': email }, (err, user) => {
+        User.findOne({'Email': email}, (err, user) => {
             if (err) {
-                return done(null, false, req.flash('errors', [{ msg: err}]));
+                return done(null, false, req.flash('errors', [{msg: err}]));
             }
 
             if (!user) {
-                return done(null, false, req.flash('errors', [{ msg: 'User with such email does not exist'}]));
+                return done(null, false, req.flash('errors', [{msg: 'User with such email does not exist'}]));
             }
             if (!user.validPassword(password)) {
-                return done(null, false, req.flash('errors', [{ msg: 'Password incorrect.'}]));
+                return done(null, false, req.flash('errors', [{msg: 'Password incorrect.'}]));
             }
             if (user.AccountStatus == Constants.USER_STATUS_PENDING) {
-                return done(null, false, req.flash('errors', [{ msg: 'You need to confirm your email.'}]));
+                return done(null, false, req.flash('errors', [{msg: 'You need to confirm your email.'}]));
             }
             if (user.AccountStatus == Constants.USER_STATUS_VOIDED) {
-                return done(null, false, req.flash('errors', [{ msg: 'Your account has been deactivated. Please contact your HR for reactivation.'}]));
+                return done(null, false, req.flash('errors', [{msg: 'Your account has been deactivated. Please contact your HR for reactivation.'}]));
             }
             req.session.user = user;
             return done(null, user);

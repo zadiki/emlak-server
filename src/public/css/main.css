@@ -45,7 +45,11 @@
     vertical-align: middle;
 }
 
-
+word_wrap {
+    width: 15em;
+    word-break: break-all;
+    white-space: normal;
+}
 
 body {
     padding: 0;

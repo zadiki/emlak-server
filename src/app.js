@@ -14,10 +14,7 @@ import mongostore from "connect-mongo";
 
 import routes from "./app/router/routes";
 import passportauth from "./app/config/passport";
-import  * as Constants  from "./app/utils/Constants";
-
-
-
+import * as Constants from "./app/utils/Constants";
 
 var MongoStore = mongostore(session);
 var app = express();
@@ -37,26 +34,23 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 
-
 //views engine setup
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/app/views'));
 app.set('view engine', 'ejs');
 
-
 const options = {
     useNewUrlParser: true,
-    autoIndex: false, // Don't build indexes
-    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-    reconnectInterval: 500, // Reconnect every 500ms
-    poolSize: 10, // Maintain up to 10 socket connections
-    // If not connected, return errors immediately rather than waiting for reconnect
+    autoIndex: false,
+    reconnectTries: Number.MAX_VALUE,
+    reconnectInterval: 500,
+    poolSize: 10,
     bufferMaxEntries: 0,
-    connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
+    connectTimeoutMS: 10000,
     socketTimeoutMS: 45000,
-    family: 4 // Use IPv4, skip trying IPv6
+    family: 4
 };
-mongoose.connect(Constants.MONGODB_URL,options);
+mongoose.connect(Constants.MONGODB_URL, options);
 
 app.use(session({
     secret: 'iProcureSecretCode',
@@ -67,7 +61,6 @@ app.use(session({
 }));
 
 passportauth();
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -87,9 +80,9 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
-app.get("/test",function (req,res) {
-  res.send("Success");
 
+app.get("/test", function (req, res) {
+    res.send("Success");
 })
 
 app.use(function (err, req, res, next) {

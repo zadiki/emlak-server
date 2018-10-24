@@ -2,13 +2,17 @@
 <%- include ../includes/headercsslinks %>
 <link rel="stylesheet" href="css/login.css"/>
 <style>
-   .street-view-size {
+    .street-view-size {
         min-width: 28em;
         min-height: 28em;
     }
-   .gmnoprint img { max-width: none; }
-    .visibility-hidden{
-        visibility:hidden;
+
+    .gmnoprint img {
+        max-width: none;
+    }
+
+    .visibility-hidden {
+        visibility: hidden;
     }
 </style>
 <%- include ../includes/closingheader %>
@@ -17,7 +21,8 @@
     <div class="col-md-12 mt-2">
         <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="images-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                <a class="nav-link active" id="images-tab" data-toggle="tab" href="#home" role="tab"
+                   aria-controls="home"
                    aria-selected="true">Images</a>
             </li>
             <li class="nav-item">
@@ -36,11 +41,12 @@
     <div class="col-md-5">
         <div class="tab-content " id="myTabContent" style="max-width: 100%;">
             <div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="images-tab">
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" >
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <% for(var i = 0;i < property.ImageUrl.length;i++){ %>
                         <div class="carousel-item <%= i == 0 ? "active" : "" %>">
-                            <img class="d-block w-100" src="<%= property.ImageUrl[i] %>" alt="First slide" style="height:20em;">
+                            <img class="d-block w-100" src="<%= property.ImageUrl[i] %>" alt="First slide"
+                                 style="height:20em;">
                         </div>
                         <% } %>
                     </div>
@@ -76,9 +82,11 @@
     <div class="col-md-3">
         <div class="clearfix rounded-0 ">
             <div class="list-group rounded-0">
-                <button type="button" class="list-group-item rounded-0 bg-success justify-content-center">KSH: <%=property.Price%><%= property.SaleOrNot=="rent"? "  per "+property.PaymentMode:""%>
+                <button type="button" class="list-group-item rounded-0 bg-success justify-content-center">
+                    KSH: <%= property.Price %><%= property.SaleOrNot == "rent" ? "  per " + property.PaymentMode : "" %>
                 </button>
-                <button type="button" class="list-group-item rounded-0 justify-content-center"><%=property.Address.length>0 ?property.Address:"Not Stated"%>
+                <button type="button"
+                        class="list-group-item rounded-0 justify-content-center"><%= property.Address.length>0 ?property.Address:"Not Stated" %>
                 </button>
                 <button type="button" class="list-group-item rounded-0 list-group-item-action d-flex flex-row">
                     <span class="float-left p-2 flex-fill bg-success rounded-0">36</span>
@@ -91,7 +99,7 @@
                 <div class="card rounded-0" style="">
                     <div class="card-body">
                         <h5 class="card-title">Description</h5>
-                        <p class="card-text"><%=property.Description%></p>
+                        <p class="card-text"><%= property.Description %></p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
@@ -107,19 +115,21 @@
             <div class="card rounded-0 bg-light p-1">
                 <div class="row justify-content-center">
                     <div class="col-md-6 mt-2">
-                        <a href="members/<%=property.PostedBy._id%>">
-                            <img class="card-img-top rounded-0 mb-2" src="<%=property.PostedBy.image ?property.PostedBy.image:"images/company/logo.jpg"%>" alt="Card image cap"
+                        <a href="members/<%= property.PostedBy._id %>">
+                            <img class="card-img-top rounded-0 mb-2"
+                                 src="<%= property.PostedBy.image ?property.PostedBy.image:"images/company/logo.jpg" %>"
+                                 alt="Card image cap"
                                  style="max-height: 10em;">
                         </a>
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <span class="col-8 mb-2 align-content-center"><%=property.PostedBy.Fname+" "+property.PostedBy.Lname%></span>
+                    <span class="col-8 mb-2 align-content-center"><%= property.PostedBy.Fname+" "+property.PostedBy.Lname %></span>
                 </div>
                 <div class="row justify-content-center">
                     <div class="list-group border-0 mb-1 rounded-0 col-8">
                         <button type="button" class="list-group-item rounded-0 bg-light show-phone ">contact
-                            <%= property.PostedBy.Phone.substring(0,4)+"****"%>
+                            <%= property.PostedBy.Phone.substring(0, 4) + "****" %>
                         </button>
                     </div>
                     <div class="list-group border-0 mb-1 rounded-0 col-8">
@@ -127,8 +137,9 @@
                         </button>
                     </div>
                     <div class="list-group border-0 mb-1 rounded-0 col-8">
-                        <a type="button" href="tel: <%=property.PostedBy.Phone%>" class="list-group-item rounded-0 bg-light d-none phone ">Call
-                            <%=property.PostedBy.Phone%>
+                        <a type="button" href="tel: <%= property.PostedBy.Phone %>"
+                           class="list-group-item rounded-0 bg-light d-none phone ">Call
+                            <%= property.PostedBy.Phone %>
                         </a>
                     </div>
                     <div class="list-group border-0 mb-1 rounded-0 col-8">
@@ -188,7 +199,7 @@
     var map;
 
     function initMap() {
-        var center = new google.maps.LatLng(<%= property.Location.coordinates[0]+","+property.Location.coordinates[1] %>);
+        var center = new google.maps.LatLng(<%= property.Location.coordinates[0] + "," + property.Location.coordinates[1] %>);
         var mapcanvas = document.getElementById('mymap');
         var mapoptions = {
             center: center,
@@ -232,12 +243,14 @@
             map.setCenter({lat: latitude, lng: longitude});
         });
     }
-    $("#streetview-tab").on("shown.bs.tab",function () {
+
+    $("#streetview-tab").on("shown.bs.tab", function () {
         $("#streetview").removeClass("visibility-hidden");
     });
 
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"></script>
 <script>
     var requrl = "https://maps.googleapis.com/maps/api/geocode/json?address=kondele&key=AIzaSyBwhrpQUNvleCxLuHiF1MGJ9Xo_801P2zk";
     var coordinate = $.getJSON(requrl, function (data) {

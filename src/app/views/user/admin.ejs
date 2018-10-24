@@ -4,7 +4,7 @@
 <%- include ../includes/closingheader %>
 <%- include ../includes/navheader %>
 <%- include ./partials/propertysearch %>
-<%- include ../includes/functions%>
+<%- include ../includes/functions %>
 <div class="row h-100" style="margin-top:0.1em;">
     <%- include ./partials/sideselection %>
     <div class="col-12 col-sm-10 col-md-9 col-lg-9 col-xl-10">
@@ -22,12 +22,15 @@
                                  alt="Card image cap">
                         </a>
                         <div class="bottom-wrap m-0 bg-transparent">
-                            <% var addr=formatAddress(property.Address)%>
+                            <% var addr = formatAddress(property.Address) %>
 
-                            <span class="m-1 text-primary"><%=property.Category%><%= property.SaleOrNot !=" "?" for "+property.SaleOrNot:""%></span>
+                            <span class="m-1 text-primary"><%= property.Category %><%= property.SaleOrNot != " " ? " for " + property.SaleOrNot : "" %></span>
                             <div class="container ml-1">
-                                <span class="row mt-1 h9 text-primary"><%=addr%></span>
-                                <span class="row mt-1  pr-1" style="font-size: 12px;">Ksh:<%= property.Price%> <%= property.SaleOrNot=="rent"? "/"+property.PaymentMode.substring(0,3):""%></span>
+                                <div style="min-height: 3em;margin-top: 0.3px;">
+                                    <span class="row  h9 text-primary"><%= addr %></span>
+                                </div>
+                                <span class="row mt-1  pr-1"
+                                      style="font-size: 12px;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
                                 <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
@@ -42,7 +45,6 @@
                 </div>
 
                 <% }); %>
-
 
             </div>
 

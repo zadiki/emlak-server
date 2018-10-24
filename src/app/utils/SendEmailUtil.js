@@ -1,4 +1,3 @@
-
 import nodemailer from "nodemailer";
 import ejs from "ejs";
 import path from "path";
@@ -15,16 +14,16 @@ const transporter = nodemailer.createTransport({
 });
 
 
-export const sendEmail = (user,req) => {
+export const sendEmail = (user, req) => {
 
-    var hostname = req.protocol +"://"+req.get('host');
+    var hostname = req.protocol + "://" + req.get('host');
     console.log(__dirname);
-      var dirname = __dirname.split(path.sep).reverse()[2];
-      console.log(dirname);
-    ejs.renderFile(dirname+"/app/views/email.ejs", { user:user,hostname:hostname }, function (err, data) {
+    var dirname = __dirname.split(path.sep).reverse()[2];
+    console.log(dirname);
+    ejs.renderFile(dirname + "/app/views/email.ejs", {user: user, hostname: hostname}, function (err, data) {
 
         if (err) {
-            console.log("from mail controller",err);
+            console.log("from mail controller", err);
         } else {
             var mainOptions = {
                 from: '"IPROCURE  HUMAN RESOURCE" zadikiochola@gmail.com',

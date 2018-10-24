@@ -4,7 +4,7 @@
 <%- include ../includes/closingheader %>
 <%- include ../includes/navheader %>
 <%- include ./partials/propertysearch %>
-<%- include ../includes/functions%>
+<%- include ../includes/functions %>
 <div class="row h-100" style="margin-top:0.1em;">
     <%- include ./partials/sideselection %>
     <div class="col-12 col-sm-10 col-md-9 col-lg-9 col-xl-10">
@@ -13,22 +13,22 @@
             <% propertylist.forEach(function(chunk){ %>
             <div class="row">
                 <% chunk.forEach(function (property) { %>
-
                 <div class="col-6 col-xs-6 col-sm-4 col-lg-3 col-md-4 col-xl-2" style="margin-bottom: 1rem;">
                     <div class="card rounded-0 property-card">
-                        <a href="propertydetails/<%=property._id%>">
-                            <img class="card-img-top rounded-0" style="height:10em;" src="<%= property.ImageUrl.length>0 ? property.ImageUrl[0] : 'images/company/logo.jpg'%>" alt="Card image cap">
+                        <a href="propertydetails/<%= property._id %>">
+                            <img class="card-img-top rounded-0" style="height:10em;"
+                                 src="<%= property.ImageUrl.length > 0 ? property.ImageUrl[0] : 'images/company/logo.jpg' %>"
+                                 alt="Card image cap">
                         </a>
                         <div class="bottom-wrap m-0 bg-transparent">
-
-                            <% var addr=formatAddress(property.Address)%>
-                            <span class="ml-1 text-primary"><%=property.Category%><%= property.SaleOrNot !=" "?" for "+property.SaleOrNot:""%></span>
-
+                            <% var addr = formatAddress(property.Address) %>
+                            <span class="ml-1  text-primary"><%= property.Category %><%= property.SaleOrNot != " " ? " for " + property.SaleOrNot : "" %></span>
                             <div class="container ml-1">
                                 <div style="min-height: 3em;margin-top: 0.3px;">
-                                <span class="row  h9 text-primary"><%=addr%></span>
+                                    <span class="row  h9 text-primary  mr-1"><%= addr %></span>
                                 </div>
-                                <span class="row mt-1  pr-1" style="font-size: 12px;">Ksh:<%= property.Price%> <%= property.SaleOrNot=="rent"? "/"+property.PaymentMode.substring(0,3):""%></span>
+                                <span class="row mt-1  pr-1"
+                                      style="font-size: 12px;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
                                 <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
@@ -41,18 +41,18 @@
                     </div>
                 </div>
 
-                    <% }); %>
-
-                </div>
-
                 <% }); %>
-                <% } %>
 
             </div>
+
+            <% }); %>
+            <% } %>
 
         </div>
 
     </div>
-    <%- include ../includes/navbottom %>
-    <%- include ../includes/footerjavascript %>
+
+</div>
+<%- include ../includes/navbottom %>
+<%- include ../includes/footerjavascript %>
 <%- include ../includes/footer %>

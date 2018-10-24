@@ -6,18 +6,18 @@ import bcrypt from 'bcrypt-nodejs';
 const Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-    Fname:{ type: String, trim: true, required: true },
-    Lname: { type: String, trim: true, required: true },
-    Email: { type: String, trim: true, unique: true, required: true },
-    Password: { type: String, trim: true, required: true },
-    Phone: { type: String, required: true, unique: true },
-    Avatar: {type:String,default:"/images/company/logo.jpg"},
-    AccountStatus: { type: Number, default: 0 },
-    UserLevel: { type: Number, default: 1},
-    Points:{type:Number,default:10}
-}, { timestamps: true });
+    Fname: {type: String, trim: true, required: true},
+    Lname: {type: String, trim: true, required: true},
+    Email: {type: String, trim: true, unique: true, required: true},
+    Password: {type: String, trim: true, required: true},
+    Phone: {type: String, required: true, unique: true},
+    Avatar: {type: String, default: "/images/company/logo.jpg"},
+    AccountStatus: {type: Number, default: 0},
+    UserLevel: {type: Number, default: 1},
+    Points: {type: Number, default: 10}
+}, {timestamps: true});
 
-UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
+UserSchema.plugin(uniqueValidator, {message: '{VALUE} is already taken.'});
 
 UserSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

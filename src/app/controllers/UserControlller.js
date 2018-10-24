@@ -1,16 +1,16 @@
-import {registerUserService, updateUserStatusService,findUserByIdService} from "../services/UserService";
+import {registerUserService, updateUserStatusService, findUserByIdService} from "../services/UserService";
 import {findAllCategoryService} from "../services/CategoryService";
-import {findAllPropertyService,findPropertyByUserIdService} from "../services/PropertyService";
+import {findAllPropertyService, findPropertyByUserIdService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
-import  * as Constants  from "../utils/Constants";
-import  {singleUploadMulter,sendMultipleImagesToGCS,deleteFilefromGcp}from "../utils/GcloudImageStorage";
+import * as Constants from "../utils/Constants";
+import {singleUploadMulter, sendMultipleImagesToGCS, deleteFilefromGcp} from "../utils/GcloudImageStorage";
 import {toUpperCase} from "../utils/StringManupulation";
 
 export const login = (req, res, next) => {
     res.render("user/login");
 }
-export const logout =(req,res,next)=>{
+export const logout = (req, res, next) => {
     req.session.destroy();
     res.redirect("/");
 }
@@ -88,41 +88,41 @@ export const confirmEmail = (req, res, next) => {
     updateUserStatusService(req.params.id);
     res.redirect("/home");
 }
-export const userprofilePage=async (req,res,next)=>{
-    let categorylist=await findAllCategory();
-    let propertylist =await findPropertyByUserIdService(req.session.user._id);
-    let category_list= formatCategoryList(categorylist);
-    propertylist.forEach((property)=>{
-        let index = category_list.findIndex(x=>x.Name==property.Category);
+export const userprofilePage = async (req, res, next) => {
+    let categorylist = await findAllCategory();
+    let propertylist = await findPropertyByUserIdService(req.session.user._id);
+    let category_list = formatCategoryList(categorylist);
+    propertylist.forEach((property) => {
+        let index = category_list.findIndex(x => x.Name == property.Category);
         category_list[index].Count++;
     });
-    res.render("user/userprofile",{
+    res.render("user/userprofile", {
         categorylist: category_list,
-        propertylist:propertylist
-        });
+        propertylist: propertylist
+    });
 }
-export const userprofileinfoPage=async (req,res,next)=>{
-    let user= await findUserByIdService(req.session.user._id);
-    let categorylist=await findAllCategory();
-    let propertylist =await findPropertyByUserIdService(req.session.user._id);
-    let category_list= formatCategoryList(categorylist);
-    propertylist.forEach((property)=>{
-        let index = category_list.findIndex(x=>x.Name==property.Category);
+export const userprofileinfoPage = async (req, res, next) => {
+    let user = await findUserByIdService(req.session.user._id);
+    let categorylist = await findAllCategory();
+    let propertylist = await findPropertyByUserIdService(req.session.user._id);
+    let category_list = formatCategoryList(categorylist);
+    propertylist.forEach((property) => {
+        let index = category_list.findIndex(x => x.Name == property.Category);
         category_list[index].Count++;
     });
     // console.log(user);
-    res.render("user/userprofile",{
+    res.render("user/userprofile", {
         categorylist: category_list,
-        userprofile:user[0]
+        userprofile: user[0]
     });
 }
 
 export const updateUsermiddleware = (req, res, next) => {
-    singleUploadMulter(req,res,async function (err) {
-        if(err){
+    singleUploadMulter(req, res, async function (err) {
+        if (err) {
             console.log(err)
 
-        }else{
+        } else {
             console.log(req);
             // let image = await sendMultipleImagesToGCS(req,res,next);
             // image.length>0 ? req.image_urls=image:req.image_urls="";
@@ -130,13 +130,13 @@ export const updateUsermiddleware = (req, res, next) => {
         next();
     })
 }
-const formatCategoryList=(categorylist)=>{
-    let category_list= [];
-    categorylist.forEach((category)=>{
-    let categoryObject = new Object();
-    categoryObject["Name"]=category.Name;
-    categoryObject["Count"]=0;
-    category_list.push(categoryObject);
+const formatCategoryList = (categorylist) => {
+    let category_list = [];
+    categorylist.forEach((category) => {
+        let categoryObject = new Object();
+        categoryObject["Name"] = category.Name;
+        categoryObject["Count"] = 0;
+        category_list.push(categoryObject);
     });
     return category_list;
 }
