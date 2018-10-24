@@ -1,16 +1,16 @@
 import Property from "../models/Property";
-import {findAllCategoryService, updateCategoryService} from "../services/CategoryService";
+import {findAllCategoryService, updateByOneCategoryService} from "../services/CategoryService";
 import {
-    postPropertyService,
-    updatePropertyService,
-    findAllPropertyService,
-    findPropertyByIdService,
     findAllByCategoryService,
+    findAllPropertyService,
+    findByqueryService,
+    findPropertyByIdService,
+    postPropertyService,
     propertySearchService,
-    findByqueryService
+    updatePropertyService
 } from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
-import {sendMultipleImagesToGCS, multipleUploadMulter, deleteFilefromGcp} from "../utils/GcloudImageStorage";
+import {deleteFilefromGcp, multipleUploadMulter, sendMultipleImagesToGCS} from "../utils/GcloudImageStorage";
 
 export const getAddPropertypage = async (req, res, next) => {
 
@@ -35,8 +35,10 @@ export const addpropertymiddleware = (req, res, next) => {
             console.log(err)
 
         } else {
-            let image = await sendMultipleImagesToGCS(req, res, next);
-            image.length > 0 ? req.image_urls = image : req.image_urls = "";
+            if(req.files[0]) {
+                let image = await sendMultipleImagesToGCS(req, res, next);
+                image.length > 0 ? req.image_urls = image : req.image_urls = "";
+            }
         }
         next();
     })
@@ -46,7 +48,7 @@ export const addpropertymiddleware = (req, res, next) => {
 export const addproperty = async (req, res) => {
     var property = new Property();
     property.PostedBy = req.session.user._id;
-    property.ImageUrl = req.image_urls.length > 0 ? req.image_urls : "/images/company/logo.jpg";
+    property.ImageUrl = req.image_urls ? req.image_urls : "/images/company/logo.jpg";
     req.checkBody('property', 'Property category must be entered e.g a house').notEmpty();
     req.checkBody('description', 'Please provide description for your property').notEmpty();
     req.checkBody('sale_or_rent', 'Please state if it for sale or rental').notEmpty();
@@ -58,25 +60,29 @@ export const addproperty = async (req, res) => {
 
     var errors = req.validationErrors();
     if (errors) {
-        for (var i = 0; i < property.ImageUrl.length; i++) {
-            var imagepath = property.ImageUrl[i];
-            try {
-                deleteFilefromGcp(imagepath);
-            } catch (errors) {
-                console.log(errors)
+        if ( req.image_urls) {
+            for (var i = 0; i < property.ImageUrl.length; i++) {
+                var imagepath = property.ImageUrl[i];
+                try {
+                    deleteFilefromGcp(imagepath);
+                } catch (errors) {
+                    console.log("trying to delete error",errors);
+                }
             }
         }
-        res.send(errors);
+        console.log(errors);
+        req.flash('errors', errors);
+        res.redirect("back");
     }
     else {
-        property.Category = req.body.property;
-        updateCategoryService(property.Category.trim());
-        property.SaleOrNot = req.body.sale_or_rent;
-        property.PaymentMode = req.body.paymentmode;
-        let addr_arr = req.body.address.split(" ");
+        property.Category = req.body.property.trim();
+        updateByOneCategoryService(property.Category.trim());
+        property.SaleOrNot = req.body.sale_or_rent.trim();
+        property.PaymentMode = req.body.paymentmode.trim();
+        let addr_arr = req.body.address.trim().split(" ");
         let add_subst_arr = [];
         addr_arr.forEach((addr) => {
-            if (addr == "KE") {
+            if (addr.trim() == "KE") {
                 add_subst_arr.push("Kenya")
             } else {
                 add_subst_arr.push(addr);
@@ -85,7 +91,7 @@ export const addproperty = async (req, res) => {
         property.Address = add_subst_arr.join(" ");
         property.Price = req.body.price.trim();
         property.Description = req.body.description.trim();
-        property.Location.coordinates = [req.body.latitude, req.body.longitude];
+        property.Location.coordinates = [req.body.latitude.trim(), req.body.longitude.trim()];
         await postPropertyService(property);
 
         res.redirect("back");
@@ -93,14 +99,14 @@ export const addproperty = async (req, res) => {
 
 }
 export const updateproperty = async (req, res) => {
-    let id = req.body.property_id
+    let id = req.body.property_id.trim();
     let propertyobj = new Object();
     propertyobj["Category"] = req.body.property_type.trim();
     propertyobj["Price"] = req.body.property_price.trim();
     propertyobj["points"] = req.body.property_points.trim();
     propertyobj["Address"] = req.body.property_address.trim();
     propertyobj["Description"] = req.body.description.trim();
-    if (req.body.property_paymentmode == "sale") {
+    if (req.body.property_paymentmode.trim() == "sale") {
         propertyobj["PaymentMode"] = "";
         propertyobj["SaleOrNot"] = "sale";
     } else {
@@ -109,7 +115,6 @@ export const updateproperty = async (req, res) => {
     }
 
     await updatePropertyService(id, propertyobj);
-    console.log(req.body);
     res.redirect('back');
 }
 export const propertyBycategoryPage = async (req, res, next) => {
@@ -123,7 +128,7 @@ export const propertyBycategoryPage = async (req, res, next) => {
 
 export const propertySearch = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
-    let search_array = req.body.search_text.split(" ");
+    let search_array = req.body.search_text.trim().split(" ");
     var propertylist = await propertySearchService(search_array);
     res.render("user/guest", {
         categorylist: categorylist,

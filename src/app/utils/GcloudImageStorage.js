@@ -33,7 +33,7 @@ async function sendMultipleImagesToGCS(req, res, next) {
                             resumable: false
                         })
                         .on('error', (e) => {
-                            console.log(e);
+                            console.log("gcp error",e);
                             reject(e);
 
                         })

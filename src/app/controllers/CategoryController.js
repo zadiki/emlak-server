@@ -20,7 +20,7 @@ export const addCategory = (req, res, next) => {
 
 export const addCategoryType = (req, res, next) => {
     let categorytype = {
-        Name: toUpperCase(req.body.Name)
+        Name: toUpperCase(req.body.Name.trim())
     };
     addCategoryService(categorytype)
         .then((categorytype) => {

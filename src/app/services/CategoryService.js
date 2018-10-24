@@ -15,7 +15,7 @@ export const addCategoryService = (categoryInfo) => {
     console.log(category);
     return category.save();
 }
-export const updateCategoryService = (categoryname) => {
+export const updateByOneCategoryService = (categoryname) => {
     var update = {$inc: {Count: 1}};
     return Category.update({Name: categoryname}, update).exec();
 }
