@@ -1,32 +1,39 @@
+<%- include ../../includes/functions %>
 <div class="col-0 col-sm-0 col-md-3 col-lg-4 col-xl-4 d-none d-md-block">
     <div class="container-fluid">
         <% if(propertylist) { %>
         <% propertylist.forEach(function(chunk){ %>
         <div class="row">
-            <% chunk.forEach(function (property) { %>
-
-            <div class="col-0 col-xs-0 col-sm-12 col-lg-12 col-md-12 col-xl-6" style="margin-bottom: 1rem;">
-                <div class="card property-card">
-                    <a href="property/1234567">
-                        <img class="card-img-top " src="images/company/logo.jpg" alt="Card image cap">
-                    </a>
-                    <div class="bottom-wrap m-0 bg-transparent">
-                        <span class="float-left ml-1 h9">Nai/kawangware</span>
-                        <div class="clearfix">
-                                <span class="float-left">
+                <% chunk.forEach(function (property) { %>
+                <div class="col-0 col-xs-0 col-sm-0 col-lg-6 col-md-4 col-xl-6" style="margin-bottom: 1rem;">
+                    <div class="card rounded-0 property-card">
+                        <a href="propertydetails/<%= property._id %>">
+                            <img class="card-img-top rounded-0" style="height:10em;"
+                                 src="<%= property.ImageUrl.length > 0 ? property.ImageUrl[0] : 'images/company/logo.jpg' %>"
+                                 alt="Card image cap">
+                        </a>
+                        <div class="bottom-wrap m-0 bg-transparent">
+                            <% var addr = formatAddress(property.Address) %>
+                            <span class="ml-1  text-primary"><%= property.Category %><%= property.SaleOrNot != " " ? " for " + property.SaleOrNot : "" %></span>
+                            <div class="container ml-1">
+                                <div style="min-height: 3em;margin-top: 0.3px;">
+                                    <span class="row  h9 text-primary  mr-1"><%= addr %></span>
+                                </div>
+                                <span class="row mt-1  pr-1"
+                                      style="font-size: 12px;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
+                                <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
                                 <i class="fas fa-star-half-alt rating-style rating-style-half"></i>
                                 <i class="far fa-star  rating-style rating-style-empty"></i>
                                 </span>
-                            <span class="float-right mt-1 pr-1" style="font-size: 12px;">Ksh:1280/mon</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <% }); %>
+                <% }); %>
 
         </div>
 

@@ -38,6 +38,9 @@ formatAddress = function (address) {
     } else {
         address = address.length == null ? "Not stated" : address;
     }
-    return address;
+    if(address.length>15){
+        address=address.split(" ").slice(0,8).join(" ");
+    }
+    return address.substring(0,30);
 }
 %>

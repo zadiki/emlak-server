@@ -11,6 +11,8 @@
             <div class="modal-body">
                 <form action="/propertyupdate" method="post">
                     <input type="text" id="modal_property_id" name="property_id" hidden></input>
+                    <input type="text" name="latitude" id="hidden_latitude" hidden></input>
+                    <input type="text" name="longitude" id="hidden_longitude" hidden></input>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="modal_property_type">Property Category</label>
@@ -36,17 +38,17 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="modal_property_points">Points</label>
-                        <input type="number" name="property_points" class="form-control" id="modal_property_points"></input>
-                    </div>
-                        <div class="form-group col-md-12">
-                        <div class="accordion " id="modal_property_address">
-                            <input class="form-control" type="text" name="property_address" id="modal_property_address-1" value="" data-target="#property_address" aria-expanded="true" aria-controls="property_address" data-toggle="collapse" />
-                            <div id="property_address" class="collapse" aria-labelledby="modal_property_address-1" data-parent="#modal_property_address">
-                            <div id="address_map" style="min-width: 15em;min-height: 15em;">
-
-                            </div>
-                            </div>
+                            <input type="number" name="property_points" class="form-control" id="modal_property_points"></input>
                         </div>
+                        <div class="form-group col-md-12">
+                            <div class="accordion " id="modal_property_address">
+                                <input class="form-control" type="text" name="property_address" id="modal_property_address-1" value="" data-target="#property_address" aria-expanded="true" aria-controls="property_address" data-toggle="collapse" />
+                                <div id="property_address" class="collapse" aria-labelledby="modal_property_address-1" data-parent="#modal_property_address">
+                                    <div id="address_map" style="min-width: 15em;min-height: 15em;">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -64,3 +66,4 @@
         </div>
     </div>
 </div>
+

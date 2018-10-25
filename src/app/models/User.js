@@ -11,7 +11,7 @@ var UserSchema = new Schema({
     Email: {type: String, trim: true, unique: true, required: true},
     Password: {type: String, trim: true, required: true},
     Phone: {type: String, required: true, unique: true},
-    Avatar: {type: String, default: "/images/company/logo.jpg"},
+    Avatar: {type: String, default: "/images/company/user.png"},
     AccountStatus: {type: Number, default: 0},
     UserLevel: {type: Number, default: 1},
     Points: {type: Number, default: 10}

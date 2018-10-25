@@ -1,5 +1,6 @@
 import Property from "../models/Property";
 import {findAllCategoryService, updateByOneCategoryService} from "../services/CategoryService";
+import {findUserByIdService} from "../services/UserService";
 import {
     findAllByCategoryService,
     findAllPropertyService,
@@ -22,6 +23,7 @@ export const getAddPropertypage = async (req, res, next) => {
         propertylist: propertylist
     });
 }
+
 export const getPropertypage = async (req, res) => {
     let property = await findPropertyByIdService(req.params.id);
     res.render("property/property", {
@@ -35,7 +37,7 @@ export const addpropertymiddleware = (req, res, next) => {
             console.log(err)
 
         } else {
-            if(req.files[0]) {
+            if (req.files[0]) {
                 let image = await sendMultipleImagesToGCS(req, res, next);
                 image.length > 0 ? req.image_urls = image : req.image_urls = "";
             }
@@ -43,7 +45,6 @@ export const addpropertymiddleware = (req, res, next) => {
         next();
     })
 }
-
 
 export const addproperty = async (req, res) => {
     var property = new Property();
@@ -60,13 +61,13 @@ export const addproperty = async (req, res) => {
 
     var errors = req.validationErrors();
     if (errors) {
-        if ( req.image_urls) {
+        if (req.image_urls) {
             for (var i = 0; i < property.ImageUrl.length; i++) {
                 var imagepath = property.ImageUrl[i];
                 try {
                     deleteFilefromGcp(imagepath);
                 } catch (errors) {
-                    console.log("trying to delete error",errors);
+                    console.log("trying to delete error", errors);
                 }
             }
         }
@@ -98,14 +99,19 @@ export const addproperty = async (req, res) => {
     }
 
 }
+
 export const updateproperty = async (req, res) => {
+
     let id = req.body.property_id.trim();
+    let lat = req.body.latitude.trim();
+    let lng = req.body.longitude.trim();
     let propertyobj = new Object();
     propertyobj["Category"] = req.body.property_type.trim();
     propertyobj["Price"] = req.body.property_price.trim();
     propertyobj["points"] = req.body.property_points.trim();
     propertyobj["Address"] = req.body.property_address.trim();
     propertyobj["Description"] = req.body.description.trim();
+    propertyobj["Location.coordinates"] = [lat, lng];
     if (req.body.property_paymentmode.trim() == "sale") {
         propertyobj["PaymentMode"] = "";
         propertyobj["SaleOrNot"] = "sale";
@@ -115,8 +121,11 @@ export const updateproperty = async (req, res) => {
     }
 
     await updatePropertyService(id, propertyobj);
+    let user = await findUserByIdService(req.session.user._id);
+    req.session.user = user[0];
     res.redirect('back');
 }
+
 export const propertyBycategoryPage = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     var propertylist = await findAllByCategoryService(req.params.category);
@@ -135,6 +144,7 @@ export const propertySearch = async (req, res, next) => {
         propertylist: propertylist
     });
 }
+
 export const propertyByQueryPage = async (req, res, next) => {
     let queryObj = new Object();
     queryObj["Category"] = req.query.category.trim();

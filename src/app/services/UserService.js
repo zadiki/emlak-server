@@ -4,7 +4,7 @@ export const findAllUserService = () => {
     return User.find().exec();
 }
 export const findUserByIdService = (id) => {
-    return User.find({_id: id}).select('-Password  -_id').exec();
+    return User.find({_id: id}).select('-Password').exec();
 }
 export const registerUserService = (userInfo) => {
     let user = new User(userInfo)

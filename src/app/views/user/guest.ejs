@@ -24,11 +24,11 @@
                             <% var addr = formatAddress(property.Address) %>
                             <span class="ml-1  text-primary"><%= property.Category %><%= property.SaleOrNot != " " ? " for " + property.SaleOrNot : "" %></span>
                             <div class="container ml-1">
-                                <div style="min-height: 3em;margin-top: 0.3px;">
+                                <div style="min-height: 3em;margin-top: 0.3px; max-height: 3em;">
                                     <span class="row  h9 text-primary  mr-1"><%= addr %></span>
                                 </div>
-                                <span class="row mt-1  pr-1"
-                                      style="font-size: 12px;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
+                                <span class="row mt-1  pr-1 mr-1"
+                                      style="font-size: 12px; display: block; position: relative;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
                                 <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
@@ -42,9 +42,7 @@
                 </div>
 
                 <% }); %>
-
             </div>
-
             <% }); %>
             <% } %>
 

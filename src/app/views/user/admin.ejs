@@ -13,7 +13,6 @@
             <% propertylist.forEach(function(chunk){ %>
             <div class="row">
                 <% chunk.forEach(function (property) { %>
-
                 <div class="col-6 col-xs-6 col-sm-4 col-lg-3 col-md-4 col-xl-2" style="margin-bottom: 1rem;">
                     <div class="card rounded-0 property-card">
                         <a href="propertydetails/<%= property._id %>">
@@ -23,14 +22,13 @@
                         </a>
                         <div class="bottom-wrap m-0 bg-transparent">
                             <% var addr = formatAddress(property.Address) %>
-
-                            <span class="m-1 text-primary"><%= property.Category %><%= property.SaleOrNot != " " ? " for " + property.SaleOrNot : "" %></span>
+                            <span class="ml-1  text-primary"><%= property.Category %><%= property.SaleOrNot != " " ? " for " + property.SaleOrNot : "" %></span>
                             <div class="container ml-1">
-                                <div style="min-height: 3em;margin-top: 0.3px;">
-                                    <span class="row  h9 text-primary"><%= addr %></span>
+                                <div style="min-height: 3em;margin-top: 0.3px; max-height: 3em;">
+                                    <span class="row  h9 text-primary  mr-1"><%= addr %></span>
                                 </div>
-                                <span class="row mt-1  pr-1"
-                                      style="font-size: 12px;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
+                                <span class="row mt-1  pr-1 mr-1"
+                                      style="font-size: 12px; display: block; position: relative;">Ksh:<%= property.Price %> <%= property.SaleOrNot == "rent" ? "/" + property.PaymentMode.substring(0, 3) : "" %></span>
                                 <span class="row mt-1  mb-1">
                                 <i class="fas fa-star fa-xs rating-style rating-style-full"></i>
                                 <i class="fas fa-star rating-style rating-style-half"></i>
@@ -38,16 +36,13 @@
                                 <i class="fas fa-star-half-alt rating-style rating-style-half"></i>
                                 <i class="far fa-star  rating-style rating-style-empty"></i>
                                 </span>
-
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <% }); %>
-
             </div>
-
             <% }); %>
             <% } %>
 
