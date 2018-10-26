@@ -26,7 +26,7 @@ export const sendEmail = (user, req) => {
             console.log("from mail controller", err);
         } else {
             var mainOptions = {
-                from: '"IPROCURE  HUMAN RESOURCE" zadikiochola@gmail.com',
+                from: '"EMLAK.COM HUMAN RESOURCE" zadikiochola@gmail.com',
                 to: user.Email,
                 subject: 'Registration Confirmation',
                 html: data
