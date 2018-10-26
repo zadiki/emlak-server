@@ -37,7 +37,7 @@ function initMap(latitude, longitude) {
     });
 
 
-    google.maps.event.addListener(marker, 'click', function (event) {
+    google.maps.event.addListener(marker, 'dragend', function (event) {
         var latitude = parseFloat(event.latLng.lat());
         var longitude = parseFloat(event.latLng.lng());
         console.log(latitude + ', ' + longitude);

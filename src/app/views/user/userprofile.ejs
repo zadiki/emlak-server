@@ -118,24 +118,24 @@
             <%})%>
             <%}%>
             <%if(typeof userprofile != 'undefined'){%>
-                        <div class="card">
-                            <div class="card-body">
+                        <div class="pull-left clearfix m-sm-1 m-md-3">
+                            <div class="row">
                                 <form action="/userprofile/userinfo" method="post" enctype="multipart/form-data" >
-                                <div class="row justify-content-center">
-                                    <div class="col-2">
-                                        <img src="<%=userprofile.Avatar%>" class="rounded float-left" alt="..." style="max-width: 100%;height: auto;">
-                                        <input id="upload" type="file" name="profile_photo"/>
-                                        <a href="" id="upload_link">Edit Photo</a>​
+                                <div class="row">
+                                    <div class="col-6 clearfix">
+                                        <img src="<%=userprofile.Avatar%>" class="rounded float-left" alt="..." style="max-width: 20%;height: auto;">
                                     </div>
-                                    <div class="col-md-10 ">
+                                    <div class="col-6 clearfix">
                                         <h4>Your Profile</h4>
-                                        <hr>
+                                    </div>
+                                    <div class=" col-6 clearfix">
+                                        <input id="upload" type="file" name="profile_photo"/>
+                                        <a class="pull-left" href="" id="upload_link">Edit Photo</a>​
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                            <div class="form-group row">
+                                <div class="row ">
+                                    <div class="container">
+                                        <div class="form-group row">
                                                 <label for="username" class="col-4 col-form-label">Profile Name</label>
                                                 <div class="col-8">
                                                     <input id="username" name="profile_name" placeholder="Username" class="form-control here" required="required" type="text">
@@ -155,7 +155,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="email" class="col-4 col-form-label">Email*</label>
+                                                <label for="email" class="col-4  col-form-label">Email*</label>
                                                 <div class="col-8">
                                                     <input id="email" disabled name="email" class="form-control here" placeholder="<%=userprofile.Email%>">
                                                 </div>
@@ -243,7 +243,7 @@
          map: map,
          draggable: true
      });
-     google.maps.event.addListener(marker, 'click', function (event) {
+     google.maps.event.addListener(marker, 'dragend', function (event) {
          var latitude = parseFloat(event.latLng.lat());
          var longitude = parseFloat(event.latLng.lng());
          $("#hidden_latitude").val(latitude);
