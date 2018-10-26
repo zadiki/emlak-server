@@ -18,6 +18,7 @@ export const home = async (req, res, next) => {
     if (req.session.user && req.session.user.UserLevel == Constants.USER_LEVEL_ADMIN) {
         res.redirect("/admin");
     } else {
+        //sendEmail(req.session.user,req); //for email testing purpose
         let categorylist = await findAllCategory();
         var propertylist = await findAllPropertyService();
         res.render("user/guest", {
