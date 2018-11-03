@@ -1,4 +1,17 @@
 <%- include ../includes/header %>
+
+
+<meta property="og:site_name" content="Scotch">
+<meta property="og:url" content="+encodeURIComponent(location.href)+">
+<meta property="og:type" content="website">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scotch Web Development">
+<meta property="og:description" content="Scotch is a web development blog discussing all things programming, development, web, and life.">
+<meta property="og:image" content="<%= property.ImageUrl[0] %>">
+<meta property="fb:app_id" content="1389892087910588">
+<meta property="fb:admins" content="579622216,709634581">
+
+
 <%- include ../includes/headercsslinks %>
 <link rel="stylesheet" href="css/login.css"/>
 <style>
@@ -16,6 +29,14 @@
     }
 </style>
 <%- include ../includes/closingheader %>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=290449878232420&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <%- include ../includes/navheader %>
 <div class="row mt-2">
     <div class="col-md-12 mt-2">
@@ -133,7 +154,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Description</h5>
                         <p class="card-text"><%= property.Description %></p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <div class="fb-share-button" data-href='+encodeURIComponent(location.href)+' data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href)+'&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
                     </div>
                 </div>
 
@@ -282,6 +303,14 @@
         $("#streetview").removeClass("visibility-hidden");
     });
 
+</script>
+<script type="text/javascript">
+    function facebookShare() {
+        window.open(
+            'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+            'facebook-share-dialog',
+            'width=626,height=436');
+    }
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-Evo-QUfkHj_oQDi-w0xin2s4qFr7B0&callback=initMap"></script>
