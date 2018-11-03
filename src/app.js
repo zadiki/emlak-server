@@ -13,7 +13,7 @@ import cluster from "cluster";
 import mongostore from "connect-mongo";
 
 import routes from "./app/router/routes";
-import passportauthLocal from "./app/config/passportLocal";
+import passportauth from "./app/config/passport";
 import * as Constants from "./app/utils/Constants";
 
 var MongoStore = mongostore(session);
@@ -60,16 +60,14 @@ app.use(session({
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-passportauthLocal();
+passportauth();
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
 app.use(function (req, res, next) {
-    var path = req.protocol + "://" + req.get('host')+req._parsedOriginalUrl.pathname;
     res.locals.session = req.session;
-    res.locals.path=path;
     res.locals.errors = req.flash('errors');
     res.locals.formData = req.flash("formBody")[0];
     next();
