@@ -13,7 +13,7 @@ import cluster from "cluster";
 import mongostore from "connect-mongo";
 
 import routes from "./app/router/routes";
-import passportauth from "./app/config/passport";
+import passportauthLocal from "./app/config/passportLocal";
 import * as Constants from "./app/utils/Constants";
 
 var MongoStore = mongostore(session);
@@ -60,7 +60,7 @@ app.use(session({
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-passportauth();
+passportauthLocal();
 
 app.use(passport.initialize());
 app.use(passport.session());
