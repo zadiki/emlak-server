@@ -15,7 +15,8 @@ async function sendMultipleImagesToGCS(req, res, next) {
     var image_public_urls = [];
     let user_id = req.session.user._id;
     var promises = req.files.map((image) => {
-        const image_name = user_id + "/" + Date.now() + "/" + image.originalname;
+
+        const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g,'');
 
         const file = bucket.file(image_name);
         return sharp(image.buffer)

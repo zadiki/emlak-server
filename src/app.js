@@ -67,7 +67,9 @@ app.use(passport.session());
 app.use(flash());
 
 app.use(function (req, res, next) {
+    var path = req.protocol + "://" + req.get('host')+req._parsedOriginalUrl.pathname;
     res.locals.session = req.session;
+    res.locals.path=path;
     res.locals.errors = req.flash('errors');
     res.locals.formData = req.flash("formBody")[0];
     next();

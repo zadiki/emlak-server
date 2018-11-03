@@ -1,15 +1,14 @@
 <%- include ../includes/header %>
 
 
-<meta property="og:site_name" content="Scotch">
-<meta property="og:url" content="+encodeURIComponent(location.href)+">
-<meta property="og:type" content="website">
+<meta property="og:site_name" content="Emlak">
+<meta property="og:url" content="<%=path%>"/>
+<meta property="og:type" content="Emlak">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Scotch Web Development">
-<meta property="og:description" content="Scotch is a web development blog discussing all things programming, development, web, and life.">
-<meta property="og:image" content="<%= property.ImageUrl[0] %>">
-<meta property="fb:app_id" content="1389892087910588">
-<meta property="fb:admins" content="579622216,709634581">
+<meta property="og:title" content="Emlak property management">
+<meta property="og:description" content="<%= property.Description %>">
+<meta property="og:image" content="<%=property.ImageUrl[0].replace(/ /g,'')%>"/>
+<meta property="og:updated_time" content="<%=Date.now()%>"/>
 
 
 <%- include ../includes/headercsslinks %>
@@ -154,7 +153,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Description</h5>
                         <p class="card-text"><%= property.Description %></p>
-                        <div class="fb-share-button" data-href='+encodeURIComponent(location.href)+' data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href)+'&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                        <div class="fb-share-button" data-href=<%=path%>
+                             data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                        </div>
                     </div>
                 </div>
 
