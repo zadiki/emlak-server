@@ -3,7 +3,6 @@
 
 <meta property="og:site_name" content="Emlak">
 <meta property="og:url" content="<%=path%>"/>
-<meta property="og:type" content="Emlak">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Emlak property management">
 <meta property="og:description" content="<%= property.Description %>">
@@ -122,7 +121,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Description</h5>
                             <p class="card-text"><%= property.Description %></p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <div class="fb-share-button" data-href=<%=path%>
+                            data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                            </div>
                         </div>
                     </div>
 
