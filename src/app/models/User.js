@@ -8,14 +8,15 @@ const Schema = mongoose.Schema;
 var UserSchema = new Schema({
     Fname: {type: String, trim: true, required: true},
     Lname: {type: String, trim: true, required: true},
-    Email: {type: String, trim: true, unique: true, required: true},
+    Email: {type: String, trim: true, unique: true},
     Local:{
          Password: String
          },
     Facebook:{
-        id:{type:String}
+        id:String,
+        token:String
     },
-    Phone: {type: String, required: true, unique: true},
+    Phone: {type: String, unique: true},
     Avatar: {type: String, default: "/images/company/user.png"},
     AccountStatus: {type: Number, default: 0},
     UserLevel: {type: Number, default: 1},

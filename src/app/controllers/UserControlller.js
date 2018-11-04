@@ -60,7 +60,9 @@ export const signupUser = (req, res, next) => {
             Fname: "",
             Lname: "",
             Email: "",
-            Password: "",
+            Local: {
+                Password: ""
+            },
             Phone: ""
         };
         user.Fname = toUpperCase(req.body.Fname.trim());

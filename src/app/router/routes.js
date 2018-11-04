@@ -11,7 +11,7 @@ export default (app) => {
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { failureRedirect: '/login' }),
         function(req, res) {
-            // Successful authentication, redirect home.
+            req.session.user=req.user
             res.redirect('/');
         });
 
