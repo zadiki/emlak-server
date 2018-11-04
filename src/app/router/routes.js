@@ -4,6 +4,17 @@ import * as categoryController from "../controllers/CategoryController";
 import * as propertyController from "../controllers/PropertyController";
 
 export default (app) => {
+
+    app.get('/auth/facebook',
+        passport.authenticate('facebook',{scope:['email','public_profile']}));
+
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', { failureRedirect: '/login' }),
+        function(req, res) {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        });
+
     app.route("/")
         .get(userController.home);
 

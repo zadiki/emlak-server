@@ -4,11 +4,11 @@ export const findAllUserService = () => {
     return User.find().exec();
 }
 export const findUserByIdService = (id) => {
-    return User.find({_id: id}).select('-Password').exec();
+    return User.find({_id: id}).select('-Local.Password').exec();
 }
 export const registerUserService = (userInfo) => {
     let user = new User(userInfo)
-    user.Password = user.generateHash(user.Password);
+    user.Local.Password = user.generateHash(user.Local.Password);
     return user.save();
 }
 export const updateUserStatusService = (id) => {

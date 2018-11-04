@@ -67,7 +67,7 @@ export const signupUser = (req, res, next) => {
         user.Lname = toUpperCase(req.body.Lname.trim());
         user.Email = req.body.Email.trim();
         user.Phone = req.body.Phone.trim();
-        user.Password = req.body.Password.trim();
+        user.Local.Password = req.body.Password.trim();
 
         registerUserService(user)
             .then((user) => {

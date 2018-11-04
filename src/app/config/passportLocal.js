@@ -29,7 +29,7 @@ export default () => {
         }
         User.findOne({'Email': email}, (err, user) => {
             if (err) {
-                return done(null, false, req.flash('errors', [{msg: err}]));
+                return done(err, false, req.flash('errors', [{msg: err}]));
             }
 
             if (!user) {

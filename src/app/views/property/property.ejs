@@ -1,6 +1,5 @@
 <%- include ../includes/header %>
 
-
 <meta property="og:site_name" content="Emlak">
 <meta property="og:url" content="<%=path%>"/>
 <meta property="og:type" content="article">
@@ -98,7 +97,7 @@
                 <div id="streetview" class="col-md-12 street-view-size visibility-hidden">
                 </div>
             </div>
-            <div class="tab-pane fade  show d-none d-block d-sm-none mb-1 " id="property-info" role="tabpanel"
+            <div class="tab-pane fade  show  mb-1 " id="property-info" role="tabpanel"
                  aria-labelledby="property-info-tab"
                  style="margin-top: 0 !important;position: relative !important;max-height:100%; ">
                 <div class="list-group ">
@@ -119,7 +118,7 @@
 
                     <div class="card rounded-0" style="">
                         <div class="card-body">
-                            <h5 class="card-title">Description</h5>
+                            <h5 class="card-title">Description small</h5>
                             <p class="card-text"><%= property.Description %></p>
                             <div class="fb-share-button" data-href=<%=path%>
                             data-layout="button_count" data-size="small" data-mobile-iframe="true">
@@ -152,7 +151,7 @@
 
                 <div class="card rounded-0" style="">
                     <div class="card-body">
-                        <h5 class="card-title">Description</h5>
+                        <h5 class="card-title">Description big</h5>
                         <p class="card-text"><%= property.Description %></p>
                         <div class="fb-share-button" data-href=<%=path%>
                              data-layout="button_count" data-size="small" data-mobile-iframe="true">
@@ -167,7 +166,7 @@
     </div>
     <div class="col-md-4">
 
-        <div class="col-md-12" style="margin-bottom: 1rem;">
+        <div class="col-md-12 mb-1 mt-1">
             <div class="card rounded-0 bg-light p-1">
                 <div class="row justify-content-center">
                     <div class="col-md-6 mt-2">

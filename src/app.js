@@ -14,6 +14,7 @@ import mongostore from "connect-mongo";
 
 import routes from "./app/router/routes";
 import passportauthLocal from "./app/config/passportLocal";
+import passportauthFacebook from "./app/config/passportFacebook";
 import * as Constants from "./app/utils/Constants";
 
 var MongoStore = mongostore(session);
@@ -61,6 +62,7 @@ app.use(session({
 }));
 
 passportauthLocal();
+passportauthFacebook();
 
 app.use(passport.initialize());
 app.use(passport.session());
