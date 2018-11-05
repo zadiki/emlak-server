@@ -22,7 +22,7 @@ export default () => {
     passport.use(new FacebookStrategy({
             clientID: 319422762120874,
             clientSecret: "57a66bdbc5192c8b98ee0abe588c8799",
-            callbackURL: "http://localhost:3000/auth/facebook/callback",
+            callbackURL: "https://emlak-1533406597315.appspot.com/auth/facebook/callback",
             profileFields: ['id', 'emails', 'name','photos']
         },
         function(accessToken, refreshToken, profile, done) {
