@@ -20,15 +20,15 @@ export default () => {
     });
 
     passport.use(new FacebookStrategy({
-            clientID: 290449878232420,
-            clientSecret: "b79f7e92cc5252ec748c4e447e3a51f2",
-            callbackURL: "https://emlak-1533406597315.appspot.com/auth/facebook/callback",
+            clientID: 319422762120874,
+            clientSecret: "57a66bdbc5192c8b98ee0abe588c8799",
+            callbackURL: "http://localhost:3000/auth/facebook/callback",
             profileFields: ['id', 'emails', 'name','photos']
         },
         function(accessToken, refreshToken, profile, done) {
         // console.log("profile",profile)
           process.nextTick(function () {
-              User.findOne({'Facebook.id':profile.id},async (err,user)=>{
+              User.findOne({$or:[{'Facebook.id':profile.id},{"Email":profile.emails[0].value}]},async (err,user)=>{
                   if(err){
                       // console.log(err);
                       return done(err);
