@@ -77,6 +77,7 @@ export const signupUser = (req, res, next) => {
                 res.redirect("/");
             })
             .catch((errors) => {
+            console.log("errors",errors);
                 let errors_array = generateErrorsArray(errors.errors);
                 req.flash("errors", errors_array);
                 res.redirect("/signup");

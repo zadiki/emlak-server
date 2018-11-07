@@ -10,9 +10,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     selectSetState();
 });
 
+
 function initMap(latitude, longitude) {
 
-    var center = new google.maps.LatLng(-51.2833, 36.8167);
+    var center = new google.maps.LatLng(-1.283333,36.81667);
+
     var mapcanvas = document.getElementById('mymap');
     var mapoptions = {
         center: center,
@@ -35,6 +37,18 @@ function initMap(latitude, longitude) {
         map: map,
         draggable: true
     });
+    var coord={
+        lat:-1.28333,
+        lng: 36.81667
+    };
+
+    function locationLogger(loc) {
+        coord.lat=loc.coords.latitude;
+        coord.lng=loc.coords.longitude
+        setMapevent(coord.lat,coord.lng);
+
+    }
+    navigator.geolocation.getCurrentPosition(locationLogger);
 
 
     google.maps.event.addListener(marker, 'dragend', function (event) {
@@ -60,7 +74,7 @@ function bodyLoaded() {
     $('#inputCountry').chosen().change(async function () {
         var country = $("#inputCountry option:selected").text();
         var location = await getCordinateByName(country);
-        setMapevent(location.coordinate.lat, location.coordinate.lng);
+        // setMapevent(location.coordinate.lat, location.coordinate.lng);
     });
     $('#inputCounty').chosen().change(async function () {
         var country = $("#inputCountry option:selected").text();

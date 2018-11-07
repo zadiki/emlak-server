@@ -16,7 +16,11 @@ var UserSchema = new Schema({
         id:String,
         token:String
     },
-    Phone: {type: String, unique: true},
+    Google:{
+        id:String,
+        token:String
+    },
+    Phone: String,
     Avatar: {type: String, default: "/images/company/user.png"},
     AccountStatus: {type: Number, default: 0},
     UserLevel: {type: Number, default: 1},

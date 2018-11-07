@@ -15,6 +15,16 @@ export default (app) => {
             res.redirect('/');
         });
 
+    app.get('/auth/google',
+        passport.authenticate('google',{scope:['profile','email']}));
+
+    app.get('/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        function(req, res) {
+            req.session.user=req.user
+            res.redirect('/');
+        });
+
     app.route("/")
         .get(userController.home);
 

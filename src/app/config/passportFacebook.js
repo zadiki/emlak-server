@@ -28,7 +28,7 @@ export default () => {
         function(accessToken, refreshToken, profile, done) {
         // console.log("profile",profile)
           process.nextTick(function () {
-              User.findOne({$or:[{'Facebook.id':profile.id},{"Email":profile.emails[0].value}]},async (err,user)=>{
+              User.findOne({'Facebook.id':profile.id},async (err,user)=>{
                   if(err){
                       // console.log(err);
                       return done(err);
