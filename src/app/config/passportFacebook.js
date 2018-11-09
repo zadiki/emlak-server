@@ -26,11 +26,9 @@ export default () => {
             profileFields: ['id', 'emails', 'name','photos']
         },
         function(accessToken, refreshToken, profile, done) {
-        // console.log("profile",profile)
           process.nextTick(function () {
               User.findOne({'Facebook.id':profile.id},async (err,user)=>{
                   if(err){
-                      // console.log(err);
                       return done(err);
                   }if(user){
                       return done(null,user);
@@ -50,10 +48,16 @@ export default () => {
                       user.Facebook.id=profile.id;
                       user.Facebook.token=accessToken;
                       user.Avatar= profile.photos?profile.photos[0].value:"/images/company/user.png";
-
-                      let saveduser= await registerUserService(user);
-                      return done(null,saveduser);
-
+                      var query={Email:user.Email}
+                      var options = { upsert: true, new: true, setDefaultsOnInsert: true };
+                      return User.findOneAndUpdate(query,user,options,(err,user)=>{
+                          if(err){
+                              console.log(err);
+                              return done(err);
+                          }else{
+                              return done(null,user);
+                          }
+                      });
                   }
               });
 

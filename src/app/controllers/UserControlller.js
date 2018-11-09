@@ -114,7 +114,6 @@ export const userprofileinfoPage = async (req, res, next) => {
         let index = category_list.findIndex(x => x.Name == property.Category);
         category_list[index].Count++;
     });
-    // console.log(user);
     res.render("user/userprofile", {
         categorylist: category_list,
         userprofile: user[0]
@@ -127,7 +126,7 @@ export const updateUsermiddleware = (req, res, next) => {
             console.log(err)
 
         } else {
-            console.log(req);
+            // console.log(req);
             // let image = await sendMultipleImagesToGCS(req,res,next);
             // image.length>0 ? req.image_urls=image:req.image_urls="";
         }

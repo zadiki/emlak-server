@@ -16,8 +16,7 @@ export default (app) => {
         });
 
     app.get('/auth/google',
-        passport.authenticate('google',{scope:['profile','email']}));
-
+        passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login','profile','email']}));
     app.get('/google/callback',
         passport.authenticate('google', { failureRedirect: '/login' }),
         function(req, res) {

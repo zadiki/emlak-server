@@ -25,9 +25,7 @@ export default () => {
             callbackURL: "https://emlak-1533406597315.appspot.com/google/callback"
         },
         function(accessToken, refreshToken, profile, done) {
-            // console.log("profile",profile)
             process.nextTick(function () {
-                console.log("user profile",profile)
                 User.findOne({'Google.id':profile.id},async (err,user)=>{
                     if(err){
                         return done(err);
@@ -49,9 +47,19 @@ export default () => {
                         user.Google.id=profile.id;
                         user.Google.token=accessToken;
                         user.Avatar= profile.photos?profile.photos[0].value:"/images/company/user.png";
+                        var query={Email:user.Email}
+                        var options = { upsert: true, new: true, setDefaultsOnInsert: true };
+                        return User.findOneAndUpdate(query,user,options,(err,user)=>{
+                            if(err){
+                                console.log(err);
+                                return done(err);
 
-                        let saveduser= await registerUserService(user);
-                        return done(null,saveduser);
+                            }else{
+                                return done(null,user);
+                            }
+                        });
+                        // let saveduser= await registerUserService(user);
+                        // return done(null,saveduser);
 
                     }
                 });
