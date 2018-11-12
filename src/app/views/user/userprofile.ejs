@@ -226,37 +226,37 @@
                                 <div class="form-group row">
                                     <label for="username" class="col-4 col-form-label">Profile Name</label>
                                     <div class="col-8">
-                                        <input id="username" name="profile_name" placeholder="Username"
-                                               class="form-control here" required="required" type="text">
+                                        <input id="username" name="profile_name" placeholder="<%=userprofile.ProfileName%>"
+                                               class="form-control here" required="required" value="<%=userprofile.ProfileName%>" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="name" class="col-4 col-form-label">First Name</label>
                                     <div class="col-8">
-                                        <input id="name" name="first_name" placeholder="First Name"
-                                               class="form-control here" type="text">
+                                        <input id="name" name="first_name" placeholder="<%= userprofile.Fname %>"
+                                               class="form-control here" required value="<%= userprofile.Fname %>" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="lastname" class="col-4 col-form-label">Last Name</label>
                                     <div class="col-8">
-                                        <input id="lastname" name="last_name" placeholder="Last Name"
-                                               class="form-control here" type="text">
+                                        <input id="lastname" name="last_name" placeholder="<%= userprofile.Lname %>"
+                                               class="form-control here" required value="<%= userprofile.Lname %>" type="text">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="email" class="col-4  col-form-label">Email*</label>
                                     <div class="col-8">
-                                        <input id="email" disabled name="email" class="form-control here"
+                                        <input id="email" disabled name="email" class="form-control here" value="<%= userprofile.Email %>"
                                                placeholder="<%= userprofile.Email %>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="website" class="col-4 col-form-label">Website</label>
+                                    <label for="userphone" class="col-4 col-form-label">User Phone</label>
                                     <div class="col-8">
-                                        <input id="website" name="website" placeholder="website"
-                                               class="form-control here" type="text">
+                                        <input id="phone" name="phone" placeholder="<%= userprofile.Phone %>"
+                                               class="form-control here" required value="<%= userprofile.Phone %>" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">

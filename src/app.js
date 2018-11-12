@@ -52,7 +52,12 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
 };
-mongoose.connect(Constants.MONGODB_URL, options);
+try{
+    mongoose.connect(Constants.MONGODB_URL, options);
+}catch(e){
+   console.log(e);
+}
+
 
 app.use(session({
     secret: 'iProcureSecretCode',

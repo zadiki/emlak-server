@@ -78,10 +78,7 @@ export default (app) => {
         .get(userController.userprofilePage);
     app.route("/userprofile/userinfo")
         .get(userController.userprofileinfoPage)
-        .post(userController.updateUsermiddleware, function (req, res) {
-            console.log(req.body);
-            res.send(req.body)
-        });
+        .post(userController.updateUsermiddleware, userController.updateUser);
 
     app.route("/property-search")
         .get(propertyController.propertyByQueryPage)

@@ -1,10 +1,10 @@
-import {registerUserService, updateUserStatusService, findUserByIdService} from "../services/UserService";
+import {findUserByIdService, registerUserService, updateUserStatusService,updateUserService} from "../services/UserService";
 import {findAllCategoryService} from "../services/CategoryService";
 import {findAllPropertyService, findPropertyByUserIdService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import * as Constants from "../utils/Constants";
-import {singleUploadMulter, sendMultipleImagesToGCS, deleteFilefromGcp} from "../utils/GcloudImageStorage";
+import {sendSingleImageToGCS, singleUploadMulter} from "../utils/GcloudImageStorage";
 import {toUpperCase} from "../utils/StringManupulation";
 
 export const login = (req, res, next) => {
@@ -60,6 +60,7 @@ export const signupUser = (req, res, next) => {
             Fname: "",
             Lname: "",
             Email: "",
+            ProfileName: "",
             Local: {
                 Password: ""
             },
@@ -67,6 +68,7 @@ export const signupUser = (req, res, next) => {
         };
         user.Fname = toUpperCase(req.body.Fname.trim());
         user.Lname = toUpperCase(req.body.Lname.trim());
+        user.ProfileName = user.Fname + " " + user.Lname;
         user.Email = req.body.Email.trim();
         user.Phone = req.body.Phone.trim();
         user.Local.Password = req.body.Password.trim();
@@ -77,7 +79,7 @@ export const signupUser = (req, res, next) => {
                 res.redirect("/");
             })
             .catch((errors) => {
-            console.log("errors",errors);
+                console.log("errors", errors);
                 let errors_array = generateErrorsArray(errors.errors);
                 req.flash("errors", errors_array);
                 res.redirect("/signup");
@@ -126,12 +128,30 @@ export const updateUsermiddleware = (req, res, next) => {
             console.log(err)
 
         } else {
-            // console.log(req);
-            // let image = await sendMultipleImagesToGCS(req,res,next);
-            // image.length>0 ? req.image_urls=image:req.image_urls="";
+            if (req.file) {
+                let image = await sendSingleImageToGCS(req, res, next);
+                console.log(image);
+                image.length > 0 ? req.image_url = image : req.image_url = "";
+            }
         }
         next();
     })
+}
+export const updateUser = async(req, res) => {
+    var user = new Object();
+    user["id"]=req.session.user._id;
+    user["ProfileName"]=req.body.profile_name.trim();
+    user["Fname"]=req.body.first_name.trim();
+    user["Lname"]=req.body.last_name.trim();
+    user["Phone"]=req.body.phone.trim();
+    user["PublicInfo"]=req.body.public_info.trim();
+    req.image_url?user["Avatar"] = req.image_url:"";
+    await updateUserService(user).then((user)=>{
+        req.session.user=user;
+    }).catch((e)=>{
+        console.log(e)
+    });
+    res.redirect('back')
 }
 const formatCategoryList = (categorylist) => {
     let category_list = [];

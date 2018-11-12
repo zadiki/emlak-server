@@ -1,4 +1,4 @@
-import {GCLOUD_BUCKET, DATA_BACKEND, GCLOUD_PROJECT} from "./Constants";
+import {GCLOUD_BUCKET, GCLOUD_PROJECT} from "./Constants";
 import {Storage} from "@google-cloud/storage";
 import Multer from "multer";
 import path from "path";
@@ -10,13 +10,51 @@ const storage = new Storage({
 });
 const bucket = storage.bucket(GCLOUD_BUCKET);
 
+async function sendSingleImageToGCS(req, res, next) {
+    var image_public_url = ""
+    let user_id = req.session.user._id;
+    var image = req.file
+    const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g, '');
+    const file = bucket.file(image_name);
+    await sharp(image.buffer)
+        .resize(225, 165)
+        .toFormat(image.originalname.split(".").reverse()[0])
+        .toBuffer()
+        .then((data) => {
+            image.buffer = data;
+            return new Promise((resolve, reject) => {
+                file
+                    .createWriteStream({
+                        metadata: {
+                            contentType: image.mimetype
+                        },
+                        resumable: false
+                    })
+                    .on('error', (e) => {
+                        console.log("gcp error", e);
+                        reject(e);
+
+                    })
+                    .on("finish", () => {
+                        file.makePublic().then(() => {
+                            let image = getPublicUrl(image_name);
+                            image_public_url=image;
+                            resolve(image_public_url);
+                        })
+                    })
+                    .end(image.buffer)
+            });
+        });
+    return image_public_url;
+
+}
 
 async function sendMultipleImagesToGCS(req, res, next) {
     var image_public_urls = [];
     let user_id = req.session.user._id;
     var promises = req.files.map((image) => {
 
-        const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g,'');
+        const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g, '');
 
         const file = bucket.file(image_name);
         return sharp(image.buffer)
@@ -34,7 +72,7 @@ async function sendMultipleImagesToGCS(req, res, next) {
                             resumable: false
                         })
                         .on('error', (e) => {
-                            console.log("gcp error",e);
+                            console.log("gcp error", e);
                             reject(e);
 
                         })
@@ -115,6 +153,7 @@ const deleteFilefromGcp = (image_file) => {
 module.exports = {
     deleteFilefromGcp,
     sendMultipleImagesToGCS,
+    sendSingleImageToGCS,
     singleUploadMulter,
     multipleUploadMulter
 };

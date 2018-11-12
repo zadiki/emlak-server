@@ -11,6 +11,11 @@ export const registerUserService = (userInfo) => {
     user.Local.Password = user.generateHash(user.Local.Password);
     return user.save();
 }
+export const updateUserService = (user) => {
+
+       return  User.findOneAndUpdate({_id: user.id}, user, {new: true, upsert: false}).exec();
+
+}
 export const updateUserStatusService = (id) => {
     return User.findOneAndUpdate({_id: id}, {
             $set: {AccountStatus: 1}
@@ -21,3 +26,4 @@ export const updateUserStatusService = (id) => {
             return true;
         });
 }
+

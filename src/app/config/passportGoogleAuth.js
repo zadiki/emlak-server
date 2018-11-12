@@ -35,6 +35,7 @@ export default () => {
                         var user= {
                             "Fname":"",
                             "Lname":"",
+                            "ProfileName":"",
                             "Email":"",
                             "Google":{
                                 "id":"",
@@ -43,6 +44,7 @@ export default () => {
                         }
                         user.Fname=profile.name.familyName||profile.displayName||"";
                         user.Lname=profile.name.givenName|| profile.displayName||"";
+                        user.ProfileName=user.Fname+" "+user.Lname;
                         user.Email=profile.emails[0].value;
                         user.Google.id=profile.id;
                         user.Google.token=accessToken;

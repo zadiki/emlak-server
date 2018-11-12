@@ -36,6 +36,7 @@ export default () => {
                       var user= {
                           "Fname":"",
                           "Lname":"",
+                          "ProfileName":"",
                           "Email":"",
                           "Facebook":{
                               "id":"",
@@ -44,6 +45,7 @@ export default () => {
                       }
                       user.Fname=profile.name.familyName;
                       user.Lname=profile.name.givenName+" "+profile.name.middleName;
+                      user.ProfileName=user.Fname+" "+user.Lname;
                       user.Email=profile.emails[0].value|| "";
                       user.Facebook.id=profile.id;
                       user.Facebook.token=accessToken;
