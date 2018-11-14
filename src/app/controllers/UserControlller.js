@@ -1,10 +1,15 @@
-import {findUserByIdService, registerUserService, updateUserStatusService,updateUserService} from "../services/UserService";
+import {
+    findUserByIdService,
+    registerUserService,
+    updateUserService,
+    updateUserStatusService
+} from "../services/UserService";
 import {findAllCategoryService} from "../services/CategoryService";
 import {findAllPropertyService, findPropertyByUserIdService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
 import * as Constants from "../utils/Constants";
-import {sendSingleImageToGCS, singleUploadMulter} from "../utils/GcloudImageStorage";
+import {deleteFilefromGcp, sendSingleImageToGCS, singleUploadMulter} from "../utils/GcloudImageStorage";
 import {toUpperCase} from "../utils/StringManupulation";
 
 export const login = (req, res, next) => {
@@ -130,25 +135,28 @@ export const updateUsermiddleware = (req, res, next) => {
         } else {
             if (req.file) {
                 let image = await sendSingleImageToGCS(req, res, next);
-                console.log(image);
-                image.length > 0 ? req.image_url = image : req.image_url = "";
+                if (image.length > 0) {
+                    req.image_url = image;
+                    deleteFilefromGcp(req.session.user.Avatar);
+                }
             }
         }
         next();
     })
 }
-export const updateUser = async(req, res) => {
+export const updateUser = async (req, res) => {
     var user = new Object();
-    user["id"]=req.session.user._id;
-    user["ProfileName"]=req.body.profile_name.trim();
-    user["Fname"]=req.body.first_name.trim();
-    user["Lname"]=req.body.last_name.trim();
-    user["Phone"]=req.body.phone.trim();
-    user["PublicInfo"]=req.body.public_info.trim();
-    req.image_url?user["Avatar"] = req.image_url:"";
-    await updateUserService(user).then((user)=>{
-        req.session.user=user;
-    }).catch((e)=>{
+    user["id"] = req.session.user._id;
+    user["ProfileName"] = req.body.profile_name.trim();
+    user["Fname"] = req.body.first_name.trim();
+    user["Lname"] = req.body.last_name.trim();
+    user["Phone"] = req.body.phone.trim();
+    user["PublicInfo"] = req.body.public_info.trim();
+    req.image_url ? user["Avatar"] = req.image_url : "";
+    await updateUserService(user).then((user) => {
+        req.session.user = user;
+    }).catch((e) => {
+        deleteFilefromGcp(user.Avatar);
         console.log(e)
     });
     res.redirect('back')

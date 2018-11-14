@@ -134,7 +134,7 @@ const deleteFilefromGcp = (image_file) => {
 
     return new Promise((resolve, reject) => {
         var imageurl = image_file.split("/");
-        imageurl = imageurl.slice(4, imageurl.length + 1)[0];
+        imageurl = imageurl.slice(4, imageurl.length + 1).join("/");
         storage
             .bucket(GCLOUD_BUCKET)
             .file(imageurl)

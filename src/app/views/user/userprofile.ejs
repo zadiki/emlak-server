@@ -134,8 +134,8 @@
                 <div class="card mb-1">
                     <img class="card-img-top" src="<%= property.ImageUrl[0] %>" alt="Card image cap">
 
-                        <div class="accordion " id="propertycard_1<%= property._id %>">
-                            <div class="card-body">
+                    <div class="accordion " id="propertycard_1<%= property._id %>">
+                        <div class="card-body">
                             <h5 class="card-title" id="card_title<%= property._id %>"
                                 data-target="#property_info<%= property._id %>" aria-expanded="true"
                                 aria-controls="property_info<%= property._id %>"
@@ -226,44 +226,51 @@
                                 <div class="form-group row">
                                     <label for="username" class="col-4 col-form-label">Profile Name</label>
                                     <div class="col-8">
-                                        <input id="username" name="profile_name" placeholder="<%=userprofile.ProfileName%>"
-                                               class="form-control here" required="required" value="<%=userprofile.ProfileName%>" type="text">
+                                        <input id="username" name="profile_name"
+                                               placeholder="<%= userprofile.ProfileName %>"
+                                               class="form-control here" required="required"
+                                               value="<%= userprofile.ProfileName %>" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="name" class="col-4 col-form-label">First Name</label>
                                     <div class="col-8">
                                         <input id="name" name="first_name" placeholder="<%= userprofile.Fname %>"
-                                               class="form-control here" required value="<%= userprofile.Fname %>" type="text">
+                                               class="form-control here"  required value="<%= userprofile.Fname %>"
+                                               type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="lastname" class="col-4 col-form-label">Last Name</label>
                                     <div class="col-8">
                                         <input id="lastname" name="last_name" placeholder="<%= userprofile.Lname %>"
-                                               class="form-control here" required value="<%= userprofile.Lname %>" type="text">
+                                               class="form-control here"   required value="<%= userprofile.Lname %>"
+                                               type="text">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="email" class="col-4  col-form-label">Email*</label>
                                     <div class="col-8">
-                                        <input id="email" disabled name="email" class="form-control here" value="<%= userprofile.Email %>"
+                                        <input id="email" disabled name="email" class="form-control here"
+                                               value="<%= userprofile.Email %>"
                                                placeholder="<%= userprofile.Email %>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="userphone" class="col-4 col-form-label">User Phone</label>
                                     <div class="col-8">
-                                        <input id="phone" name="phone" placeholder="<%= userprofile.Phone %>"
-                                               class="form-control here" required value="<%= userprofile.Phone %>" type="text">
+                                        <input id="phone" name="phone" minlength="10" maxlength="10"  placeholder="<%= userprofile.Phone %>"
+                                               class="form-control here" size="10" pattern="[0]{1}[0-9]{9}" required value="<%= userprofile.Phone %>"
+                                               type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="publicinfo" class="col-4 col-form-label">Public Info</label>
                                     <div class="col-8">
-                                        <textarea id="publicinfo" name="public_info" cols="40" rows="4"
-                                                  class="form-control"></textarea>
+                                        <textarea id="publicinfo" name="public_info" cols="40" rows="4" placeholder="<%=userprofile.PublicInfo%>"
+                                                  class="form-control"><%=userprofile.PublicInfo%>
+                                        </textarea>
                                     </div>
                                 </div>
 
@@ -292,6 +299,10 @@
         $("#upload_link").on('click', function (e) {
             e.preventDefault();
             $("#upload:hidden").trigger('click');
+            $("#upload").change(function () {
+                var filename=$("#upload")[0].files[0].name;
+                $("#upload_link").html(filename)
+            });
         });
     });
 </script>

@@ -10,19 +10,19 @@ var UserSchema = new Schema({
     Lname: {type: String, trim: true, required: true},
     ProfileName: {type: String, trim: true, required: true},
     Email: {type: String, trim: true, unique: true},
-    Local:{
-         Password: String
-         },
-    Facebook:{
-        id:String,
-        token:String
+    Local: {
+        Password: String
     },
-    Google:{
-        id:String,
-        token:String
+    Facebook: {
+        id: String,
+        token: String
+    },
+    Google: {
+        id: String,
+        token: String
     },
     Phone: String,
-    PublicInfo:String,
+    PublicInfo: String,
     Avatar: {type: String, default: "/images/company/user.png"},
     AccountStatus: {type: Number, default: 0},
     UserLevel: {type: Number, default: 1},
@@ -36,7 +36,7 @@ UserSchema.methods.generateHash = function (password) {
 };
 
 UserSchema.methods.validPassword = function (password) {
-    console.log("password compare",password);
+    console.log("password compare", password);
     return bcrypt.compareSync(password, this.Local.Password);
 };
 

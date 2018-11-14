@@ -52,10 +52,10 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
 };
-try{
+try {
     mongoose.connect(Constants.MONGODB_URL, options);
-}catch(e){
-   console.log(e);
+} catch (e) {
+    console.log(e);
 }
 
 
@@ -76,9 +76,9 @@ app.use(passport.session());
 app.use(flash());
 
 app.use(function (req, res, next) {
-    var path = req.protocol + "://" + req.get('host')+req._parsedOriginalUrl.pathname;
+    var path = req.protocol + "://" + req.get('host') + req._parsedOriginalUrl.pathname;
     res.locals.session = req.session;
-    res.locals.path=path;
+    res.locals.path = path;
     res.locals.errors = req.flash('errors');
     res.locals.formData = req.flash("formBody")[0];
     next();
