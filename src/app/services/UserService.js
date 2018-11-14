@@ -8,12 +8,14 @@ export const findUserByIdService = (id) => {
 }
 export const registerUserService = (userInfo) => {
     let user = new User(userInfo)
-    user.Local.Password = user.generateHash(user.Local.Password);
+    if (user.Local.Password) {
+        user.Local.Password = user.generateHash(user.Local.Password);
+    }
     return user.save();
 }
 export const updateUserService = (user) => {
 
-       return  User.findOneAndUpdate({_id: user.id}, user, {new: true, upsert: false}).exec();
+    return User.findOneAndUpdate({_id: user.id}, user, {new: true, upsert: false}).exec();
 
 }
 export const updateUserStatusService = (id) => {

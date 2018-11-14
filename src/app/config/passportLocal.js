@@ -42,7 +42,7 @@ export default () => {
                 return done(null, false, req.flash('errors', [{msg: 'You need to confirm your email.'}]));
             }
             if (user.AccountStatus == Constants.USER_STATUS_VOIDED) {
-                return done(null, false, req.flash('errors', [{msg: 'Your account has been deactivated. Please contact your HR for reactivation.'}]));
+                return done(null, false, req.flash('errors', [{msg: 'Your account has been deactivated. Please conact Emlak.com for reactivation.'}]));
             }
             req.session.user = user;
             return done(null, user);
