@@ -1,8 +1,9 @@
 import Property from "../models/Property";
+import {arrayChunk} from "../utils/StringManupulation";
 
 export const findAllPropertyService = async () => {
     let propertylist = await Property.find().sort({points: -1}).exec();
-    return chunckedPropertyList(propertylist);
+    return arrayChunk(propertylist,12);
 }
 export const findPropertyByIdService = async (id) => {
     await updatePropertyViewservice(id);
@@ -40,7 +41,7 @@ export const propertySearchService = async (search) => {
             }
         ]
     }).sort({"points": -1}).exec();
-    return chunckedPropertyList(property_list);
+    return arrayChunk(property_list,12);
 }
 export const findByqueryService = async (queryObj) => {
     let location_regex = queryObj.location.join("|");
@@ -76,12 +77,11 @@ export const findByqueryService = async (queryObj) => {
 
         ]
     }).sort({"points": -1}).exec();
-    return chunckedPropertyList(propert_list);
+    return arrayChunk(propert_list,12);
 }
 export const postPropertyService = (property) => {
     return property.save();
 }
-
 export const findAllByCategoryService = async (category) => {
     let propertylist = await Property.find({
         "Category": {
@@ -89,7 +89,7 @@ export const findAllByCategoryService = async (category) => {
             "$options": "i"
         }
     }).sort({"points": -1});
-    return chunckedPropertyList(propertylist);
+    return arrayChunk(propertylist,12);
 }
 export const updatePropertyService = (id, newObj) => {
     return Property.findOneAndUpdate({_id: id}, {
@@ -102,12 +102,3 @@ export const updatePropertyService = (id, newObj) => {
         });
 }
 
-
-const chunckedPropertyList = (propertylist) => {
-    var chunkedpropertylist = [];
-    var chunksize = 12;
-    for (var i = 0; i < propertylist.length; i += chunksize) {
-        chunkedpropertylist.push(propertylist.slice(i, i + chunksize));
-    }
-    return chunkedpropertylist;
-}

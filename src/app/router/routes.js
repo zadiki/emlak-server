@@ -89,4 +89,6 @@ export default (app) => {
         });
     app.route("/propertyupdate")
         .post(propertyController.updateproperty);
+    app.route("/propertyimageupdate")
+        .delete(propertyController.deletepropertyImage);
 }

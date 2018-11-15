@@ -6,11 +6,13 @@
     #upload {
         display: none
     }
-    .propertyimage{
-        margin-bottom:-0.5em;
+
+    .propertyimage {
+        margin-bottom: -0.5em;
         color: #c82333;
     }
-    .propertyimage:hover{
+
+    .propertyimage:hover {
         color: #1e7e34;
         cursor: pointer;
     }
@@ -337,30 +339,58 @@
 </script>
 <script type="text/javascript">
 
-    function deleteImage(imageurl,propertyid) {
-        console.log("imagesurl",imageurl);
-        console.log("propertyid",propertyid);
-        $("#loadingspinner").addClass('loading');
+    function deleteImage(imageurl, propertyid) {
+
+        $("#modalspinner").addClass('modalloading');
+        var data = {
+            "propertyid": propertyid,
+            "imageurl": imageurl
+        }
+        fetch("/propertyimageupdate", {
+            method: "DELETE",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify(data)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (property) {
+            modalimages(property[0].images, property[0].id)
+            $("#modalspinner").removeClass('modalloading');
+
+        });
     }
+
     function setpropertImagesModal(property) {
+
         var modal = $("#imageModalCenter");
         setModalImages(property);
+        $("#modalspinner").removeClass('modalloading');
         modal.modal('show');
     }
 
     function setModalImages(property) {
+        modalimages(property.ImageUrl, property._id)
+    }
+
+    function modalimages(images, id) {
         var imagescontainer = "";
         var imagescarousel = "";
         var active = "active";
-        property.ImageUrl.forEach(function (image_url) {
+        images.forEach(function (image_url) {
             var imagecontainer = " <div class=\"col-lg-3 col-md-4 col-xs-6\">\n" +
                 "                            <div class=\"d-block mb-4 h-100\">\n" +
-                "                            <span class=\"float-right propertyimage \" onclick='deleteImage(\""+image_url+"\",\""+property._id+"\")' aria-hidden=\"true\">&times;</span>\n" +
+                "                            <span class=\"float-right propertyimage \" onclick='deleteImage(\"" + image_url + "\",\"" + id + "\")' aria-hidden=\"true\">&times;</span>\n" +
                 "                                <img class=\"img-fluid img-thumbnail\"  src=\"" + image_url + "\" alt=\"\">\n" +
                 "                            </div>\n" +
                 "                        </div>";
             var carouselimages = " <div class=\"carousel-item " + active + "\">\n" +
-                "                                <img class=\"d-block w-100\" style=\"height:15em;\" src=\"" + image_url + "\" alt=\"First slide\">\n"+
+                "                                <img class=\"d-block w-100\" style=\"max-height:15em; min-height: 15em;max-width: 28em;min-width: 28em;\" src=\"" + image_url + "\" alt=\"First slide\">\n" +
                 "                       </div>";
             imagescarousel = imagescarousel + carouselimages;
             imagescontainer = imagescontainer + imagecontainer
@@ -372,7 +402,7 @@
 
     function setModalWithData(property) {
         var max =<%- session.user.Points %>;
-        console.log(property);
+
         setMap(property.Location.coordinates);
         var modal = $('#update_property_modal');
         modal.find('#modal_property_id').val(property._id);

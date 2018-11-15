@@ -12,6 +12,7 @@ import {
 } from "../services/PropertyService"
 import {upload} from "../utils/ImageUpload";
 import {deleteFilefromGcp, multipleUploadMulter, sendMultipleImagesToGCS} from "../utils/GcloudImageStorage";
+import {differenceOf2StringArrays} from "../utils/StringManupulation";
 
 export const getAddPropertypage = async (req, res, next) => {
 
@@ -158,4 +159,20 @@ export const propertyByQueryPage = async (req, res, next) => {
         categorylist: categorylist,
         propertylist: propertylist
     });
+}
+export const deletepropertyImage = async (req, res, next) => {
+    deleteFilefromGcp(req.body.imageurl.trim()).then(function (success) {
+        console.log("image successfully deleted")
+    }).catch(e => console.log("error deleting images"));
+    var users = [{
+        id: req.body.propertyid,
+        images: [req.body.imageurl]
+    }];
+    let property = await findPropertyByIdService(req.body.propertyid.trim());
+    let netimageurl = differenceOf2StringArrays(users[0].images, property.ImageUrl);
+    netimageurl.length>0 ?"":netimageurl=["images/company/logo.jpg"];
+    users[0].images=netimageurl;
+    var images={"ImageUrl":netimageurl}
+    await updatePropertyService(users[0].id.trim(), images);
+    res.json(users);
 }
