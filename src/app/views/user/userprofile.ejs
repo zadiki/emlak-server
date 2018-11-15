@@ -6,6 +6,14 @@
     #upload {
         display: none
     }
+    .propertyimage{
+        margin-bottom:-0.5em;
+        color: #c82333;
+    }
+    .propertyimage:hover{
+        color: #1e7e34;
+        cursor: pointer;
+    }
 </style>
 <%- include ../includes/navheader %>
 <!--<%- include ./partials/propertysearch %>-->
@@ -108,7 +116,8 @@
                     <div class="col-3">
                         <div class="d-flex float-right flex-column-reverse align-items-start " style="height: 100%;">
                             <div class="bd-highlight align-self-end">
-                                <span><i class="far fa-eye-slash fa-lg"></i></span>
+                                <span onClick="setpropertImagesModal(<%= JSON.stringify(property) %>)"><i
+                                            class="far fa-eye-slash fa-lg"></i></span>
                                 <span onClick="setModalWithData(<%= JSON.stringify(property) %>)"><i
                                             class="fas fa-edit fa-lg"></i></span>
                                 <span><i class="fas fa-trash fa-lg"></i></span>
@@ -190,7 +199,8 @@
                                         </div>
                                     </div>
                                     <div class="row bd-highlight align-self-end float-right">
-                                        <span><i class="far fa-eye-slash fa-lg"></i></span>
+                                        <span onClick="setpropertImagesModal(<%= JSON.stringify(property) %>)"><i
+                                                    class="far fa-eye-slash fa-lg"></i></span>
                                         <span onClick="setModalWithData(<%= JSON.stringify(property) %>)"><i
                                                     class="fas fa-edit fa-lg"></i></span>
                                         <span><i class="fas fa-trash fa-lg"></i></span>
@@ -213,7 +223,7 @@
                         Go to <a href="/userprofile/userinfo" class="btn btn-sm btn-secondary" role="button"
                                  aria-pressed="true">My profile</a> to edit your info or go to
                         <a href="/postanAdvert" class="btn btn-sm btn-secondary" role="button" aria-pressed="true">
-                            Advertise</a> for you  to post property.
+                            Advertise</a> for you to post property.
                     </div>
                 </div>
             </div>
@@ -310,6 +320,7 @@
     </div>
 </div>
 <%- include ./partials/updatepropertymodal %>
+<%- include ./partials/updatepropertyimagesmodal %>
 <%- include ../includes/navbottom %>
 <%- include ../includes/footerjavascript %>
 <script>
@@ -325,6 +336,39 @@
     });
 </script>
 <script type="text/javascript">
+
+    function deleteImage(imageurl,propertyid) {
+        console.log("imagesurl",imageurl);
+        console.log("propertyid",propertyid);
+        $("#loadingspinner").addClass('loading');
+    }
+    function setpropertImagesModal(property) {
+        var modal = $("#imageModalCenter");
+        setModalImages(property);
+        modal.modal('show');
+    }
+
+    function setModalImages(property) {
+        var imagescontainer = "";
+        var imagescarousel = "";
+        var active = "active";
+        property.ImageUrl.forEach(function (image_url) {
+            var imagecontainer = " <div class=\"col-lg-3 col-md-4 col-xs-6\">\n" +
+                "                            <div class=\"d-block mb-4 h-100\">\n" +
+                "                            <span class=\"float-right propertyimage \" onclick='deleteImage(\""+image_url+"\",\""+property._id+"\")' aria-hidden=\"true\">&times;</span>\n" +
+                "                                <img class=\"img-fluid img-thumbnail\"  src=\"" + image_url + "\" alt=\"\">\n" +
+                "                            </div>\n" +
+                "                        </div>";
+            var carouselimages = " <div class=\"carousel-item " + active + "\">\n" +
+                "                                <img class=\"d-block w-100\" style=\"height:15em;\" src=\"" + image_url + "\" alt=\"First slide\">\n"+
+                "                       </div>";
+            imagescarousel = imagescarousel + carouselimages;
+            imagescontainer = imagescontainer + imagecontainer
+            active = "";
+        });
+        $("#imagegallery").html(imagescontainer);
+        $("#imageslider").html(imagescarousel);
+    }
 
     function setModalWithData(property) {
         var max =<%- session.user.Points %>;

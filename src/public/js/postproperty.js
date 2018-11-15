@@ -250,6 +250,10 @@ function imageupload() {
             var files = event.target.files; //FileList object
             // this.form.reset();
             var output = document.getElementById('imagecanvas');
+            output.classList.add("mb-4");
+            output.classList.add("h-100");
+            output.classList.add("d-block");
+            output.classList.add("row");
             if (files.length < 3) {
                 for (var i = 0; i < files.length; i++) {
 
@@ -261,6 +265,7 @@ function imageupload() {
                             var img = document.createElement('img');
                             img.src = picFile.result;
                             img.classList.add("card-img-top");
+                            img.classList.add("col-6");
                             img.classList.add("small-uploaded-img");
 
                             output.insertBefore(img, null);
