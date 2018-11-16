@@ -111,7 +111,7 @@ const multipleUploadMulter = Multer({
         callback(null, true)
     },
     limits: {
-        fileSize: 5 * 1024 * 1024 // no larger than 5mb
+        fileSize: 1 * 1024 * 1024 // no larger than 5mb
     }
 }).array("propertyimage", 3);
 
@@ -125,7 +125,7 @@ const singleUploadMulter = Multer({
         callback(null, true)
     },
     limits: {
-        fileSize: 1 * 1024 * 1024 // no larger than 1mb
+        fileSize: 1 * 1024 * 1024  //no larger than imb
     }
 }).single("profile_photo");
 

@@ -6,12 +6,18 @@ import {
     findAllPropertyService,
     findByqueryService,
     findPropertyByIdService,
+    findPropertyWithIdService,
     postPropertyService,
     propertySearchService,
     updatePropertyService
-} from "../services/PropertyService"
-import {upload} from "../utils/ImageUpload";
-import {deleteFilefromGcp, multipleUploadMulter, sendMultipleImagesToGCS} from "../utils/GcloudImageStorage";
+} from "../services/PropertyService";
+import {
+    deleteFilefromGcp,
+    multipleUploadMulter,
+    sendMultipleImagesToGCS,
+    sendSingleImageToGCS,
+    singleUploadMulter
+} from "../utils/GcloudImageStorage";
 import {differenceOf2StringArrays} from "../utils/StringManupulation";
 
 export const getAddPropertypage = async (req, res, next) => {
@@ -170,9 +176,48 @@ export const deletepropertyImage = async (req, res, next) => {
     }];
     let property = await findPropertyByIdService(req.body.propertyid.trim());
     let netimageurl = differenceOf2StringArrays(users[0].images, property.ImageUrl);
-    netimageurl.length>0 ?"":netimageurl=["images/company/logo.jpg"];
-    users[0].images=netimageurl;
-    var images={"ImageUrl":netimageurl}
+    netimageurl.length > 0 ? "" : netimageurl = ["images/company/logo.jpg"];
+    users[0].images = netimageurl;
+    var images = {"ImageUrl": netimageurl}
     await updatePropertyService(users[0].id.trim(), images);
     res.json(users);
+}
+export const updatepropertyImageMiddleware = async (req, res, next) => {
+    await singleUploadMulter(req, res, async function (err) {
+        if (err) {
+            console.log(err)
+
+        } else {
+            if (req.file) {
+                let image = await sendSingleImageToGCS(req, res, next);
+                if (image.length > 0) {
+                    req.image_url = image;
+
+                }
+            }
+        }
+        next();
+    });
+
+}
+export const updatepropertyImage = (req, res) => {
+    let id = req.body.property_id.trim();
+    var users = [{
+        id: id,
+        images: [req.image_url]
+    }];
+    var updatedImageurl = new Object();
+    findPropertyWithIdService(id)
+        .then((property) => {
+            var images = property.ImageUrl;
+            images.push(req.image_url);
+            users[0].images = images;
+            updatedImageurl["ImageUrl"] = images;
+            updatePropertyService(id, updatedImageurl);
+            res.json(users);
+        })
+        .catch(() => {
+            res.json(users);
+        });
+
 }

@@ -9,6 +9,9 @@ export const findPropertyByIdService = async (id) => {
     await updatePropertyViewservice(id);
     return Property.findById(id).populate('PostedBy').exec();
 }
+export const findPropertyWithIdService = async (id) => {
+    return Property.findById(id).exec();
+}
 export const updatePropertyViewservice = (id) => {
     var update = {$inc: {views: 1}};
     return Property.update({_id: id}, update).exec();

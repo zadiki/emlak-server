@@ -7,6 +7,10 @@
         display: none
     }
 
+    #upload_property {
+        display: none;
+    }
+
     .propertyimage {
         margin-bottom: -0.5em;
         color: #c82333;
@@ -76,7 +80,7 @@
                 <div class="row mb-2 ml-1 border border-info">
                     <div class="col-3 nopadding ">
                         <img class="" style="max-width: 100%;min-height: 11em;"
-                             src="<%= property.ImageUrl[0] %>"
+                             src="<%= property.ImageUrl.length > 0 ? property.ImageUrl[0] : 'images/company/logo.jpg' %>"
                              alt="Card image cap">
 
                     </div>
@@ -335,6 +339,37 @@
                 $("#upload_link").html(filename)
             });
         });
+
+        $("#upload_link_property").on('click', function (e) {
+            e.preventDefault();
+            var i = 0;
+            $("#upload_property:hidden").trigger('click');
+            var input = document.getElementById('upload_property');
+            input.addEventListener('input', onSelectFile, false);
+
+            function onSelectFile() {
+                $("#modalspinner").addClass('modalloading');
+                i = i + 1;
+
+                if (i == 1) {
+
+                    var file = $("#upload_property")[0].files[0];
+                    var data = new FormData();
+                    var id=$("#hoddenproperty_id").val();
+                    data.append('profile_photo', file);
+                    data.append('property_id',id);
+                    fetch("/propertyimageupdate", {
+                        method: "POST",
+                        body: data
+                    }).then(function (response) {
+                        return response.json();
+                    }).then(function (property) {
+                        modalimages(property[0].images, property[0].id)
+                        $("#modalspinner").removeClass('modalloading');
+                    });
+                }
+            }
+        });
     });
 </script>
 <script type="text/javascript">
@@ -371,6 +406,7 @@
         var modal = $("#imageModalCenter");
         setModalImages(property);
         $("#modalspinner").removeClass('modalloading');
+        modal.find("#hoddenproperty_id").val(property._id);
         modal.modal('show');
     }
 
