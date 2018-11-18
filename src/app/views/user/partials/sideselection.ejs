@@ -2,15 +2,36 @@
 
 
     <div class="card sideselection d-none d-md-block">
-        <ul class="list-group list-group-flush">
+        <ul class="list-group accordion list-group-flush" id="profile-accordion-title">
             <% if(categorylist) { %>
-            <% categorylist.forEach(function(category){%>
-            <a href="/propertycategory/<%= category.Name%>" class="list-group-item d-flex justify-content-between align-items-center">
-                <%= category.Name%>
-                <span class="badge badge-primary badge-pill"><%= category.Count%></span>
-            </a>
-            <%})%>
-            <%}%>
+            <% categorylist.forEach(function(category){ %>
+            <div class="list-group-item d-flex justify-content-between align-items-center"
+                 id="profile-accordion-<%= category._id %>" data-target="#collapse<%= category._id %>" aria-expanded="true" aria-controls="collapse<%= category._id %>"
+                 type="button" data-toggle="collapse">
+                <a href="/propertycategory/<%= category.Name %>/?filter=">
+                    <%= category.Name %>
+                </a>
+                <span class="badge badge-primary badge-pill"><%= category.RentCount+category.SaleCount %></span>
+            </div>
+            <div id="collapse<%= category._id %>" class="collapse" aria-labelledby="profile-accordion-<%= category._id %>"
+                 data-parent="#profile-accordion-title">
+                <ul class="list-group list-group-flush">
+                    <a href="/propertycategory/<%= category.Name %>/?filter=sale"
+                       class="list-group-item d-flex justify-content-between align-items-center">
+                        Sale
+                        <span class="badge badge-primary badge-pill"><%=category.SaleCount %></span>
+                    </a>
+
+                    <a href="/propertycategory/<%= category.Name %>/?filter=rent"
+                       class="list-group-item d-flex justify-content-between align-items-center">
+                        Rent
+                        <span class="badge badge-primary badge-pill"><%= category.RentCount %></span>
+                    </a>
+
+                </ul>
+            </div>
+            <% }) %>
+            <% } %>
         </ul>
     </div>
 

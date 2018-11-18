@@ -3,7 +3,7 @@ import {arrayChunk} from "../utils/StringManupulation";
 
 export const findAllPropertyService = async () => {
     let propertylist = await Property.find().sort({points: -1}).exec();
-    return arrayChunk(propertylist,12);
+    return arrayChunk(propertylist, 12);
 }
 export const findPropertyByIdService = async (id) => {
     await updatePropertyViewservice(id);
@@ -44,7 +44,7 @@ export const propertySearchService = async (search) => {
             }
         ]
     }).sort({"points": -1}).exec();
-    return arrayChunk(property_list,12);
+    return arrayChunk(property_list, 12);
 }
 export const findByqueryService = async (queryObj) => {
     let location_regex = queryObj.location.join("|");
@@ -80,19 +80,27 @@ export const findByqueryService = async (queryObj) => {
 
         ]
     }).sort({"points": -1}).exec();
-    return arrayChunk(propert_list,12);
+    return arrayChunk(propert_list, 12);
 }
 export const postPropertyService = (property) => {
     return property.save();
 }
-export const findAllByCategoryService = async (category) => {
+export const findAllByCategoryService = async (category, query) => {
+    console.log("query string ", query);
     let propertylist = await Property.find({
-        "Category": {
-            $regex: '.*' + category + '.*',
-            "$options": "i"
-        }
+        $and: [{
+            "Category": {
+                $regex: '.*' + category + '.*',
+                "$options": "i"
+            }
+        }, {
+            "SaleOrNot": {
+                $regex: '.*' + query + '.*',
+                "$options": "i"
+            }
+        }]
     }).sort({"points": -1});
-    return arrayChunk(propertylist,12);
+    return arrayChunk(propertylist, 12);
 }
 export const updatePropertyService = (id, newObj) => {
     return Property.findOneAndUpdate({_id: id}, {

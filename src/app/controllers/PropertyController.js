@@ -52,7 +52,6 @@ export const addpropertymiddleware = (req, res, next) => {
         next();
     })
 }
-
 export const addproperty = async (req, res) => {
     var property = new Property();
     property.PostedBy = req.session.user._id;
@@ -84,7 +83,6 @@ export const addproperty = async (req, res) => {
     }
     else {
         property.Category = req.body.property.trim();
-        updateByOneCategoryService(property.Category.trim());
         property.SaleOrNot = req.body.sale_or_rent.trim();
         property.PaymentMode = req.body.paymentmode.trim();
         let addr_arr = req.body.address.trim().split(" ");
@@ -101,12 +99,12 @@ export const addproperty = async (req, res) => {
         property.Description = req.body.description.trim();
         property.Location.coordinates = [req.body.latitude.trim(), req.body.longitude.trim()];
         await postPropertyService(property);
+        updateByOneCategoryService(property.Category.trim(),property.SaleOrNot);
 
         res.redirect("back");
     }
 
 }
-
 export const updateproperty = async (req, res) => {
 
     let id = req.body.property_id.trim();
@@ -132,16 +130,14 @@ export const updateproperty = async (req, res) => {
     req.session.user = user[0];
     res.redirect('back');
 }
-
 export const propertyBycategoryPage = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
-    var propertylist = await findAllByCategoryService(req.params.category);
+    var propertylist = await findAllByCategoryService(req.params.category,req.query.filter);
     res.render("user/guest", {
         categorylist: categorylist,
         propertylist: propertylist
     });
 }
-
 export const propertySearch = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     let search_array = req.body.search_text.trim().split(" ");
@@ -151,7 +147,6 @@ export const propertySearch = async (req, res, next) => {
         propertylist: propertylist
     });
 }
-
 export const propertyByQueryPage = async (req, res, next) => {
     let queryObj = new Object();
     queryObj["Category"] = req.query.category.trim();
