@@ -81,6 +81,8 @@ export const signupUser = (req, res, next) => {
         registerUserService(user)
             .then((user) => {
                 sendEmail(user, req)
+                req.flash('notification', "confirmation email has been sent");
+
                 res.redirect("/");
             })
             .catch((errors) => {

@@ -13,6 +13,7 @@ import cluster from "cluster";
 import mongostore from "connect-mongo";
 
 import routes from "./app/router/routes";
+import apiroutes from "./app/router/apiroutes";
 import passportauthLocal from "./app/config/passportLocal";
 import passportauthFacebook from "./app/config/passportFacebook";
 import passportauthGoogle from "./app/config/passportGoogleAuth"
@@ -79,12 +80,14 @@ app.use(function (req, res, next) {
     var path = req.protocol + "://" + req.get('host') + req._parsedOriginalUrl.pathname;
     res.locals.session = req.session;
     res.locals.path = path;
+    res.locals.notification=req.flash('notification');
     res.locals.errors = req.flash('errors');
     res.locals.formData = req.flash("formBody")[0];
     next();
 });
 
 routes(app);
+apiroutes(app);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -117,7 +120,7 @@ if (cluster.isMaster) {
         console.log('worker ' + worker.process.pid + ' died.');
     });
 } else {
-    var server = app.listen(process.env.PORT || 3000, function () {
+    var server = app.listen(process.env.PORT || 3001, function () {
         console.log('Listening on port ' + server.address().port);
     });
 }
