@@ -20,20 +20,9 @@ import {
 } from "../utils/GcloudImageStorage";
 import {differenceOf2StringArrays} from "../utils/StringManupulation";
 
-export const getAddPropertypage = async (req, res, next) => {
-
-    let categorylist = await findAllCategoryService();
-    var propertylist = await findAllPropertyService();
-
-    res.render("property/postproperty", {
-        categorylist: categorylist,
-        propertylist: propertylist
-    });
-}
-
 export const getPropertypage = async (req, res) => {
     let property = await findPropertyByIdService(req.params.id);
-    res.render("property/property", {
+    res.json({
         property: property
     });
 }
@@ -54,7 +43,7 @@ export const addpropertymiddleware = (req, res, next) => {
 }
 export const addproperty = async (req, res) => {
     var property = new Property();
-    property.PostedBy = req.session.user._id;
+    property.PostedBy = req.user.id;
     property.ImageUrl = req.image_urls ? req.image_urls : "/images/company/logo.jpg";
     req.checkBody('property', 'Property category must be entered e.g a house').notEmpty();
     req.checkBody('description', 'Please provide description for your property').notEmpty();
@@ -77,9 +66,7 @@ export const addproperty = async (req, res) => {
                 }
             }
         }
-        console.log(errors);
-        req.flash('errors', errors);
-        res.redirect("back");
+       res.status(401).json(errors);
     }
     else {
         property.Category = req.body.property.trim();
@@ -100,8 +87,7 @@ export const addproperty = async (req, res) => {
         property.Location.coordinates = [req.body.latitude.trim(), req.body.longitude.trim()];
         await postPropertyService(property);
         updateByOneCategoryService(property.Category.trim(),property.SaleOrNot);
-
-        res.redirect("back");
+        res.json({});
     }
 
 }
@@ -126,14 +112,14 @@ export const updateproperty = async (req, res) => {
     }
 
     await updatePropertyService(id, propertyobj);
-    let user = await findUserByIdService(req.session.user._id);
-    req.session.user = user[0];
-    res.redirect('back');
+    let user = await findUserByIdService(req.user.id);
+    req.user = user[0];
+    res.json({});
 }
 export const propertyBycategoryPage = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     var propertylist = await findAllByCategoryService(req.params.category,req.query.filter);
-    res.render("user/guest", {
+    res.json({
         categorylist: categorylist,
         propertylist: propertylist
     });
@@ -142,7 +128,7 @@ export const propertySearch = async (req, res, next) => {
     let categorylist = await findAllCategoryService();
     let search_array = req.body.search_text.trim().split(" ");
     var propertylist = await propertySearchService(search_array);
-    res.render("user/guest", {
+    res.json({
         categorylist: categorylist,
         propertylist: propertylist
     });
@@ -156,7 +142,7 @@ export const propertyByQueryPage = async (req, res, next) => {
 
     let propertylist = await findByqueryService(queryObj);
     let categorylist = await findAllCategoryService();
-    res.render("user/guest", {
+    res.json({
         categorylist: categorylist,
         propertylist: propertylist
     });

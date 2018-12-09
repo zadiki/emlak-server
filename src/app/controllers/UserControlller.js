@@ -8,45 +8,21 @@ import {findAllCategoryService} from "../services/CategoryService";
 import {findAllPropertyService, findPropertyByUserIdService} from "../services/PropertyService";
 import {sendEmail} from "../utils/SendEmailUtil";
 import {generateErrorsArray} from "../utils/ErrorsUtil";
-import * as Constants from "../utils/Constants";
 import {deleteFilefromGcp, sendSingleImageToGCS, singleUploadMulter} from "../utils/GcloudImageStorage";
 import {toUpperCase} from "../utils/StringManupulation";
+import jwt from "jsonwebtoken";
 
-export const login = (req, res, next) => {
-    res.render("user/login");
-}
-export const logout = (req, res, next) => {
-    req.session.destroy();
-    res.redirect("/");
-}
 export const home = async (req, res, next) => {
-    if (req.session.user && req.session.user.UserLevel == Constants.USER_LEVEL_ADMIN) {
-        res.redirect("/admin");
-    } else {
-        //sendEmail(req.session.user,req); //for email testing purpose
-        let categorylist = await findAllCategory();
-        var propertylist = await findAllPropertyService();
-        res.render("user/guest", {
-            categorylist: categorylist,
-            propertylist: propertylist
-        });
-    }
+    let categorylist = await findAllCategory();
+    var propertylist = await findAllPropertyService();
+    res.json({
+        categorylist: categorylist,
+        propertylist: propertylist
+    });
+
 }
-export const adminPage = async (req, res, next) => {
-    if (!req.session.user || req.session.user.UserLevel != 5) {
-        res.redirect("/");
-    } else {
-        let categorylist = await findAllCategory();
-        var propertylist = await findAllPropertyService();
-        res.render("user/admin", {
-            propertylist: propertylist,
-            categorylist: categorylist
-        });
-    }
-}
-export const signupPage = (req, res, next) => {
-    res.render("user/signup");
-}
+
+
 export const signupUser = (req, res, next) => {
     req.checkBody('Fname', 'Enter valid first name').notEmpty();
     req.checkBody('Lname', 'Enter valid last name').notEmpty();
@@ -55,11 +31,9 @@ export const signupUser = (req, res, next) => {
     req.checkBody('Password', 'Password must be 4-15 characters').notEmpty().len(4, 15);
     req.checkBody('confirmPassword', 'Confirm password do not match password').notEmpty().equals(req.body.Password.trim());
     var errors = req.validationErrors();
-    req.flash("formBody", req.body);
 
     if (errors) {
-        req.flash('errors', errors);
-        res.redirect("/signup");
+        res.status(500).json(errors);
     } else {
         var user = {
             Fname: "",
@@ -80,16 +54,20 @@ export const signupUser = (req, res, next) => {
 
         registerUserService(user)
             .then((user) => {
-                sendEmail(user, req)
-                req.flash('notification', "confirmation email has been sent");
+                let jwttoken = jwt.sign({
+                    id: user._id,
+                    exp: parseInt(((new Date()).getTime() / 1000) + (48*60 * 60)),
+                }, process.env.JWT_SECRET_KEY);
 
-                res.redirect("/");
+                let url = `${process.env.CLIENT_HOST}/emailconfirmation/${jwttoken}`;
+                sendEmail(user, req)
+                res.json({"msg": `activation email has been sent to ${user.Email}`});
             })
             .catch((errors) => {
-                console.log("errors", errors);
+
                 let errors_array = generateErrorsArray(errors.errors);
-                req.flash("errors", errors_array);
-                res.redirect("/signup");
+
+                res.status(401).json(errors);
             });
     }
 }
@@ -98,32 +76,34 @@ export const findAllCategory = async () => {
     return categorylist;
 }
 export const confirmEmail = (req, res, next) => {
-    updateUserStatusService(req.params.id);
-    res.redirect("/home");
+    let token = req.body.token;
+    //decode the above token
+    updateUserStatusService(id);
+    res.json({"msg": "successfully confirmed"});
 }
-export const userprofilePage = async (req, res, next) => {
+export const userprofile = async (req, res, next) => {
     let categorylist = await findAllCategory();
-    let propertylist = await findPropertyByUserIdService(req.session.user._id);
+    let propertylist = await findPropertyByUserIdService(req.user.id);
     let category_list = formatCategoryList(categorylist);
     propertylist.forEach((property) => {
         let index = category_list.findIndex(x => x.Name == property.Category);
         category_list[index].Count++;
     });
-    res.render("user/userprofile", {
+    res.json({
         categorylist: category_list,
         propertylist: propertylist
     });
 }
 export const userprofileinfoPage = async (req, res, next) => {
-    let user = await findUserByIdService(req.session.user._id);
+    let user = await findUserByIdService(req.user.id);
     let categorylist = await findAllCategory();
-    let propertylist = await findPropertyByUserIdService(req.session.user._id);
+    let propertylist = await findPropertyByUserIdService(req.user.id);
     let category_list = formatCategoryList(categorylist);
     propertylist.forEach((property) => {
         let index = category_list.findIndex(x => x.Name == property.Category);
         category_list[index].Count++;
     });
-    res.render("user/userprofile", {
+    res.json({
         categorylist: category_list,
         userprofile: user[0]
     });
@@ -139,7 +119,7 @@ export const updateUsermiddleware = (req, res, next) => {
                 let image = await sendSingleImageToGCS(req, res, next);
                 if (image.length > 0) {
                     req.image_url = image;
-                    deleteFilefromGcp(req.session.user.Avatar);
+                    deleteFilefromGcp(req.user.Avatar);
                 }
             }
         }
@@ -148,7 +128,7 @@ export const updateUsermiddleware = (req, res, next) => {
 }
 export const updateUser = async (req, res) => {
     var user = new Object();
-    user["id"] = req.session.user._id;
+    user["id"] = req.user.id;
     user["ProfileName"] = req.body.profile_name.trim();
     user["Fname"] = req.body.first_name.trim();
     user["Lname"] = req.body.last_name.trim();
@@ -156,12 +136,12 @@ export const updateUser = async (req, res) => {
     user["PublicInfo"] = req.body.public_info.trim();
     req.image_url ? user["Avatar"] = req.image_url : "";
     await updateUserService(user).then((user) => {
-        req.session.user = user;
+        req.user = user;
     }).catch((e) => {
         deleteFilefromGcp(user.Avatar);
         console.log(e)
     });
-    res.redirect('back')
+    res.json(user);
 }
 const formatCategoryList = (categorylist) => {
     let category_list = [];

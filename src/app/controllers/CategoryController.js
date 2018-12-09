@@ -7,12 +7,10 @@ export const addCategory = (req, res, next) => {
     let category = {};
     addCategoryService(req.body)
         .then((category) => {
-            res.send(category);
+            res.json(category);
         }).catch((errors) => {
         let errors_array = generateErrorsArray(errors.errors);
-        req.flash("errors", errors_array);
-        res.send(errors_array)
-        // res.redirect('back');
+        res.json(errors_array)
     });
 
 }
@@ -24,11 +22,11 @@ export const addCategoryType = (req, res, next) => {
     };
     addCategoryService(categorytype)
         .then((categorytype) => {
-            res.redirect('back');
+            res.json({});
         }).catch((errors) => {
         let errors_array = generateErrorsArray(errors.errors);
-        req.flash("errors", errors_array);
-        res.redirect('back');
+        res.status(401),json(errors_array);
+
     });
 }
 

@@ -17,34 +17,39 @@ export default () => {
     });
 
     passport.use("local-login", new LocalStrategy({
-        usernameField: 'Email',
-        passwordField: 'Password',
+        usernameField: 'email',
+        passwordField: 'password',
         passReqToCallback: true
     }, (req, email, password, done) => {
-        req.checkBody('Email', 'Enter valid email').notEmpty().isEmail();
-        req.checkBody('Password', 'Password must be 4-15 characters').notEmpty().len(4, 15);
+        req.checkBody('email', 'Enter valid email').notEmpty().isEmail();
+        req.checkBody('password', 'Password must be 4-15 characters').notEmpty().len(4, 15);
         var errors = req.validationErrors();
+
         if (errors) {
-            return done(null, false, req.flash('errors', errors));
+            console.log(errors)
+            return done(null, false, {'errors':[ errors]});
         }
         User.findOne({'Email': email}, (err, user) => {
             if (err) {
-                return done(err, false, req.flash('errors', [{msg: err}]));
+                console.log("error1",err);
+                return done(err, false, {'errors':[{msg: err}]});
             }
 
             if (!user) {
-                return done(null, false, req.flash('errors', [{msg: 'User with such email does not exist'}]));
+
+                return done(null, false, {'errors':[{msg: 'User with such email does not exist'}]});
             }
+
             if (!user.validPassword(password)) {
-                return done(null, false, req.flash('errors', [{msg: 'Password incorrect.'}]));
+                return done(null, false, {'errors':[{msg: 'Password incorrect.'}]});
             }
             if (user.AccountStatus == Constants.USER_STATUS_PENDING) {
-                return done(null, false, req.flash('errors', [{msg: 'You need to confirm your email.'}]));
+                return done(null, false, {'errors': [{msg: 'You need to confirm your email.'}]});
             }
             if (user.AccountStatus == Constants.USER_STATUS_VOIDED) {
-                return done(null, false, req.flash('errors', [{msg: 'Your account has been deactivated. Please conact Emlak.com for reactivation.'}]));
+                return done(null, false, {'errors': [{msg: 'Your account has been deactivated. Please conact Emlak.com for reactivation.'}]});
             }
-            req.session.user = user;
+
             return done(null, user);
         });
     }));
