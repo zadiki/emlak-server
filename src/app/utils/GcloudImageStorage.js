@@ -12,7 +12,7 @@ const bucket = storage.bucket(GCLOUD_BUCKET);
 
 async function sendSingleImageToGCS(req, res, next) {
     var image_public_url = ""
-    let user_id = req.session.user._id;
+    let user_id = req.user.id;
     var image = req.file
     const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g, '');
     const file = bucket.file(image_name);
@@ -51,7 +51,7 @@ async function sendSingleImageToGCS(req, res, next) {
 
 async function sendMultipleImagesToGCS(req, res, next) {
     var image_public_urls = [];
-    let user_id = req.session.user._id;
+    let user_id = req.user.id;
     var promises = req.files.map((image) => {
 
         const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g, '');

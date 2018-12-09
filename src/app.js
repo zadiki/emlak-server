@@ -1,28 +1,26 @@
 import express from "express";
 import path from 'path';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import expressValidator from "express-validator";
 import cors from 'cors';
 import passport from "passport";
 import mongoose from 'mongoose';
-import flash from "connect-flash";
 import morgan from 'morgan';
 import methodOverride from 'method-override';
 import cluster from "cluster";
-import mongostore from "connect-mongo";
+export const WORKERS = require("os").cpus().length;
+import dotenv from 'dotenv';
 
-import routes from "./app/router/routes";
-import apiroutes from "./app/router/apiroutes";
 import passportauthLocal from "./app/config/passportLocal";
-import passportauthFacebook from "./app/config/passportFacebook";
-import passportauthGoogle from "./app/config/passportGoogleAuth"
-import * as Constants from "./app/utils/Constants";
 
-var MongoStore = mongostore(session);
+import userrouter from "./app/router/UserRoutes";
+import propertyroutes from "./app/router/PropertyRoutes";
+
 var app = express();
 app.use(expressValidator());
 app.use(cors());
+
+dotenv.config();
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -37,7 +35,6 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 
-//views engine setup
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/app/views'));
 app.set('view engine', 'ejs');
@@ -54,40 +51,17 @@ const options = {
     family: 4
 };
 try {
-    mongoose.connect(Constants.MONGODB_URL, options);
+    mongoose.connect(process.env.MONGODB_URI, options);
 } catch (e) {
     console.log(e);
 }
 
-
-app.use(session({
-    secret: 'iProcureSecretCode',
-    cookie: {maxAge: 60000 * 60 * 60 * 60},
-    resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({mongooseConnection: mongoose.connection})
-}));
-
-passportauthLocal();
-passportauthFacebook();
-passportauthGoogle();
-
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+passportauthLocal();
 
-app.use(function (req, res, next) {
-    var path = req.protocol + "://" + req.get('host') + req._parsedOriginalUrl.pathname;
-    res.locals.session = req.session;
-    res.locals.path = path;
-    res.locals.notification=req.flash('notification');
-    res.locals.errors = req.flash('errors');
-    res.locals.formData = req.flash("formBody")[0];
-    next();
-});
+app.use("/api/user/",userrouter);
+app.use("/api/property",propertyroutes);
 
-routes(app);
-apiroutes(app);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -95,12 +69,9 @@ app.use(function (req, res, next) {
     next(err);
 });
 
-app.get("/test", function (req, res) {
-    res.send("Success");
-})
 
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500).render("404", {
+    res.status(err.status || 500).json({
         message: err.message
     });
 
@@ -108,7 +79,7 @@ app.use(function (err, req, res, next) {
 
 if (cluster.isMaster) {
 
-    for (let i = 0; i < Constants.WORKERS; i++) {
+    for (let i = 0; i < WORKERS; i++) {
         cluster.fork();
     }
 

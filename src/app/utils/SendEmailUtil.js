@@ -14,12 +14,12 @@ const transporter = nodemailer.createTransport({
 });
 
 
-export const sendEmail = (user, req) => {
-    var hostname = req.protocol + "://" + req.get('host');
+export const sendEmail = (user, confirmationurl) => {
+    var url = confirmationurl;
 
     var dirname = __dirname.split(path.sep).reverse()[2];
     console.log(dirname);
-    ejs.renderFile(dirname + "/app/views/email.ejs", {user: user, hostname: hostname}, function (err, data) {
+    ejs.renderFile(dirname + "/app/views/email.ejs", {user: user, hostname: url}, function (err, data) {
 
         if (err) {
             console.log("from mail controller", err);

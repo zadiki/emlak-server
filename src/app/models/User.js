@@ -36,7 +36,7 @@ UserSchema.methods.generateHash = function (password) {
 };
 
 UserSchema.methods.validPassword = function (password) {
-    console.log("password compare", password);
+
     if(this.Local.Password) {
         return bcrypt.compareSync(password, this.Local.Password);
     }else{
@@ -45,24 +45,16 @@ UserSchema.methods.validPassword = function (password) {
 };
 
 UserSchema.methods.generateJWT = function () {
-    var today = new Date();
-    var exp = new Date(today);
-    exp.setDate(today.getDate() + 60);
-
+    var exp = new Date();
     return jwt.sign({
         id: this._id,
-        username: this.username,
-        exp: parseInt(exp.getTime() / 1000),
-    }, secret);
+        exp: parseInt((exp.getTime() / 1000)+(30*60)),
+    }, process.env.JWT_SECRET_KEY);
 };
 
 UserSchema.methods.toAuthJSON = function () {
     return {
-        username: this.username,
-        email: this.email,
         token: this.generateJWT(),
-        bio: this.bio,
-        image: this.image
     };
 };
 
