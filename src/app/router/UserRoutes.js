@@ -13,7 +13,7 @@ router.post("/login", function (req,res,next) {
             return res.status(401).send("cant login now")
         }
         if(!user){
-            return res.status(401).send("such user does not exist")
+            return res.status(402).send("such user does not exist")
         }
         req.logIn(user, { session: false }, function (err) {
             let token= user.toAuthJSON().token;
@@ -30,6 +30,7 @@ router.post("/login", function (req,res,next) {
     })(req,res,next);
 });
 
+router.get('/getuserdata',jwtverifymidleware,userController.getUserinfo);
 router.post("/signup",userController.signupUser);
 router.post("/emailconfirmation",userController.confirmEmail);
 router.get("/userprofile",jwtverifymidleware, userController.userprofile);

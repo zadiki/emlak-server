@@ -24,9 +24,7 @@ export default () => {
         req.checkBody('email', 'Enter valid email').notEmpty().isEmail();
         req.checkBody('password', 'Password must be 4-15 characters').notEmpty().len(4, 15);
         var errors = req.validationErrors();
-
         if (errors) {
-            console.log(errors)
             return done(null, false, {'errors':[ errors]});
         }
         User.findOne({'Email': email}, (err, user) => {

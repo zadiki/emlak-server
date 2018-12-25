@@ -20,13 +20,21 @@ import {
 } from "../utils/GcloudImageStorage";
 import {differenceOf2StringArrays} from "../utils/StringManupulation";
 
+export const allProperties = async (req, res, next) => {
+    let categorylist = await findAllCategory();
+    var propertylist = await findAllPropertyService();
+    res.json({
+        categorylist: categorylist,
+        propertylist: propertylist
+    });
+
+}
 export const getPropertypage = async (req, res) => {
     let property = await findPropertyByIdService(req.params.id);
     res.json({
         property: property
     });
 }
-
 export const addpropertymiddleware = (req, res, next) => {
     multipleUploadMulter(req, res, async function (err) {
         if (err) {
@@ -201,4 +209,9 @@ export const updatepropertyImage = (req, res) => {
             res.json(users);
         });
 
+}
+
+export const findAllCategory = async () => {
+    let categorylist = await findAllCategoryService();
+    return categorylist;
 }

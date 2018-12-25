@@ -48,7 +48,7 @@ UserSchema.methods.generateJWT = function () {
     var exp = new Date();
     return jwt.sign({
         id: this._id,
-        exp: parseInt((exp.getTime() / 1000)+(30)),
+        exp: parseInt((exp.getTime() / 1000)+(60*10)),
     }, process.env.JWT_SECRET_KEY);
 };
 

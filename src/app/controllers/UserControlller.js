@@ -12,16 +12,6 @@ import {deleteFilefromGcp, sendSingleImageToGCS, singleUploadMulter} from "../ut
 import {toUpperCase} from "../utils/StringManupulation";
 import jwt from "jsonwebtoken";
 
-export const home = async (req, res, next) => {
-    let categorylist = await findAllCategory();
-    var propertylist = await findAllPropertyService();
-    res.json({
-        categorylist: categorylist,
-        propertylist: propertylist
-    });
-
-}
-
 
 export const signupUser = (req, res, next) => {
     req.checkBody('Fname', 'Enter valid first name').notEmpty();
@@ -80,6 +70,17 @@ export const confirmEmail = (req, res, next) => {
     //decode the above token
     updateUserStatusService(id);
     res.json({"msg": "successfully confirmed"});
+}
+export const getUserinfo = async (req,res)=>{
+    let userarray = await findUserByIdService(req.user.id);
+    let user=userarray[0];
+    let userData =new Object();
+    userData["email"]=user.Email;
+    userData["image"]=user.Avatar;
+    userData["profilename"]=user.ProfileName;
+    userData["phone"]=user.Phone;
+    userData["points"]=user.Points;
+    return res.status(200).json(userData);
 }
 export const userprofile = async (req, res, next) => {
     let categorylist = await findAllCategory();

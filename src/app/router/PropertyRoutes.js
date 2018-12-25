@@ -4,6 +4,7 @@ import * as propertyController from "../controllers/PropertyController";
 
 const router = express.Router();
 
+router.get("/allproperties",propertyController.allProperties)
 router.get("/propertydetails/:id", propertyController.getPropertypage);
 router.post("/propertycategory", categoryController.addCategory);
 router.post("/propertytype", categoryController.addCategoryType);

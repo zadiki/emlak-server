@@ -36,8 +36,7 @@ app.use(methodOverride(function (req, res) {
 }));
 
 app.use(express.static(path.join(__dirname, '/public')));
-app.set('views', path.join(__dirname, '/app/views'));
-app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, '/public/client/build')));
 
 const options = {
     useNewUrlParser: true,
@@ -61,7 +60,9 @@ passportauthLocal();
 
 app.use("/api/user/",userrouter);
 app.use("/api/property",propertyroutes);
-
+app.use("/*",function (req,res) {
+    res.sendFile(path.join(__dirname+'/public/client/build/index.html'));
+});
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

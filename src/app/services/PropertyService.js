@@ -1,9 +1,31 @@
 import Property from "../models/Property";
-import {arrayChunk} from "../utils/StringManupulation";
+import {formatAddress,toUpperCase} from "../utils/StringManupulation";
 
 export const findAllPropertyService = async () => {
     let propertylist = await Property.find().sort({points: -1}).exec();
-    return arrayChunk(propertylist, 12);
+    // return arrayChunk(propertylist, 12);
+    let nomlzdProplist=propertylist.map((prop)=>{
+        let property= new Object();
+        property["id"]=prop._id;
+        property["Category"]=prop.Category;
+        property["SaleOrNot"]=toUpperCase(prop.SaleOrNot=='rent'?prop.SaleOrNot+ "/"+ prop.PaymentMode:prop.SaleOrNot);
+        property["Price"]=prop.SaleOrNot=='rent'?prop.Price+ "/"+ prop.PaymentMode.substring(0,3):prop.Price;
+        property["Address"]= formatAddress(prop.Address);
+        property["ImageUrl"]=prop.ImageUrl[0];
+        property["Workspace"]=prop.workspace;
+        property["Bedroom"]=prop.Bedroom;
+        property["Bathroom"]=prop.Bathroom;
+        property["IsMasterAndSuite"]=prop.IsMasterAndSuite;
+        property["Furnished"]=prop.Furnished;
+        property["Parking"]=prop.Parking;
+        property["Bedsize"]=prop.Bedsize;
+        property["NoOfBeds"]=prop.NoOfBeds;
+        property["HotShower"]=prop.HotShower;
+        property["SwimmingPool"]=prop.SwimmingPool;
+        property["BreakfastProvided"]=prop.BreakfastProvided;
+        return property;
+    })
+    return nomlzdProplist
 }
 export const findPropertyByIdService = async (id) => {
     await updatePropertyViewservice(id);
