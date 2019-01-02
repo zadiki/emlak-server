@@ -6,7 +6,8 @@ require('babel-register')({
                 "node": "current"
             }
         }]
-    ]})
+    ],
+    "plugins": ["transform-object-rest-spread"]})
 
 // Import the rest of our application.
 module.exports = require('./app')

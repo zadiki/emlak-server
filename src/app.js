@@ -38,6 +38,9 @@ app.use(methodOverride(function (req, res) {
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/public/client/build')));
 
+app.set('views', path.join(__dirname, '/app/views'));
+app.set('view engine', 'ejs');
+
 const options = {
     useNewUrlParser: true,
     autoIndex: false,

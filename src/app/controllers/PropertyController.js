@@ -31,9 +31,10 @@ export const allProperties = async (req, res, next) => {
 }
 export const getPropertypage = async (req, res) => {
     let property = await findPropertyByIdService(req.params.id);
-    res.json({
-        property: property
-    });
+    property['PostedBy'].Local=undefined;
+    property['PostedBy'].Facebook=undefined;
+    property['PostedBy'].Google=undefined;
+    res.json(property);
 }
 export const addpropertymiddleware = (req, res, next) => {
     multipleUploadMulter(req, res, async function (err) {
