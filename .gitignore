@@ -12,6 +12,7 @@ package-lock.json
 node_modules/
 dist
 public/property/
+public/client/build
 
 # Code coverage
 coverage
