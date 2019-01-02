@@ -17,7 +17,7 @@ async function sendSingleImageToGCS(req, res, next) {
     const image_name = user_id + "/" + Date.now() + "/" + image.originalname.replace(/ /g, '');
     const file = bucket.file(image_name);
     await sharp(image.buffer)
-        .resize(225, 165)
+        .resize(200, 147)
         .toFormat(image.originalname.split(".").reverse()[0])
         .toBuffer()
         .then((data) => {
@@ -58,7 +58,7 @@ async function sendMultipleImagesToGCS(req, res, next) {
 
         const file = bucket.file(image_name);
         return sharp(image.buffer)
-            .resize(225, 165)
+            .resize(200, 147)
             .toFormat(image.originalname.split(".").reverse()[0])
             .toBuffer()
             .then((data) => {
