@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import methodOverride from 'method-override';
 import cluster from "cluster";
-export const WORKERS = require("os").cpus().length;
+const WORKERS = require("os").cpus().length;
 import dotenv from 'dotenv';
 
 import passportauthLocal from "./app/config/passportLocal";

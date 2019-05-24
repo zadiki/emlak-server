@@ -33,7 +33,9 @@ router.post("/login", function (req,res,next) {
 router.get('/getuserdata',jwtverifymidleware,userController.getUserinfo);
 router.post("/signup",userController.signupUser);
 router.post("/emailconfirmation",userController.confirmEmail);
-router.get("/userprofile",jwtverifymidleware, userController.userprofile);
+router.get("/userPrivateProfile",jwtverifymidleware, userController.userPrivateProfile);
+router.get("/userPublicProfile/:userId", userController.userPublicProfile);
+
 router.get("/userprofile/userinfo",jwtverifymidleware, userController.userprofileinfoPage);
 router.post("/userprofile/userinfo",jwtverifymidleware, userController.updateUsermiddleware, userController.updateUser);
 

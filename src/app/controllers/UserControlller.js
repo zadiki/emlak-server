@@ -50,14 +50,14 @@ export const signupUser = (req, res, next) => {
                 }, process.env.JWT_SECRET_KEY);
 
                 let url = `${process.env.CLIENT_HOST}/emailconfirmation/${jwttoken}`;
-                sendEmail(user, req)
+                sendEmail(user, url)
                 res.json({"msg": `activation email has been sent to ${user.Email}`});
             })
             .catch((errors) => {
 
                 let errors_array = generateErrorsArray(errors.errors);
 
-                res.status(401).json(errors);
+                res.status(401).json(errors_array);
             });
     }
 }
@@ -82,7 +82,7 @@ export const getUserinfo = async (req,res)=>{
     userData["points"]=user.Points;
     return res.status(200).json(userData);
 }
-export const userprofile = async (req, res, next) => {
+export const userPrivateProfile = async (req, res, next) => {
     let categorylist = await findAllCategory();
     let propertylist = await findPropertyByUserIdService(req.user.id);
     let category_list = formatCategoryList(categorylist);
@@ -94,6 +94,11 @@ export const userprofile = async (req, res, next) => {
         categorylist: category_list,
         propertylist: propertylist
     });
+}
+export const userPublicProfile=async (req,res,next)=>{
+    let userId = req.params.userId;
+    let propertylist = await findPropertyByUserIdService(userId);
+    res.json({propertylist});
 }
 export const userprofileinfoPage = async (req, res, next) => {
     let user = await findUserByIdService(req.user.id);

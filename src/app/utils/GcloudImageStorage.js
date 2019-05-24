@@ -7,6 +7,7 @@ import sharp from "sharp";
 const storage = new Storage({
     projectId: GCLOUD_PROJECT,
     keyFilename: 'keyfile.json'
+
 });
 const bucket = storage.bucket(GCLOUD_BUCKET);
 
