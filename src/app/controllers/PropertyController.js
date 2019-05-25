@@ -31,10 +31,27 @@ export const allProperties = async (req, res, next) => {
 }
 export const getPropertypage = async (req, res) => {
     let property = await findPropertyByIdService(req.params.id);
-    property['PostedBy'].Local=undefined;
-    property['PostedBy'].Facebook=undefined;
-    property['PostedBy'].Google=undefined;
-    res.json(property);
+    console.log("Param: ",req.params.id);
+
+    if(property != null){
+        if(property['PostedBy'] == null){
+            console.log("Property null: ",property);
+            property['PostedBy'] = {
+                _id: 1,
+                Avatar: 'notfound',
+                ProfileName: 'user not found',
+                Phone: ''
+            }
+        }else{
+                property['PostedBy'].Local=undefined;
+                property['PostedBy'].Facebook=undefined;
+                property['PostedBy'].Google=undefined;
+        }
+        res.json(property);
+    }else{
+        res.status(500);
+    }
+
 }
 export const addpropertymiddleware = (req, res, next) => {
     multipleUploadMulter(req, res, async function (err) {
