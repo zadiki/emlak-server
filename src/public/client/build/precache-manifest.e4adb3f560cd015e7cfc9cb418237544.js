@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/fontawesome-webfont.b06871f2.ttf"
   },
   {
-    "revision": "6544794a89361e7d0466",
+    "revision": "56c9edb2d76a1d38742d",
     "url": "/static/css/main.16631715.chunk.css"
   },
   {
@@ -16,32 +16,28 @@ self.__precacheManifest = [
     "url": "/static/media/Poppins-Bold.7940efc4.ttf"
   },
   {
-    "revision": "19db2a08f105ce7bb474",
-    "url": "/static/js/2.f697a4c7.chunk.js"
-  },
-  {
-    "revision": "af7ae505a9eed503f8b8e6982036873e",
-    "url": "/static/media/fontawesome-webfont.af7ae505.woff2"
+    "revision": "728c1435d8c0c4545833",
+    "url": "/static/js/2.4d681961.chunk.js"
   },
   {
     "revision": "674f50d287a8c48dc19ba404d20fe713",
     "url": "/static/media/fontawesome-webfont.674f50d2.eot"
   },
   {
-    "revision": "acf3dcb7ff752b5296ca23ba2c7c2606",
-    "url": "/static/media/fontawesome-webfont.acf3dcb7.svg"
-  },
-  {
     "revision": "fee66e712a8a08eef5805a46892932ad",
     "url": "/static/media/fontawesome-webfont.fee66e71.woff"
   },
   {
-    "revision": "6544794a89361e7d0466",
-    "url": "/static/js/main.273e9878.chunk.js"
+    "revision": "af7ae505a9eed503f8b8e6982036873e",
+    "url": "/static/media/fontawesome-webfont.af7ae505.woff2"
   },
   {
-    "revision": "b351bd62abcd96e924d9f44a3da169a7",
-    "url": "/static/media/Material-Design-Iconic-Font.b351bd62.ttf"
+    "revision": "acf3dcb7ff752b5296ca23ba2c7c2606",
+    "url": "/static/media/fontawesome-webfont.acf3dcb7.svg"
+  },
+  {
+    "revision": "56c9edb2d76a1d38742d",
+    "url": "/static/js/main.8c0dccb3.chunk.js"
   },
   {
     "revision": "d2a55d331bdd1a7ea97a8a1fbb3c569c",
@@ -50,6 +46,10 @@ self.__precacheManifest = [
   {
     "revision": "a4d31128b633bc0b1cc1f18a34fb3851",
     "url": "/static/media/Material-Design-Iconic-Font.a4d31128.woff2"
+  },
+  {
+    "revision": "b351bd62abcd96e924d9f44a3da169a7",
+    "url": "/static/media/Material-Design-Iconic-Font.b351bd62.ttf"
   },
   {
     "revision": "731a28a413d642522667a2de8681ff35",
@@ -64,11 +64,11 @@ self.__precacheManifest = [
     "url": "/static/media/Poppins-Medium.a4e11dda.ttf"
   },
   {
-    "revision": "19db2a08f105ce7bb474",
+    "revision": "728c1435d8c0c4545833",
     "url": "/static/css/2.fb87536a.chunk.css"
   },
   {
-    "revision": "9281597e9045016642707eb53372de1c",
+    "revision": "e59fa803b246c35e3d01c84d0a069a6a",
     "url": "/index.html"
   }
 ];
